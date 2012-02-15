@@ -56,7 +56,11 @@ usercmd.pl -destroy vm -id 1,3,4
 
 =item deploy new vm
 
-usercmd.pl -deploy -p service_offering_id=[id],templateid=[id],zone_id=[id]
+usercmd.pl -deploy -p serviceofferingid=[id],templateid=[id],zoneid=[id],name=[name],ipaddress=[ip]
+
+=item list deploy vm parameters
+
+usercmd.pl -deploy vm -p list
 
 =back
 
@@ -68,8 +72,6 @@ heince          	- heince@gmail.com
 
 use strict;
 use warnings;
-use XML::Simple;
-use XML::Twig;
 use Getopt::Long;
 use 5.010;
 
@@ -83,10 +85,10 @@ use lib ("$ENV{'CSAPIROOT'}/lib");
 
 #new object general
 use General;
-my $general = new General;
+my $general = new General::;
 
 #get elements from config.xml
-my ($config, $site, $apikey, $secretkey, $obj) = $general->init_check(@ARGV);
+my ($site, $apikey, $secretkey, $obj) = $general->init_check(@ARGV);
 
 my ($help, $list, $start, $stop, $reboot, $destroy, $deploy, $id, $param, $response);
 
@@ -104,110 +106,8 @@ sub usage
   	say "Unknown option: @_" if ( @_ );
   	exit;
 }
-	
 
-if(defined $list){
-	given($list){
-		when (/account/){
-			my ($header, $result) = $obj->list_account($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/Account/list.xml");
-			#print header & result
-			print @$header; print @$result;
-			exit;
-		}
-		when (/template/){
-			my ($header, $result) = $obj->list_template($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/Template/list.xml");
-			#print header & result
-			print @$header; print @$result;
-			exit;
-		}
-		when (/\bvm\b/){
-			my ($header, $result) = $obj->list_vm($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/VM/list.xml");
-			#print header & result
-			print @$header; print @$result;
-			exit;
-		}
-		when (/svc_offering/){
-			my ($header, $result) = $obj->list_service_offering($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/ServiceOffering/list.xml");
-			#print header & result
-			print @$header; print @$result;
-			exit;
-		}
-		default{
-			say "unknown object to list, use -h for help";
-			exit;
-		}
-	}
-}
-
-if(defined $start){
-	given($start){
-		when (/\bvm\b/i){
-			my $id = $general->check_id($id);
-			for(@$id){
-				$param="id=$_";
-				$obj->modify_vm($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/VM/start.xml");
-			}
-			exit;
-		}
-		default{
-			say "no available action (start $start)";
-		}
-	}
-}
-
-if(defined $stop){
-		given($stop){
-		when (/\bvm\b/i){
-			my $id = $general->check_id($id);
-			for(@$id){
-				$param="id=$_";
-				$obj->modify_vm($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/VM/stop.xml");
-			}
-			exit;
-		}
-		default{
-			say "no available actions (stop $stop)";
-		}
-	}
-}
-
-if(defined $reboot){
-	given($reboot){
-		when (/\bvm\b/i){
-			my $id = $general->check_id($id);
-			for(@$id){
-				$param="id=$_";
-				$obj->modify_vm($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/VM/reboot.xml");
-			}
-			exit;
-		}
-		default{
-			say "no available actions (reboot $reboot)";
-		}
-	}
-}
-
-if(defined $destroy){
-	given($destroy){
-		when (/\bvm\b/i){
-			my $id = $general->check_id($id);
-			for(@$id){
-				$param="id=$_";
-				$obj->modify_vm($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/VM/destroy.xml");
-			}
-			exit;
-		}
-		default{
-			say "no available actions (destroy $destroy)";
-		}
-	}
-}
-
-if(defined $deploy){
-	given($deploy){
-		when(/\bvm\b/i){
-			$obj->modify_vm($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/VM/deploy.xml");
-			exit;
-		}
-	}
-}
+use Options;
+my $options = new Options::;
+$options->check_options($general, $site, $apikey, $secretkey, $obj, $list, $start, $stop, $reboot, $destroy, $deploy, $id, $param, $response);
+exit;

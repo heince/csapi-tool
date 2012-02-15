@@ -1,7 +1,7 @@
 <root>
     <top>/startvirtualmachineresponse</top>
     <command>startVirtualMachine</command>
-    <defaultresponses>id,displayname,state,memory,domainid,account,jobid,jobstatus</defaultresponses>
+    <defaultresponses>jobid</defaultresponses>
     <params>
         <param>
             <name>id</name>

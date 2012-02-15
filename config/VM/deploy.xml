@@ -1,7 +1,7 @@
 <root>
-    <top>/deployvirtualmachinesresponse</top>
+    <top>/deployvirtualmachineresponse</top>
     <command>deployVirtualMachine</command>
-    <defaultresponses>jobid</defaultresponses>
+    <defaultresponses>id</defaultresponses>
     <params>
         <param>
             <name>serviceofferingid</name>
@@ -105,6 +105,11 @@
         </param>
     </params>
     <responses>
+        <response>
+            <name>id</name>
+            <description>the ID of the virtual machine</description>
+            <pack>6</pack>
+        </response>
         <response>
             <name>jobid</name>
             <description>shows the current pending asynchronous job ID. This tag is not returned if no current pending jobs are acting on the virtual machine</description>

@@ -89,7 +89,7 @@ sub check_id{
 	
 	if(defined $id){
 		@list = split ',' , $id;
-		map {warn "id must be integer value\n" unless /\d+$/} @list;
+		map {die "id must be integer value\n" unless /\d+$/} @list;
 	}else{
 		warn "id must be defined\n";
 	}
@@ -215,7 +215,7 @@ sub get_response{
 	
 	for my $vms(@vm){
 		for my $attr(@default){
-			$attr = trim($attr);
+			$attr = $self->trim($attr);
 			#get attr's pack
 			my $pack = "A" . $doc->findnodes("/root/responses/response/name[text()=\"$attr\"]/../pack/text()");
 			
@@ -242,6 +242,19 @@ sub get_response{
 	return @result;
 }
 
+sub api_response{
+	my $self = shift;
+	
+	my ($site, $apikey, $secretkey, $general, $param, $response, $xmlfile) = @_;
+	
+	my ($xml,$doc,$result) = $general->process_request($site, $apikey, $secretkey, $general, $param, $response, $xmlfile);
+
+	my @default_response = $general->get_default_response($response,$doc);
+	my $header = $general->print_header(\@default_response,$doc);
+
+	return ($header,$result);
+}
+
 sub print_header{
 	my $self = shift;
 	
@@ -250,7 +263,7 @@ sub print_header{
 	my @header;
 	
 	for(@$attr){
-		my $tmp = trim($_);
+		my $tmp = $self->trim($_);
 		my $pack = "A" . $doc->findnodes("/root/responses/response/name[text()=\"$tmp\"]/../pack/text()");
 		push(@header, uc pack($pack,$tmp));
 	}
@@ -303,10 +316,10 @@ sub init_check{
 	}
 	
 	my $xml = XMLin($config);
-	my $urlpath = trim($xml->{urlpath});
-	my $sslverifyhost = trim($xml->{sslverifyhostname});
-	my $api_key = trim($xml->{key}->{apikey});
-	my $secret_key = trim($xml->{key}->{secretkey});
+	my $urlpath = $self->trim($xml->{urlpath});
+	my $sslverifyhost = $self->trim($xml->{sslverifyhostname});
+	my $api_key = $self->trim($xml->{key}->{apikey});
+	my $secret_key = $self->trim($xml->{key}->{secretkey});
 	
 	#check url
 	die "Please configure the correct urlpath\n" unless $urlpath =~ /^http.*api\?$/;
@@ -321,11 +334,11 @@ sub init_check{
 	die "please set apikey\n" unless $api_key ne '';
 	
 	for(@param){
-	when (/\bvm\b/i){
+	when (/\b^vm\b/){
 		use CSAPI::VM;
 		$obj = new CSAPI::VM;
 	}
-	when (/\baccount\b/i){
+	when (/\b^account\b/){
 		use CSAPI::Account;
 		$obj = new CSAPI::Account;
 	}
@@ -339,12 +352,14 @@ sub init_check{
 	}
 }
 	
-	my @array = ($xml, $urlpath, $api_key, $secret_key, $obj);
+	my @array = ($urlpath, $api_key, $secret_key, $obj);
 	return @array;
 }
 
 sub trim
 {
+	my $self = shift;	
+	
 	my $string = shift;
 	$string =~ s/^\s+//;
 	$string =~ s/\s+$//;
