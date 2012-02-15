@@ -1,0 +1,278 @@
+<root>
+    <top>/listaccountsresponse/account</top>
+    <command>listAccounts</command>
+    <defaultresponses>id,name,accounttype,domain,domainid,state</defaultresponses>
+    <params>
+        <param>
+            <name>accounttype</name>
+            <description>list accounts by account type. Valid account types are 1 (admin), 2 (domain-admin), and 0 (user).</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>domainid</name>
+            <description>list all accounts in specified domain. If used with the name parameter, retrieves account information for the account with specified name in specified domain.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>id</name>
+            <description>list account by account ID</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>iscleanuprequired</name>
+            <description>list accounts by cleanuprequred attribute (values are true or false)</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>isrecursive</name>
+            <description>defaults to false, but if true, lists all accounts from the parent specified by the domain id till leaves.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>keyword</name>
+            <description>List by keyword</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>name</name>
+            <description>list account by account name</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>page</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>pagesize</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>state</name>
+            <description>list accounts by state. Valid states are enabled, disabled, and locked.</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the id of the account</description>
+            <pack>6</pack>
+        </response>
+        <response>
+            <name>accounttype</name>
+            <description>account type (admin, domain-admin, user)</description>
+            <pack>16</pack>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>name of the Domain the account belongs too</description>
+            <pack>10</pack>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>id of the Domain the account belongs too</description>
+            <pack>10</pack>
+        </response>
+        <response>
+            <name>ipavailable</name>
+            <description>the total number of public ip addresses available for this account to acquire</description>
+            <pack>13</pack>
+        </response>
+        <response>
+            <name>iplimit</name>
+            <description>the total number of public ip addresses this account can acquire</description>
+            <pack>9</pack>
+        </response>
+        <response>
+            <name>iptotal</name>
+            <description>the total number of public ip addresses allocated for this account</description>
+            <pack>9</pack>
+        </response>
+        <response>
+            <name>iscleanuprequired</name>
+            <description>true if the account requires cleanup</description>
+            <pack>19</pack>
+        </response>
+        <response>
+            <name>name</name>
+            <description>the name of the account</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>networkdomain</name>
+            <description>the network domain</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>receivedbytes</name>
+            <description>the total number of network traffic bytes received</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>sentbytes</name>
+            <description>the total number of network traffic bytes sent</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>snapshotavailable</name>
+            <description>the total number of snapshots available for this account</description>
+            <pack>19</pack>
+        </response>
+        <response>
+            <name>snapshotlimit</name>
+            <description>the total number of snapshots which can be stored by this account</description>
+            <pack>19</pack>
+        </response>
+        <response>
+            <name>snapshottotal</name>
+            <description>the total number of snapshots stored by this account</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>state</name>
+            <description>the state of the account</description>
+            <pack>10</pack>
+        </response>
+        <response>
+            <name>templateavailable</name>
+            <description>the total number of templates available to be created by this account</description>
+            <pack>19</pack>
+        </response>
+        <response>
+            <name>templatelimit</name>
+            <description>the total number of templates which can be created by this account</description>
+            <pack>14</pack>
+        </response>
+        <response>
+            <name>templatetotal</name>
+            <description>the total number of templates which have been created by this account</description>
+            <pack>14</pack>
+        </response>
+        <response>
+            <name>vmavailable</name>
+            <description>the total number of virtual machines available for this account to acquire</description>
+            <pack>13</pack>
+        </response>
+        <response>
+            <name>vmlimit</name>
+            <description>the total number of virtual machines that can be deployed by this account</description>
+            <pack>9</pack>
+        </response>
+        <response>
+            <name>vmrunning</name>
+            <description>the total number of virtual machines running for this account</description>
+            <pack>11</pack>
+        </response>
+        <response>
+            <name>vmstopped</name>
+            <description>the total number of virtual machines stopped for this account</description>
+            <pack>11</pack>
+        </response>
+        <response>
+            <name>vmtotal</name>
+            <description>the total number of virtual machines deployed by this account</description>
+            <pack>9</pack>
+        </response>
+        <response>
+            <name>volumeavailable</name>
+            <description>the total volume available for this account</description>
+            <pack>17</pack>
+        </response>
+        <response>
+            <name>volumelimit</name>
+            <description>the total volume which can be used by this account</description>
+            <pack>13</pack>
+        </response>
+        <response>
+            <name>volumetotal</name>
+            <description>the total volume being used by this account</description>
+            <pack>13</pack>
+        </response>
+        <response>
+            <name>user-id</name>
+            <description>the user ID</description>
+            <pack>9</pack>
+            <path>user::id</path>
+        </response>
+        <response>
+            <name>user-account</name>
+            <description>the account name of the user</description>
+            <pack>14</pack>
+            <path>user::account</path>
+        </response>
+        <response>
+            <name>user-accounttype</name>
+            <description>the account type of the user</description>
+            <pack>18</pack>
+            <path>user::accounttype</path>
+        </response>
+        <response>
+            <name>user-apikey</name>
+            <description>the api key of the user</description>
+            <pack>88</pack>
+            <path>user::apikey</path>
+        </response>
+        <response>
+            <name>user-created</name>
+            <description>the date and time the user account was created</description>
+            <pack>25</pack>
+            <path>user::created</path>
+        </response>
+        <response>
+            <name>user-domain</name>
+            <description>the domain name of the user</description>
+            <pack>13</pack>
+            <path>user::domain</path>
+        </response>
+        <response>
+            <name>user-domainid</name>
+            <description>the domain ID of the user</description>
+            <pack>15</pack>
+            <path>user::domainid</path>
+        </response>
+        <response>
+            <name>user-email</name>
+            <description>the user email address</description>
+            <pack>25</pack>
+            <path>user::email</path>
+        </response>
+        <response>
+            <name>user-firstname</name>
+            <description>the user firstname</description>
+            <pack>16</pack>
+            <path>user::firstname</path>
+        </response>
+        <response>
+            <name>user-lastname</name>
+            <description>the user lastname</description>
+            <pack>16</pack>
+            <path>user::lastname</path>
+        </response>
+        <response>
+            <name>user-secretkey</name>
+            <description>the secret key of the user</description>
+            <pack>88</pack>
+            <path>user::secretkey</path>
+        </response>
+        <response>
+            <name>user-state</name>
+            <description>the user state</description>
+            <pack>12</pack>
+            <path>user::state</path>
+        </response>
+        <response>
+            <name>user-timezone</name>
+            <description>the timezone user was created in</description>
+            <pack>20</pack>
+            <path>user::timezone</path>
+        </response>
+        <response>
+            <name>username</name>
+            <description>the user name</description>
+            <pack>15</pack>
+            <path>user::username</path>
+        </response>
+    </responses>
+</root>

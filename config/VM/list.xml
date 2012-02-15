@@ -1,0 +1,458 @@
+<root>
+    <top>/listvirtualmachinesresponse/virtualmachine</top>
+    <command>listVirtualMachines</command>
+    <defaultresponses>id,name,displayname,state,domainid,account,nic-ip</defaultresponses>
+    <params>
+        <param>
+            <name>account</name>
+            <description>account. Must be used with the domainId parameter.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>domainid</name>
+            <description>the domain ID. If used with the account parameter, lists virtual machines for the specified account in this domain.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>forvirtualnetwork</name>
+            <description>list by network type; true if need to list vms using Virtual Network, false otherwise</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>groupid</name>
+            <description>the group ID</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>hostid</name>
+            <description>the host ID</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>hypervisor</name>
+            <description>the target hypervisor for the template</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>id</name>
+            <description>the ID of the virtual machine</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>isrecursive</name>
+            <description>Must be used with domainId parameter. Defaults to false, but if true, lists all vms from the parent specified by the domain id till leaves.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>keyword</name>
+            <description>List by keyword</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>name</name>
+            <description>name of the virtual machine</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>networkid</name>
+            <description>list by network id</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>page</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>pagesize</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>podid</name>
+            <description>the pod ID</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>state</name>
+            <description>state of the virtual machine</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>storageid</name>
+            <description>the storage ID where vm's volumes belong to</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>zoneid</name>
+            <description>the availability zone ID</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the ID of the virtual machine</description>
+            <pack>6</pack>
+        </response>
+        <response>
+            <name>account</name>
+            <description>the account associated with the virtual machine</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>cpunumber</name>
+            <description>the number of cpu this virtual machine is running with</description>
+            <pack>11</pack>
+        </response>
+        <response>
+            <name>cpuspeed</name>
+            <description>the speed of each cpu</description>
+            <pack>10</pack>
+        </response>
+        <response>
+            <name>cpuused</name>
+            <description>the amount of the vm's CPU currently used</description>
+            <pack>9</pack>
+        </response>
+        <response>
+            <name>created</name>
+            <description>the date when this virtual machine was created</description>
+            <pack>25</pack>
+        </response>
+        <response>
+            <name>displayname</name>
+            <description>user generated name. The name of the virtual machine is returned if no displayname exists.</description>
+            <pack>25</pack>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>the name of the domain in which the virtual machine exists</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>the ID of the domain in which the virtual machine exists</description>
+            <pack>10</pack>
+        </response>
+        <response>
+            <name>forvirtualnetwork</name>
+            <description>the virtual network for the service offering</description>
+            <pack>19</pack>
+        </response>
+        <response>
+            <name>group</name>
+            <description>the group name of the virtual machine</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>groupid</name>
+            <description>the group ID of the virtual machine</description>
+            <pack>9</pack>
+        </response>
+        <response>
+            <name>guestosid</name>
+            <description>Os type ID of the virtual machine</description>
+            <pack>11</pack>
+        </response>
+        <response>
+            <name>haenable</name>
+            <description>true if high-availability is enabled, false otherwise</description>
+            <pack>10</pack>
+        </response>
+        <response>
+            <name>hostid</name>
+            <description>the ID of the host for the virtual machine</description>
+            <pack>8</pack>
+        </response>
+        <response>
+            <name>hostname</name>
+            <description>the name of the host for the virtual machine</description>
+            <pack>20</pack>
+        </response>
+        <response>
+            <name>hypervisor</name>
+            <description>the hypervisor on which the template runs</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>ipaddress</name>
+            <description>the ip address of the virtual machine</description>
+            <pack>17</pack>
+        </response>
+        <response>
+            <name>isodisplaytext</name>
+            <description>an alternate display text of the ISO attached to the virtual machine</description>
+            <pack>20</pack>
+        </response>
+        <response>
+            <name>isoid</name>
+            <description>the ID of the ISO attached to the virtual machine</description>
+            <pack>7</pack>
+        </response>
+        <response>
+            <name>isoname</name>
+            <description>the name of the ISO attached to the virtual machine</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>jobid</name>
+            <description>shows the current pending asynchronous job ID. This tag is not returned if no current pending jobs are acting on the virtual machine</description>
+            <pack>8</pack>
+        </response>
+        <response>
+            <name>jobstatus</name>
+            <description>shows the current pending asynchronous job status</description>
+            <pack>11</pack>
+        </response>
+        <response>
+            <name>memory</name>
+            <description>the memory allocated for the virtual machine</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>name</name>
+            <description>the name of the virtual machine</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>networkkbsread</name>
+            <description>the incoming network traffic on the vm</description>
+            <pack>17</pack>
+        </response>
+        <response>
+            <name>networkkbswrite</name>
+            <description>the outgoing network traffic on the host</description>
+            <pack>18</pack>
+        </response>
+        <response>
+            <name>password</name>
+            <description>the password (if exists) of the virtual machine</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>passwordenabled</name>
+            <description>true if the password rest feature is enabled, false otherwise</description>
+            <pack>17</pack>
+        </response>
+        <response>
+            <name>rootdeviceid</name>
+            <description>device ID of the root volume</description>
+            <pack>14</pack>
+        </response>
+        <response>
+            <name>rootdevicetype</name>
+            <description>device type of the root volume</description>
+            <pack>16</pack>
+        </response>
+        <response>
+            <name>serviceofferingid</name>
+            <description>the ID of the service offering of the virtual machine</description>
+            <pack>19</pack>
+        </response>
+        <response>
+            <name>serviceofferingname</name>
+            <description>the name of the service offering of the virtual machine</description>
+            <pack>21</pack>
+        </response>
+        <response>
+            <name>state</name>
+            <description>the state of the virtual machine</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>templatedisplaytext</name>
+            <description>an alternate display text of the template for the virtual machine</description>
+            <pack>21</pack>
+        </response>
+        <response>
+            <name>templateid</name>
+            <description>the ID of the template for the virtual machine. A -1 is returned if the virtual machine was created from an ISO file.</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>templatename</name>
+            <description>the name of the template for the virtual machine</description>
+            <pack>35</pack>
+        </response>
+        <response>
+            <name>zoneid</name>
+            <description>the ID of the availablility zone for the virtual machine</description>
+            <pack>8</pack>
+        </response>
+        <response>
+            <name>zonename</name>
+            <description>the name of the availability zone for the virtual machine</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>nic-id</name>
+            <description>the ID of the nic</description>
+            <pack>8</pack>
+            <path>nic::id</path>
+            <top>/listvirtualmachinesresponse/virtualmachine/nic</top>
+        </response>
+        <response>
+            <name>nic-broadcasturi</name>
+            <description>the broadcast uri of the nic</description>
+            <pack>18</pack>
+            <path>nic::broadcasturi</path>
+        </response>
+        <response>
+            <name>nic-gateway</name>
+            <description>the ID of the nic</description>
+            <pack>17</pack>
+            <path>nic::gateway</path>
+        </response>
+        <response>
+            <name>nic-ip</name>
+            <description>the ip address of the nic</description>
+            <pack>15</pack>
+            <path>nic::ipaddress</path>
+        </response>
+        <response>
+            <name>nic-isdefault</name>
+            <description>true if nic is default, false otherwise</description>
+            <pack>15</pack>
+            <path>nic::isdefault</path>
+        </response>
+        <response>
+            <name>nic-isolationuri</name>
+            <description>the isolation uri of the nic</description>
+            <pack>18</pack>
+            <path>nic::isolationuri</path>
+        </response>
+        <response>
+            <name>nic-macaddress</name>
+            <description>the macaddress of the nic</description>
+            <pack>18</pack>
+            <path>nic::macaddress</path>
+        </response>
+        <response>
+            <name>nic-netmask</name>
+            <description>the netmask of the nic</description>
+            <pack>17</pack>
+            <path>nic::netmask</path>
+        </response>
+        <response>
+            <name>nic-networkid</name>
+            <description>the ID of the corresponding network</description>
+            <pack>15</pack>
+            <path>nic::networkid</path>
+        </response>
+        <response>
+            <name>nic-traffictype</name>
+            <description>the traffic type of the nic</description>
+            <pack>17</pack>
+            <path>nic::traffictype</path>
+        </response>
+        <response>
+            <name>nic-type</name>
+            <description>the type of the nic</description>
+            <pack>10</pack>
+            <path>nic::type</path>
+        </response>
+        <response>
+            <name>securitygroup-id</name>
+            <description>the ID of the security group</description>
+            <pack>11</pack>
+            <path>securitygroup::id</path>
+        </response>
+        <response>
+            <name>securitygroup-account</name>
+            <description>the account owning the security group</description>
+            <pack>16</pack>
+            <path>securitygroup::account</path>
+        </response>
+        <response>
+            <name>securitygroup-description</name>
+            <description>the description of the security group</description>
+            <pack>25</pack>
+            <path>securitygroup::description</path>
+        </response>
+        <response>
+            <name>securitygroup-domain</name>
+            <description>the domain name of the security group</description>
+            <pack>15</pack>
+            <path>securitygroup::domain</path>
+        </response>
+        <response>
+            <name>securitygroup-domainid</name>
+            <description>the domain id of the security group</description>
+            <pack>17</pack>
+            <path>securitygroup::domainid</path>
+        </response>
+        <response>
+            <name>securitygroup-jobid</name>
+            <description>shows the current pending asynchronous job ID. This tag is not returned if no current pending jobs are acting on the volume</description>
+            <pack>14</pack>
+            <path>securitygroup::jobid</path>
+        </response>
+        <response>
+            <name>securitygroup-jobstatus</name>
+            <description>shows the current pending asynchronous job status</description>
+            <pack>18</pack>
+            <path>securitygroup::jobstatus</path>
+        </response>
+        <response>
+            <name>securitygroup-name</name>
+            <description>the name of the security group</description>
+            <pack>15</pack>
+            <path>securitygroup::name</path>
+        </response>
+        <response>
+            <name>securitygroup-ingressrule-account</name>
+            <description>account owning the ingressrule rule</description>
+            <pack>23</pack>
+            <path>securitygroup::ingressrule::account</path>
+        </response>
+        <response>
+            <name>securitygroup-ingressrule-cidr</name>
+            <description>the CIDR notation for the base IP address of the ingressrule rule</description>
+            <pack>21</pack>
+            <path>securitygroup::ingressrule::cidr</path>
+        </response>
+        <response>
+            <name>securitygroup-ingressrule-endport</name>
+            <description>the ending IP of the ingressrule rule</description>
+            <pack>24</pack>
+            <path>securitygroup::ingressrule::endport</path>
+        </response>
+        <response>
+            <name>securitygroup-ingressrule-icmpcode</name>
+            <description>the code for the ICMP message response</description>
+            <pack>25</pack>
+            <path>securitygroup::ingressrule::icmpcode</path>
+        </response>
+        <response>
+            <name>securitygroup-ingressrule-icmptype</name>
+            <description>the type of the ICMP message response</description>
+            <pack>25</pack>
+            <path>securitygroup::ingressrule::icmptype</path>
+        </response>
+        <response>
+            <name>securitygroup-ingressrule-protocol</name>
+            <description>the protocol of the ingressrule rule</description>
+            <pack>25</pack>
+            <path>securitygroup::ingressrule::protocol</path>
+        </response>
+        <response>
+            <name>securitygroup-ingressrule-ruleid</name>
+            <description>the id of the ingressrule rule</description>
+            <pack>23</pack>
+            <path>securitygroup::ingressrule::ruleid</path>
+        </response>
+        <response>
+            <name>securitygroup-ingressrule-securitygroupname</name>
+            <description>security group name</description>
+            <pack>34</pack>
+            <path>securitygroup::ingressrule::securitygroupname</path>
+        </response>
+        <response>
+            <name>securitygroup-ingressrule-startport</name>
+            <description>the starting IP of the ingressrule rule</description>
+            <pack>26</pack>
+            <path>securitygroup::ingressrule::startport</path>
+        </response>
+    </responses>
+</root>

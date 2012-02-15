@@ -1,0 +1,19 @@
+<root>
+    <top>/startvirtualmachineresponse</top>
+    <command>startVirtualMachine</command>
+    <defaultresponses>id,displayname,state,memory,domainid,account,jobid,jobstatus</defaultresponses>
+    <params>
+        <param>
+            <name>id</name>
+            <description>The ID of the virtual machine</description>
+            <required>true</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>jobid</name>
+            <description>shows the current pending asynchronous job ID. This tag is not returned if no current pending jobs are acting on the virtual machine</description>
+            <pack>8</pack>
+        </response>
+    </responses>
+</root>

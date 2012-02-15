@@ -1,0 +1,22 @@
+Requirements:
+
+- minimum perl v5.10
+- libxml2-devel openssl-devel gcc
+- install required perl modules from cpan: perl install_prerequisites.pl (may need sudo if perl installed using root)
+- on config/config.xml :
+  * set apikey,secretkey
+  * set urlpath e.g(https://10.1.1.1/client/api? or http://10.1.1.1:8080/client/api?)
+  * if using https, set sslverifyhostname (0 disable, 1 enable)
+- set CSAPIROOT environment variable to install location, examples is under env/ directory
+- see the usage using 'perldoc usercmd.pl'
+
+Current capabilities:
+
+- more human output, the aim is for admin to be able to wrap / grep anything
+- deploy vm
+- start/stop/reboot/destroy vm
+- list vm, template, service offering, accounts
+- show API supported param / response in your shell
+- customizable responses field
+- support multiple id for start/stop/reboot/destroy
+

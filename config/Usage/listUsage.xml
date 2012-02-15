@@ -1,0 +1,100 @@
+<root>
+    <top>/listusagerecordsresponse/usagerecord</top>
+    <command>listUsageRecords</command>
+    <defaultfilter>executable</defaultfilter>
+    <defaultresponses>id,name,account,domainid,size,hypervisor</defaultresponses>
+    <params>
+        <param>
+            <name>enddate</name>
+            <description>End date range for usage record query. Use yyyy-MM-dd as the date format, e.g. endDate=2009-06-03.</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>startdate</name>
+            <description>start date range for usage record query. Use yyyy-MM-dd as the date format, e.g. startDate=2009-06-03.</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>account</name>
+            <description>List usage records for the specified user.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>accountid</name>
+            <description>List usage records for the specified account</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>domainid</name>
+            <description>List usage records for the specified domain.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>keyword</name>
+            <description>List by keyword</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>page</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>pagesize</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>pagesize</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>projectid</name>
+            <description>List usage records for specified project</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>type</name>
+            <description>List usage records for the specified usage type</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>account</name>
+            <description>the user account name</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>accountid</name>
+            <description>the user account id</description>
+            <pack>11</pack>
+        </response>
+        <response>
+            <name>description</name>
+            <description>description of the usage record</description>
+            <pack>20</pack>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>the domain the resource is associated with</description>
+            <pack>15</pack>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>the domain id</description>
+            <pack>10</pack>
+        </response>
+        <response>
+            <name>enddate</name>
+            <description>end date of the usage record</description>
+            <pack>25</pack>
+        </response>
+        <response>
+            <name>isdefault</name>
+            <description>True if the resource is default</description>
+            <pack>11</pack>
+        </response>
+    </responses>
+</root>
