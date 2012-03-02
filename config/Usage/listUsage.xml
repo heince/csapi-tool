@@ -2,7 +2,7 @@
     <top>/listusagerecordsresponse/usagerecord</top>
     <command>listUsageRecords</command>
     <defaultfilter>executable</defaultfilter>
-    <defaultresponses>id,name,account,domainid,size,hypervisor</defaultresponses>
+    <defaultresponses>startdate,enddate,account,name,type,usagetype,usage,size</defaultresponses>
     <params>
         <param>
             <name>enddate</name>
@@ -89,12 +89,77 @@
         <response>
             <name>enddate</name>
             <description>end date of the usage record</description>
-            <pack>25</pack>
+            <pack>30</pack>
         </response>
         <response>
             <name>isdefault</name>
             <description>True if the resource is default</description>
             <pack>11</pack>
+        </response>
+        <response>
+            <name>name</name>
+            <description>virtual machine name</description>
+            <pack>20</pack>
+        </response>
+        <response>
+            <name>networkid</name>
+            <description>id of the network</description>
+            <pack>11</pack>
+        </response>
+        <response>
+            <name>offeringid</name>
+            <description>offering id</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>rawusage</name>
+            <description>raw usage in hours</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>size</name>
+            <description>resource size</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>startdate</name>
+            <description>start date of the usage record</description>
+            <pack>30</pack>
+        </response>
+        <response>
+            <name>templateid</name>
+            <description>template ID</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>type</name>
+            <description>resource type</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>usage</name>
+            <description>usage in hours</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>usageid</name>
+            <description>id of the resource</description>
+            <pack>9</pack>
+        </response>
+        <response>
+            <name>usagetype</name>
+            <description>usage type ID</description>
+            <pack>12</pack>
+        </response>
+        <response>
+            <name>virtualmachineid</name>
+            <description>virtual machine ID</description>
+            <pack>19</pack>
+        </response>
+        <response>
+            <name>zoneid</name>
+            <description>the zone ID</description>
+            <pack>8</pack>
         </response>
     </responses>
 </root>

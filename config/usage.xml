@@ -1,0 +1,25 @@
+<root>
+    <host></host>
+    <port>3306</port>
+    <schema>cloud_usage</schema>
+    <user>cloud</user>
+    <password></password>
+    <offering>
+        <service>
+            <id>1</id>
+            <cost>0.02</cost>
+        </service>
+        <service>
+            <id>2</id>
+            <cost>0.05</cost>
+        </service>
+        <service>
+            <id>10</id>
+            <cost>0.08</cost>
+        </service>
+        <service>
+            <id>15</id>
+            <cost>1</cost>
+        </service>
+    </offering>
+</root>

@@ -67,6 +67,11 @@ sub check_options{
              #print header & result
              print @$header; print @$result;break;
           }
+			 when (/\busage\b/){
+             my ($header, $result) = $obj->list_usage($site, $apikey, $secretkey, $general, $param, $response, "$ENV{'CSAPIROOT'}/config/Usage/listUsage.xml");
+             #print header & result
+             print @$header; print @$result;break;
+          }
           default{
              $self->default_given('list', $list, $items);
           }

@@ -5,7 +5,6 @@
 
 usercmd.pl         	- Interface to user's API
 
-
 =head1 USAGE
 
 =over
@@ -56,7 +55,7 @@ usercmd.pl -destroy vm -id 1,3,4
 
 =item deploy new vm
 
-usercmd.pl -deploy -p serviceofferingid=[id],templateid=[id],zoneid=[id],name=[name],ipaddress=[ip]
+usercmd.pl -deploy -p serviceofferingid=[id], templateid=[id], zoneid=[id], name=[name], ipaddress=[ip]
 
 =item list deploy vm parameters
 
@@ -77,7 +76,7 @@ use 5.010;
 
 #check CSAPIROOT environment variable, assign if not been defined
 BEGIN{
-	$ENV{'CSAPIROOT'} = "$ENV{'HOME'}/Documents/sf.net/csapi-user" if not defined $ENV{'CSAPIROOT'};
+	$ENV{'CSAPIROOT'} = "$ENV{'HOME'}/Project/csapi-tool" if not defined $ENV{'CSAPIROOT'};
 }
 
 #define lib include path
@@ -111,3 +110,4 @@ use Options;
 my $options = new Options::;
 $options->check_options($general, $site, $apikey, $secretkey, $obj, $list, $start, $stop, $reboot, $destroy, $deploy, $id, $param, $response);
 exit;
+

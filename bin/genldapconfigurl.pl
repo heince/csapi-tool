@@ -7,13 +7,13 @@ use URI::Escape;
  
 my ($apiurl, $command, $ldapsvr, $searchbase, $queryfilter, $binddn, $bindpass, $encode); 
 
-$apiurl = q|http://192.168.1.109:8096/client/api?/|;
+$apiurl = q|http://192.168.1.109:8096/client/api?|;
 $command = q|command=ldapConfig|;
-$ldapsvr = q|myldap.example.com|;
+$ldapsvr = q|ldap.example.com|;
 $searchbase = q|cn=users,dc=example,dc=com|;
 $queryfilter = q|(&(uid=%u))|;
-$binddn = q|cn=Administrator,cn=users,dc=example,dc=com|;
-$bindpass = q|test123|;
+$binddn = q|cn=Admin,cn=users,dc=example,dc=com|;
+$bindpass = q|secret|;
 
 $encode = "$apiurl$command&hostname=$ldapsvr&searchbase=" . uri_escape($searchbase) . "&queryfilter=" . uri_escape($queryfilter) .
             "&binddn=" . uri_escape($binddn) . "&bindpass=$bindpass&response=json";

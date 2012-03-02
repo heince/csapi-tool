@@ -281,8 +281,10 @@ sub pack_response{
 				$field .= " MB";
 			}
 			when (/size/){
-				$field = ($field/1024/1024/1024);
-				$field = sprintf("%.2f",$field) . " GB";
+				if($field){
+					$field = ($field/1024/1024/1024);
+					$field = sprintf("%.2f",$field) . " GB";
+				}
 			}
 			when (/cpuspeed/){
 				$field .= " MHz";
@@ -334,21 +336,25 @@ sub init_check{
 	die "please set apikey\n" unless $api_key ne '';
 	
 	for(@param){
-	when (/\b^vm\b/){
+	when (/\bvm\b/){
 		use CSAPI::VM;
-		$obj = new CSAPI::VM;
+		$obj = new CSAPI::VM;last;
 	}
-	when (/\b^account\b/){
+	when (/\baccount\b/){
 		use CSAPI::Account;
-		$obj = new CSAPI::Account;
+		$obj = new CSAPI::Account;last;
 	}
-	when (/\btemplate\b/){
+	when (/\btemplateb/){
 		use CSAPI::Template;
-		$obj = new CSAPI::Template;
+		$obj = new CSAPI::Template;last;
 	}
 	when (/\bsvc_offering\b/){
 		use CSAPI::ServiceOffering;
-		$obj = new CSAPI::ServiceOffering;
+		$obj = new CSAPI::ServiceOffering;last;
+	}
+	when (/\busage\b/){
+		use CSAPI::Usage;
+		$obj = new CSAPI::Usage;last;
 	}
 }
 	

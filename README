@@ -9,10 +9,38 @@ Requirements:
   * if using https, set sslverifyhostname (0 disable, 1 enable)
 - set CSAPIROOT environment variable to install location, examples is under env/ directory
 - see the usage using 'perldoc usercmd.pl'
+- there is also usage.pl , to show running vm usage + costs, you need to edit the usage.xml for database
+  configuration & the charging costs for each offering.
+  
+usage output:
 
-Current capabilities:
+heince-kurniawans-macbook:~ heince$ usage.pl -type 1 -a 6 -s 2012-02-29 -e 2012-03-01
+Account: heince         
+Domain : DEV       
+Period : 2012-02-29 to 2012-03-01
 
-you can do like this:
+Details:
+i-6-52-VM running time (ServiceOffering: 2) (Template: 226)           Total Hours = 24.00           
+i-6-41-VM running time (ServiceOffering: 10) (Template: 226)          Total Hours = 24.00           
+i-6-33-VM running time (ServiceOffering: 2) (Template: 4)             Total Hours = 24.00           
+i-6-92-VM running time (ServiceOffering: 15) (Template: 250)          Total Hours = 11.10           
+i-6-46-VM running time (ServiceOffering: 2) (Template: 226)           Total Hours = 24.00           
+i-6-29-VM running time (ServiceOffering: 2) (Template: 4)             Total Hours = 24.00           
+i-6-31-VM running time (ServiceOffering: 1) (Template: 4)             Total Hours = 24.00           
+i-6-34-VM running time (ServiceOffering: 2) (Template: 220)           Total Hours = 24.00           
+i-6-42-VM running time (ServiceOffering: 10) (Template: 226)          Total Hours = 24.00           
+
+Summary:
+Offering id : 1          Name: Small Instance          Hours : 24.00       Cost: $0.02 per hour          
+Offering id : 10         Name: HA enabled VM           Hours : 48.00       Cost: $0.08 per hour          
+Offering id : 2          Name: Medium Instance         Hours : 120.00      Cost: $0.05 per hour          
+Offering id : 15         Name: 8 Cores Instance        Hours : 11.10       Cost: $1.00 per hour          
+
+Total Hours : 203.1
+Total Costs : $21.42
+
+
+you can also do like this on usercmd:
 * usercmd.pl -start vm -id 1,3,6 (start vm with id 1,3 and 6)
 * usercmd.pl -l vm -p id=3 -r id,name,state (show vm with id 3, only show id,name,state field)
 ID    NAME           STATE       

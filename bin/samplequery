@@ -1,0 +1,23 @@
+(SELECT dc.name as "Datacenter", ac.account_name as "Account", u.domain_id
+as "Domain ID", u.raw_usage,
+s.cpu as "CPU count", s.speed as "CPU, MHz", s.ram_size as "RAM, MB",
+8589934592/1024/1024/1024 as "Storage, GB", u.start_date,
+"-", u.offering_id, u.usage_id, u.usage_type, u.description
+FROM cloud_usage.cloud_usage u, cloud.account ac,
+cloud.data_center dc, cloud.service_offering s
+WHERE u.account_id=ac.id
+AND u.zone_id=dc.id
+AND u.offering_id=s.id
+AND u.usage_type=1)
+UNION
+(SELECT dc.name as "Datacenter", ac.account_name as "Account", u.domain_id as
+"Domain ID", u.raw_usage,
+NULL as "CPU count", NULL as "CPU, MHz", NULL as "RAM MB",
+u.size/1024/1024/1024 as "Storage, GB", u.start_date,
+"-", u.offering_id, u.usage_id, u.usage_type, u.description
+FROM cloud_usage.cloud_usage u, cloud.account ac,
+cloud.data_center dc, cloud.disk_offering dsk
+WHERE u.account_id=ac.id
+AND u.zone_id=dc.id
+AND u.offering_id=dsk.id
+AND u.usage_type=6)
