@@ -48,13 +48,15 @@ sub connect_db{
 	return $dbh;
 }
 
-sub get_running_vm{
+sub get_query{
 	my $self = shift;
 	
-	my ($general,$connection, $accountid, $stime, $etime) = @_;
-	my (%hash, %vms);
+	my ($accountid, $stime, $etime, $type) = @_;
+	my $query;
 	
-	my $query = qq|SELECT dc.name as "Datacenter", ac.account_name as "Account", u.domain_id
+	given($type){
+		when (/[1|2]/){
+			$query = qq|(SELECT dc.name as "Datacenter", ac.account_name as "Account", u.domain_id
 					as "Domain ID", u.raw_usage as "Raw Usage",
 					s.cpu as "CPU count", s.speed as "CPU, MHz", s.ram_size as "RAM, MB",
 					8589934592/1024/1024/1024 as "Storage, GB", u.start_date, u.end_date,
@@ -65,11 +67,37 @@ sub get_running_vm{
 					AND ac.id=$accountid
 					AND u.zone_id=dc.id
 					AND u.offering_id=s.id
-					AND u.usage_type=1
+					AND u.usage_type=$type
 					AND u.start_date >= "$stime"
-					AND u.end_date <= "$etime"|;
-					
-	my $statement = $connection->prepare($query);
+					AND u.end_date <= "$etime")|;
+		}
+		when (/[6]/){
+			$query = qq|(SELECT dc.name as "Datacenter", ac.account_name as "Account", u.domain_id as
+					"Domain ID", u.raw_usage as "Raw Usage",
+					NULL as "CPU count", NULL as "CPU, MHz", NULL as "RAM MB",
+					u.size/1024/1024/1024 as "Storage, GB", u.start_date, u.end_date,
+					"-", u.offering_id, u.usage_id, u.usage_type, u.description
+					FROM cloud_usage.cloud_usage u, cloud.account ac,
+					cloud.data_center dc, cloud.disk_offering dsk
+					WHERE u.account_id=$accountid
+					AND ac.id=$accountid
+					AND u.zone_id=dc.id
+					AND u.offering_id=dsk.id
+					AND u.usage_type=$type
+					AND u.start_date >= "$stime"
+					AND u.end_date <= "$etime")|;
+		}
+	}
+	
+	return $query;
+}
+
+sub exec_query{
+	my $self = shift;
+	
+	my ($statement) = @_;
+	my (%hash, %description);
+	
 	$statement->execute();
 	while(my $ref = $statement->fetchrow_hashref()){
 		if($hash{$ref->{'offering_id'}}){
@@ -78,14 +106,27 @@ sub get_running_vm{
 			$hash{$ref->{'offering_id'}} = $ref->{'Raw Usage'};
 		}
 		
-		if($vms{$ref->{'description'}}){
-			$vms{$ref->{'description'}} += $ref->{'Raw Usage'};
+		if($description{$ref->{'description'}}){
+			$description{$ref->{'description'}} += $ref->{'Raw Usage'};
 		}else{
-			$vms{$ref->{'description'}} = $ref->{'Raw Usage'};
+			$description{$ref->{'description'}} = $ref->{'Raw Usage'};
 		}
 	}
 	
 	$statement->finish();
+	return (\%hash, \%description);
+}
+
+sub get_usage{
+	my $self = shift;
+	
+	my ($general,$connection, $accountid, $stime, $etime, $type) = @_;
+	my ($hash, $description);
+	
+	my $query = $self->get_query($accountid, $stime, $etime, $type);
+					
+	my $statement = $connection->prepare($query);
+	($hash, $description) = $self->exec_query($statement);
 	
 	#print header
 	my $details = $self->get_account($general, $accountid);
@@ -94,20 +135,20 @@ sub get_running_vm{
 	say "Period : $stime to $etime\n";
 	say "Details:";
 	
-	while ( my ($k,$v) = each %vms ) {
-		$v = sprintf("%.2f",$v);
+	while ( my ($k,$v) = each %$description ) {
+		$v = sprintf("%.3f",$v);
       say pack("A70 A30", "$k", "Total Hours = $v");
 	}
 	
 	say "\nSummary:";
 	my ($totalhours, $totalcosts);
-	while ( my ($k,$v) = each %hash ) {
-		my $offering_name = $self->get_offering($general, $k);
+	while ( my ($k,$v) = each %$hash ) {
+		my $offering_name = $self->get_offering($general, $k, $type);
 		my $cost = $self->get_cost($general, $k);
-		$cost = sprintf("%.2f",$cost);
-		$v = sprintf("%.2f",$v);
+		$cost = sprintf("%.3f",$cost);
+		$v = sprintf("%.3f",$v);
 		my $tcost = ($cost * $v);
-		$tcost = sprintf("%.2f",$tcost);
+		$tcost = sprintf("%.3f",$tcost);
 		$totalhours += $v;
 		$totalcosts += $tcost;
 		
@@ -124,7 +165,7 @@ sub get_cost{
 	
 	my $config = "$ENV{'CSAPIROOT'}/config/usage.xml";
 	my $xml = $general->load_xml($config);
-	my $cost = $xml->findnodes("/root/offering/service/id[text()=\"$id\"]/../cost/text()")->string_value();
+	my $cost = $xml->findnodes("/root/offerings/offering/id[text()=\"$id\"]/../cost/text()")->string_value();
 	$cost = 0 unless $cost;
 	return $cost;
 }
@@ -141,12 +182,21 @@ sub get_account{
 sub get_offering{
 	my $self = shift;
 	
-	my ($general, $id) = @_;
+	my ($general, $id, $type) = @_;
+	my ($site, $apikey, $secretkey, $obj, $header, $result);
 	
-	my ($site, $apikey, $secretkey, $obj) = $general->init_check('svc_offering');
-	my ($header, $result) = $obj->list_service_offering($site, $apikey, $secretkey, $general, "id=$id", "name", "$ENV{'CSAPIROOT'}/config/ServiceOffering/list.xml");
+	given($type){
+		when (/[1|2]/){
+			($site, $apikey, $secretkey, $obj) = $general->init_check('svc_offering');
+			($header, $result) = $obj->list_service_offering($site, $apikey, $secretkey, $general, "id=$id", "name", "$ENV{'CSAPIROOT'}/config/ServiceOffering/list.xml");
+		}
+		when ([6]){
+			($site, $apikey, $secretkey, $obj) = $general->init_check('disk_offering');
+			($header, $result) = $obj->list_disk_offering($site, $apikey, $secretkey, $general, "id=$id", "displaytext", "$ENV{'CSAPIROOT'}/config/DiskOffering/list.xml");
+		}
+	}
+	
 	return $result;
-	
 }
 
 sub init_check{

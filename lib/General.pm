@@ -280,11 +280,14 @@ sub pack_response{
 			when (/memory/){
 				$field .= " MB";
 			}
-			when (/size/){
+			when (/\bsize\b/){
 				if($field){
 					$field = ($field/1024/1024/1024);
 					$field = sprintf("%.2f",$field) . " GB";
 				}
+			}
+			when (/\bdisksize\b/){
+				$field .= " GB";
 			}
 			when (/cpuspeed/){
 				$field .= " MHz";
@@ -351,6 +354,10 @@ sub init_check{
 	when (/\bsvc_offering\b/){
 		use CSAPI::ServiceOffering;
 		$obj = new CSAPI::ServiceOffering;last;
+	}
+	when (/\bdisk_offering\b/){
+		use CSAPI::DiskOffering;
+		$obj = new CSAPI::DiskOffering;last;
 	}
 	when (/\busage\b/){
 		use CSAPI::Usage;

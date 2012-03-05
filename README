@@ -20,21 +20,21 @@ Domain : DEV
 Period : 2012-02-29 to 2012-03-01
 
 Details:
-i-6-52-VM running time (ServiceOffering: 2) (Template: 226)           Total Hours = 24.00           
-i-6-41-VM running time (ServiceOffering: 10) (Template: 226)          Total Hours = 24.00           
-i-6-33-VM running time (ServiceOffering: 2) (Template: 4)             Total Hours = 24.00           
-i-6-92-VM running time (ServiceOffering: 15) (Template: 250)          Total Hours = 11.10           
-i-6-46-VM running time (ServiceOffering: 2) (Template: 226)           Total Hours = 24.00           
-i-6-29-VM running time (ServiceOffering: 2) (Template: 4)             Total Hours = 24.00           
-i-6-31-VM running time (ServiceOffering: 1) (Template: 4)             Total Hours = 24.00           
-i-6-34-VM running time (ServiceOffering: 2) (Template: 220)           Total Hours = 24.00           
-i-6-42-VM running time (ServiceOffering: 10) (Template: 226)          Total Hours = 24.00           
+i-6-52-VM running time (ServiceOffering: 2) (Template: 226)     Total Hours = 24.00           
+i-6-41-VM running time (ServiceOffering: 10) (Template: 226)    Total Hours = 24.00           
+i-6-33-VM running time (ServiceOffering: 2) (Template: 4)       Total Hours = 24.00           
+i-6-92-VM running time (ServiceOffering: 15) (Template: 250)    Total Hours = 11.10           
+i-6-46-VM running time (ServiceOffering: 2) (Template: 226)     Total Hours = 24.00           
+i-6-29-VM running time (ServiceOffering: 2) (Template: 4)       Total Hours = 24.00           
+i-6-31-VM running time (ServiceOffering: 1) (Template: 4)       Total Hours = 24.00           
+i-6-34-VM running time (ServiceOffering: 2) (Template: 220)     Total Hours = 24.00           
+i-6-42-VM running time (ServiceOffering: 10) (Template: 226)    Total Hours = 24.00           
 
 Summary:
-Offering id : 1          Name: Small Instance          Hours : 24.00       Cost: $0.02 per hour          
-Offering id : 10         Name: HA enabled VM           Hours : 48.00       Cost: $0.08 per hour          
-Offering id : 2          Name: Medium Instance         Hours : 120.00      Cost: $0.05 per hour          
-Offering id : 15         Name: 8 Cores Instance        Hours : 11.10       Cost: $1.00 per hour          
+Offering id : 1    Name: Small Instance     Hours : 24.00    Cost: $0.02 per hour          
+Offering id : 10   Name: HA enabled VM      Hours : 48.00    Cost: $0.08 per hour          
+Offering id : 2    Name: Medium Instance    Hours : 120.00   Cost: $0.05 per hour          
+Offering id : 15   Name: 8 Cores Instance   Hours : 11.10    Cost: $1.00 per hour          
 
 Total Hours : 203.1
 Total Costs : $21.42
@@ -47,8 +47,8 @@ ID    NAME           STATE
 
 3     i-2-3-VM       Stopped
 
-* usercmd -l vm -p list (print out what parameter is relevant for listVirtualMachines API)
-* usercmd -l vm -r list (print out what response is relevant for listVirtualMachines API)
+* usercmd -l vm -p list (print out parameter info)
+* usercmd -l vm -r list (print out response info)
 
 
 - more human output, the aim is for admin to be able to wrap / grep anything

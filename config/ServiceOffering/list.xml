@@ -67,7 +67,7 @@
         </response>
         <response>
             <name>created</name>
-            <description>the date this template was created</description>
+            <description>the date this service offering was created</description>
             <pack>25</pack>
         </response>
         <response>

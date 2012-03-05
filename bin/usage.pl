@@ -68,10 +68,13 @@ if(defined $type){
 				 "6 - Volume";
 		}
 		when($_ == 1){
-			$usage->get_running_vm($general,$connection, $accountid, $startdate, $enddate);
+			$usage->get_usage($general,$connection, $accountid, $startdate, $enddate, 1);
 		}
 		when($_ == 2){
-			say "allocated vm";
+			$usage->get_usage($general,$connection, $accountid, $startdate, $enddate, 2);
+		}
+		when($_ == 6){
+			$usage->get_usage($general,$connection, $accountid, $startdate, $enddate, 6);
 		}
 		default{
 			say "default";
