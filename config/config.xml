@@ -1,8 +1,8 @@
 <root>
-	<urlpath></urlpath>
+	<urlpath>https://116.12.163.214/client/api?</urlpath>
 	<sslverifyhostname>0</sslverifyhostname>
 	<key>
-		<apikey></apikey>
-		<secretkey></secretkey>
+		<apikey>U-BzmsbCUoE193UCXePJjYwoiu3z-8IdpL_yGrt8_eDsmR9g64khalisDTTLeS0v64LdDcmd2LxgTvGb-r7rwQ</apikey>
+		<secretkey>4ksh-nxe4U-TT8zoar0PuK9vHjLNobvQqLwcV3c_t-33iSfCDKxfwHKF35X1dk7RMtUzP5ifFs15qPDgj_QDlg</secretkey>
 	</key>
 </root>

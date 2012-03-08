@@ -13,6 +13,16 @@ usage.pl         	- Interface to generate resources usage
 
 usage.pl -h
 
+=item list available type
+
+usage.pl -type list
+
+=item example
+
+List the usage for running vm on accountid 6 with startdate 2012-02-01 and enddate 2012-03-01:
+
+usage.pl -type 1 -a 6 -s 2012-02-01 -e 2012-03-01
+
 =back
 
 =head1 AUTHOR
@@ -58,6 +68,7 @@ sub usage
 use General;
 my $general = new General::;
 
+#get the DB connection
 $connection = $usage->init_check();
 
 if(defined $type){
@@ -77,7 +88,7 @@ if(defined $type){
 			$usage->get_usage($general,$connection, $accountid, $startdate, $enddate, 6);
 		}
 		default{
-			say "default";
+			say "Type not supported yet";
 		}
 	}
 }
