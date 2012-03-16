@@ -58,7 +58,7 @@
         <response>
             <name>id</name>
             <description>the id of the account</description>
-            <pack>6</pack>
+            <pack>38</pack>
         </response>
         <response>
             <name>accounttype</name>
@@ -73,7 +73,7 @@
         <response>
             <name>domainid</name>
             <description>id of the Domain the account belongs too</description>
-            <pack>10</pack>
+            <pack>38</pack>
         </response>
         <response>
             <name>ipavailable</name>

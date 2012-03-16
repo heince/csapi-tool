@@ -10,6 +10,46 @@ General			-	Implements general functions
 
 Return DB connection
 
+=item get_query
+
+Return query string based on usage type
+
+=item exec_query
+
+Execute DB statement & return hash of usage detail based on usage type
+
+=item print_header
+
+Return the header
+
+=item get_details
+
+Return hash details of the usage
+
+=item get_summary
+
+Return hash summary of the usage
+
+=item is_custom_disk
+
+Return true if disk offering is customized
+
+=item get_usage
+
+Print the usage
+
+=item get_cost
+
+Return the cost based on offering id
+
+=item get_account
+
+Return account name based on account id
+
+=item get_offering
+
+Return offering name based on offering id
+
 =back
 
 =head1 AUTHOR
@@ -50,6 +90,7 @@ sub get_query{
 	my ($accountid, $stime, $etime, $type) = @_;
 	my $query;
 	
+	#check by usage type id
 	given($type){
 		when (/[1|2]/){
 			$query = qq|(SELECT dc.name as "Datacenter", ac.account_name as "Account", u.domain_id
@@ -59,8 +100,8 @@ sub get_query{
 					"-", u.offering_id, u.usage_id, u.usage_type, u.description
 					FROM cloud_usage.cloud_usage u, cloud.account ac,
 					cloud.data_center dc, cloud.service_offering s
-					WHERE u.account_id=$accountid
-					AND ac.id=$accountid
+					WHERE u.account_id="$accountid"
+					AND ac.id="$accountid"
 					AND u.zone_id=dc.id
 					AND u.offering_id=s.id
 					AND u.usage_type=$type
@@ -75,8 +116,8 @@ sub get_query{
 					"-", u.offering_id, u.usage_id, u.usage_type, u.description
 					FROM cloud_usage.cloud_usage u, cloud.account ac,
 					cloud.data_center dc, cloud.disk_offering dsk
-					WHERE u.account_id=$accountid
-					AND ac.id=$accountid
+					WHERE u.account_id="$accountid"
+					AND ac.id="$accountid"
 					AND u.zone_id=dc.id
 					AND u.offering_id=dsk.id
 					AND u.usage_type=$type
@@ -98,12 +139,14 @@ sub exec_query{
 	given($type){
 		when (/[1|2]/){
 			while(my $ref = $statement->fetchrow_hashref()){
+				#for Summary 
 				if($hash{$ref->{'offering_id'}}){
 					$hash{$ref->{'offering_id'}} += $ref->{'Raw Usage'};
 				}else{
 					$hash{$ref->{'offering_id'}} = $ref->{'Raw Usage'};
 				}
 				
+				#for details
 				if($description{$ref->{'description'}}){
 					$description{$ref->{'description'}} += $ref->{'Raw Usage'};
 				}else{
@@ -112,6 +155,7 @@ sub exec_query{
 			}
 		}
 		when (/[6]/){
+			#for details, no summary on type 6
 			while(my $ref = $statement->fetchrow_hashref()){
 				if(defined $description{$ref->{'description'}}){
 					if(defined $description{$ref->{'description'}}{'raw_usage'}){
@@ -124,6 +168,7 @@ sub exec_query{
 		}
 	}
 	
+	#close the statement
 	$statement->finish();
 	return (\%hash, \%description);
 }
@@ -162,19 +207,34 @@ sub get_details{
 		when (/[6]/){
 			my ($totalhours, $totalcosts);
 			for my $k( keys %tmp ) {
-				my $cost = $self->get_cost($general, $tmp{$k}{"offering_id"});;
+				my $cost = $self->get_cost($general, $tmp{$k}{"offering_id"});
+				
+				#check if its a custom disk & multiply it with the size
 				if($self->is_custom_disk($general, $tmp{$k}{"offering_id"})){
 					$cost *= $tmp{$k}{'size'};
 				}
+				#multiply the cost with the usage hours
 				$cost *= $tmp{$k}{'raw_usage'};
+				
+				#format with 2 decimal
 				$cost = sprintf("%.2f",$cost);
 				
+				#get the total hours by adding the raw usage hours
 				$totalhours += $tmp{$k}{'raw_usage'};
+				
+				#get the total cost by adding each cost
 				$totalcosts += $cost;
+				
+				#format the disk size with 1 decimal
 				$tmp{$k}{'size'} = sprintf("%.1f",$tmp{$k}{'size'});
+				
+				#format the raw usage with 2 decimal
 				$tmp{$k}{'raw_usage'} = sprintf("%.2f",$tmp{$k}{'raw_usage'});
+				
+				#store details array with description, disk size, totalhours, costs
 				push @details,pack("A50 A30 A30 A25", "$k", "Disk Size = $tmp{$k}{'size'} GB" , "Total Hours = $tmp{$k}{'raw_usage'}", "Costs = \$$cost");
 			}
+			die "can't get summary\n" unless $totalhours;
 			$totalhours = sprintf("%.2f",$totalhours);
 			push @details, "\nTotal Hours : $totalhours";
 			push @details, "Total Costs : \$$totalcosts\n";
@@ -250,6 +310,7 @@ sub get_usage{
 			
 			#print summary
 			my ($summary, $totalhours, $totalcosts) = $self->get_summary($general, $hash, $type);
+			die "can't get summary\n" unless $totalhours;
 			map {say} @$summary;
 			say "\nTotal Hours : $totalhours";
 			say "Total Costs : \$$totalcosts";

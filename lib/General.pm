@@ -347,7 +347,7 @@ sub init_check{
 		use CSAPI::Account;
 		$obj = new CSAPI::Account;last;
 	}
-	when (/\btemplateb/){
+	when (/\btemplate\b/){
 		use CSAPI::Template;
 		$obj = new CSAPI::Template;last;
 	}

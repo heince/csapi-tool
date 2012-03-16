@@ -59,7 +59,7 @@
         <response>
             <name>id</name>
             <description>the template ID</description>
-            <pack>6</pack>
+            <pack>38</pack>
         </response>
         <response>
             <name>account</name>
@@ -69,7 +69,7 @@
         <response>
             <name>accountid</name>
             <description>the account id to which the template belongs</description>
-            <pack>11</pack>
+            <pack>38</pack>
         </response>
         <response>
             <name>bootable</name>
@@ -104,7 +104,7 @@
         <response>
             <name>domainid</name>
             <description>the id of the domain to which the template belongs</description>
-            <pack>11</pack>
+            <pack>38</pack>
         </response>
         <response>
             <name>format</name>

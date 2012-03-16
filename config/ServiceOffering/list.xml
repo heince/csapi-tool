@@ -53,7 +53,7 @@
         <response>
             <name>id</name>
             <description>the id of the service offering</description>
-            <pack>6</pack>
+            <pack>38</pack>
         </response>
         <response>
             <name>cpunumber</name>

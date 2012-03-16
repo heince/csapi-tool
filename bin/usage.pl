@@ -52,7 +52,7 @@ my ($connection, $accountid, $startdate, $enddate, $help, $type);
 
 #check & define Getopt::Long options
 usage() if ( @ARGV < 1 or
-          ! GetOptions('help|h' => \$help, 'accountid|a=i' => \$accountid, 'startdate|s=s' => \$startdate,
+          ! GetOptions('help|h' => \$help, 'accountid|a=s' => \$accountid, 'startdate|s=s' => \$startdate,
 							  'enddate|e=s' => \$enddate, 'type=s' => \$type) or defined $help );
 
 #usage function
