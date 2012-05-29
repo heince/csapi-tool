@@ -103,13 +103,16 @@ sub get_result{
 	}
 	
 	### get URL ###
-	my $mech = WWW::Mechanize->new();
-	$mech->get($url);
-	#my $temp;
-	#eval {  $temp = $mech->get($url); };
+	my $mech = WWW::Mechanize->new(autocheck => 1);
+	my $temp;
+	eval {  $temp = $mech->get($url); };
 	
 	if($@){
-		die "Error getting response from server, it can be connection, key or invalid parameter specified\n";
+		my $resp = $mech->response();;
+		for my $key($resp->header_field_names()){
+			print $key, " : ", $resp->header( $key ), "\n" if $key =~ /Description/;
+		}
+		die "Error getting response from server, check the description above\n";
 	}
 	
 	if($self->command =~ /response=json/){ #json
