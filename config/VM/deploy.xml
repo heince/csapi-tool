@@ -1,7 +1,7 @@
 <root>
     <top>/deployvirtualmachineresponse</top>
     <command>deployVirtualMachine</command>
-    <defaultresponses>id</defaultresponses>
+    <defaultresponses>id,jobid</defaultresponses>
     <params>
         <param>
             <name>serviceofferingid</name>
@@ -84,6 +84,11 @@
             <required>false</required>
         </param>
         <param>
+            <name>projectid</name>
+            <description>Deploy vm for the project</description>
+            <required>false</required>
+        </param>
+        <param>
             <name>securitygroupids</name>
             <description>comma separated list of security groups id that going to be applied to the virtual machine. Should be passed only when vm is created from a zone with Basic Network support. Mutually exclusive with securitygroupnames parameter</description>
             <required>false</required>
@@ -108,12 +113,10 @@
         <response>
             <name>id</name>
             <description>the ID of the virtual machine</description>
-            <pack>6</pack>
         </response>
         <response>
             <name>jobid</name>
             <description>shows the current pending asynchronous job ID. This tag is not returned if no current pending jobs are acting on the virtual machine</description>
-            <pack>8</pack>
         </response>
     </responses>
 </root>
