@@ -1,0 +1,62 @@
+<root>
+    <top>/queryasyncjobresultresponse</top>
+    <command>queryAsyncJobResult</command>
+    <defaultresponses>jobid,jobstatus,jobresult</defaultresponses>
+    <params>
+        <param>
+            <name>jobid</name>
+            <description>the ID of the asychronous job</description>
+            <required>true</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>accountid</name>
+            <description>the account that executed the async command</description>
+        </response>
+        <response>
+            <name>cmd</name>
+            <description>the async command executed</description>
+        </response>
+        <response>
+            <name>created</name>
+            <description>the created date of the job</description>
+        </response>
+        <response>
+            <name>jobinstanceid</name>
+            <description>the unique ID of the instance/entity object related to the job</description>
+        </response>
+        <response>
+            <name>jobinstancetype</name>
+            <description>the instance/entity object related to the job</description>
+        </response>
+        <response>
+            <name>jobprocstatus</name>
+            <description>the progress information of the PENDING job</description>
+        </response>
+        <response>
+            <name>jobresult</name>
+            <description>the result reason</description>
+        </response>
+        <response>
+            <name>jobresultcode</name>
+            <description>the result code for the job</description>
+        </response>
+        <response>
+            <name>jobresulttype</name>
+            <description>the result type</description>
+        </response>
+        <response>
+            <name>jobstatus</name>
+            <description>the current job status-should be 0 for PENDING</description>
+        </response>
+        <response>
+            <name>userid</name>
+            <description>the user that executed the async command</description>
+        </response>
+        <response>
+            <name>jobid</name>
+            <description>the ID of the async job</description>
+        </response>
+    </responses>
+</root>

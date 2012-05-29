@@ -2,7 +2,7 @@
     <top>/listtemplatesresponse/template</top>
     <command>listTemplates</command>
     <defaultfilter>executable</defaultfilter>
-    <defaultresponses>id,name,account,domainid,size,hypervisor</defaultresponses>
+    <defaultresponses>id,name,account,domain,size,hypervisor</defaultresponses>
     <params>
         <param>
             <name>templatefilter</name>
@@ -59,162 +59,130 @@
         <response>
             <name>id</name>
             <description>the template ID</description>
-            <pack>38</pack>
         </response>
         <response>
             <name>account</name>
             <description>the account name to which the template belongs</description>
-            <pack>15</pack>
         </response>
         <response>
             <name>accountid</name>
             <description>the account id to which the template belongs</description>
-            <pack>38</pack>
         </response>
         <response>
             <name>bootable</name>
             <description>true if the ISO is bootable, false otherwise</description>
-            <pack>10</pack>
         </response>
         <response>
             <name>checksum</name>
             <description>checksum of the template</description>
-            <pack>25</pack>
         </response>
         <response>
             <name>created</name>
             <description>the date this template was created</description>
-            <pack>25</pack>
         </response>
         <response>
             <name>crossZones</name>
             <description>true if the template is managed across all Zones, false otherwise</description>
-            <pack>12</pack>
         </response>
         <response>
             <name>displaytext</name>
             <description>the template display text</description>
-            <pack>20</pack>
         </response>
         <response>
             <name>domain</name>
             <description>the name of the domain to which the template belongs</description>
-            <pack>15</pack>
         </response>
         <response>
             <name>domainid</name>
             <description>the id of the domain to which the template belongs</description>
-            <pack>38</pack>
         </response>
         <response>
             <name>format</name>
             <description>the format of the template.</description>
-            <pack>10</pack>
         </response>
         <response>
             <name>hostid</name>
             <description>the ID of the secondary storage host for the template</description>
-            <pack>8</pack>
         </response>
         <response>
             <name>hostname</name>
             <description>the name of the secondary storage host for the template</description>
-            <pack>15</pack>
         </response>
         <response>
             <name>hypervisor</name>
             <description>the hypervisor on which the template runs</description>
-            <pack>12</pack>
         </response>
         <response>
             <name>isextractable</name>
             <description>true if the template is extractable, false otherwise</description>
-            <pack>15</pack>
         </response>
         <response>
             <name>isfeatured</name>
             <description>true if this template is a featured template, false otherwise</description>
-            <pack>12</pack>
         </response>
         <response>
             <name>ispublic</name>
             <description>true if this template is a public template, false otherwise</description>
-            <pack>10</pack>
         </response>
         <response>
             <name>isready</name>
             <description>true if the template is ready to be deployed from, false otherwise.</description>
-            <pack>9</pack>
         </response>
         <response>
             <name>jobid</name>
             <description>shows the current pending asynchronous job ID. This tag is not returned if no current pending jobs are acting on the virtual machine</description>
-            <pack>8</pack>
         </response>
         <response>
             <name>jobstatus</name>
             <description>shows the current pending asynchronous job status</description>
-            <pack>11</pack>
         </response>
         <response>
             <name>name</name>
             <description>the template name</description>
-            <pack>30</pack>
         </response>
         <response>
             <name>ostypeid</name>
             <description>the ID of the OS type for this template.</description>
-            <pack>11</pack>
         </response>
         <response>
             <name>ostypename</name>
             <description>the name of the OS type for this template.</description>
-            <pack>13</pack>
         </response>
         <response>
             <name>passwordenabled</name>
             <description>true if the reset password feature is enabled, false otherwise</description>
-            <pack>17</pack>
         </response>
         <response>
             <name>removed</name>
             <description>the date this template was removed</description>
-            <pack>25</pack>
         </response>
         <response>
             <name>size</name>
             <description>the size of the template</description>
-            <pack>10</pack>
         </response>
         <response>
             <name>sourcetemplateid</name>
             <description>the template ID of the parent template if present</description>
-            <pack>18</pack>
         </response>
         <response>
             <name>status</name>
             <description>the status of the template</description>
-            <pack>8</pack>
         </response>
         <response>
             <name>templatetag</name>
             <description>the tag of this template</description>
-            <pack>13</pack>
         </response>
         <response>
             <name>templatetype</name>
             <description>the type of this template</description>
-            <pack>14</pack>
         </response>
         <response>
             <name>zoneid</name>
             <description>the ID of the zone for this template</description>
-            <pack>8</pack>
         </response>
         <response>
             <name>zonename</name>
             <description>the name of the zone for this template</description>
-            <pack>8</pack>
         </response>
     </responses>
 </root>

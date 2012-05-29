@@ -8,12 +8,20 @@
             <description>The ID of the virtual machine</description>
             <required>true</required>
         </param>
+        <param>
+            <name>forced</name>
+            <description>Force stop the VM. The caller knows the VM is stopped.</description>
+            <required>false</required>
+        </param>
     </params>
     <responses>
         <response>
             <name>jobid</name>
-            <description>shows the current pending asynchronous job ID. This tag is not returned if no current pending jobs are acting on the virtual machine</description>
-            <pack>8</pack>
+            <description>the ID of the latest async job acting on this object</description>
+        </response>
+        <response>
+            <name>jobstatus</name>
+            <description>the current status of the latest async job acting on this object</description>
         </response>
     </responses>
 </root>

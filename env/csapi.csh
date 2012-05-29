@@ -1,4 +1,4 @@
 #!/bin/ksh
 
-setenv CSAPIROOT /Users/heince/csapi-tool
-setenv PATH $CSAPIROOT/bin:$PATH
+setenv CSAP_IROOT /Users/heince/csapi-tool
+setenv PATH $CSAPI_ROOT/bin:$PATH

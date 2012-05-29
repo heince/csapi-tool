@@ -13,7 +13,6 @@
         <response>
             <name>jobid</name>
             <description>shows the current pending asynchronous job ID. This tag is not returned if no current pending jobs are acting on the virtual machine</description>
-            <pack>8</pack>
         </response>
     </responses>
 </root>

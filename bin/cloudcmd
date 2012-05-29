@@ -1,0 +1,14 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+    
+BEGIN{
+    unless($ENV{'CSAPI_ROOT'}){
+        die "Can't found CSAPI_ROOT env variable, please set one!\n";
+    }
+}
+
+use lib ("$ENV{'CSAPI_ROOT'}");
+use Csapi;
+
+Csapi->run;

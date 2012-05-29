@@ -38,47 +38,38 @@
         <response>
             <name>id</name>
             <description>unique ID of the disk offering</description>
-            <pack>6</pack>
         </response>
         <response>
             <name>created</name>
             <description>the date this disk offering was created</description>
-            <pack>25</pack>
         </response>
         <response>
             <name>disksize</name>
             <description>the size of the disk offering in GB</description>
-            <pack>12</pack>
         </response>
         <response>
             <name>displaytext</name>
             <description>an alternate display text of the disk offering.</description>
-            <pack>30</pack>
         </response>
         <response>
             <name>domain</name>
             <description>the domain name this disk offering belongs to. Ignore this information as it is not currently applicable.</description>
-            <pack>15</pack>
         </response>
         <response>
             <name>domainid</name>
             <description>the domain ID this disk offering belongs to. Ignore this information as it is not currently applicable.</description>
-            <pack>11</pack>
         </response>
         <response>
             <name>name</name>
-            <description>the name of the service offering</description>
-            <pack>30</pack>
+            <description>the name of the disk offering</description>
         </response>
         <response>
             <name>iscustomized</name>
             <description>true if disk offering uses custom size, false otherwise</description>
-            <pack>14</pack>
         </response>
         <response>
             <name>tags</name>
             <description>the tags for the disk offering</description>
-            <pack>10</pack>
         </response>
     </responses>
 </root>

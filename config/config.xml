@@ -1,8 +1,29 @@
 <root>
-	<urlpath></urlpath>
-	<sslverifyhostname>0</sslverifyhostname>
-	<key>
-		<apikey></apikey>
-		<secretkey></secretkey>
-	</key>
+	<site>
+		<default>office-admin</default>
+		<profile>
+			<name>office-admin</name>
+			<urlpath>https://10.1.1.1/client/api?</urlpath>
+			<sslverifyhostname>0</sslverifyhostname>
+			<key>
+				<apikey>_z8NE5MOgtcyDMQs5MM_rAn2qHT2P2iQdLHfKIAfFUy8KAJ0_r1bCA</apikey>
+				<secretkey>U_DKQ_hvjmk-5A4kNq7ydq21iiY_AXkhP_ZwRo3yxMPq_rO3HNGGWPL-TCqkSFJ7IQ</secretkey>
+			</key>
+			<user>admin</user>
+			<domain>root</domain>
+			<description>Testing machine</description>
+		</profile>
+		<profile>
+			<name>office-heince</name>
+			<urlpath>https://10.1.1.2/client/api?</urlpath>
+			<sslverifyhostname>0</sslverifyhostname>
+			<key>
+				<apikey>jKV2wq9b8eFcxwCAoOxEriPngSgU90SoI9kkTEnqAh8n21puGikT7j-lC35ikHQ</apikey>
+				<secretkey>rVEyp99BYgMxgQs-xF2KdfpZkevs4rwd4tN5h73pohQqP5N4jmksF5zKAeqYL0JXh-KKp2JQ</secretkey>
+			</key>
+			<user>heince</user>
+			<domain>dev</domain>
+			<description>Testing machine</description>
+		</profile>
+	</site>
 </root>

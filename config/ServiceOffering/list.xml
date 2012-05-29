@@ -53,92 +53,74 @@
         <response>
             <name>id</name>
             <description>the id of the service offering</description>
-            <pack>38</pack>
         </response>
         <response>
             <name>cpunumber</name>
             <description>the number of CPU</description>
-            <pack>11</pack>
         </response>
         <response>
             <name>cpuspeed</name>
             <description>the clock rate CPU speed in Mhz</description>
-            <pack>11</pack>
         </response>
         <response>
             <name>created</name>
             <description>the date this service offering was created</description>
-            <pack>25</pack>
         </response>
         <response>
             <name>defaultuse</name>
             <description>is this a default system vm offering</description>
-            <pack>12</pack>
         </response>
         <response>
             <name>displaytext</name>
             <description>an alternate display text of the service offering.</description>
-            <pack>20</pack>
         </response>
         <response>
             <name>domain</name>
             <description>Domain name for the offering</description>
-            <pack>15</pack>
         </response>
         <response>
             <name>domainid</name>
             <description>the domain id of the service offering</description>
-            <pack>11</pack>
         </response>
         <response>
             <name>hosttags</name>
             <description>the host tag for the service offering</description>
-            <pack>10</pack>
         </response>
         <response>
             <name>issystem</name>
             <description>is this a system vm offering</description>
-            <pack>10</pack>
         </response>
         <response>
             <name>limitcpuuse</name>
             <description>restrict the CPU usage to committed service offering</description>
-            <pack>13</pack>
         </response>
         <response>
             <name>memory</name>
             <description>the memory in MB</description>
-            <pack>10</pack>
         </response>
         <response>
             <name>name</name>
             <description>the name of the service offering</description>
-            <pack>30</pack>
         </response>
         <response>
             <name>networkrate</name>
             <description>data transfer rate in megabits per second allowed.</description>
-            <pack>13</pack>
         </response>
         <response>
             <name>offerha</name>
             <description>the ha support in the service offering</description>
-            <pack>9</pack>
         </response>
         <response>
             <name>storagetype</name>
             <description>the storage type for this service offering</description>
-            <pack>13</pack>
         </response>
         <response>
             <name>systemvmtype</name>
             <description>is this a the systemvm type for system vm offering</description>
-            <pack>14</pack>
         </response>
         <response>
             <name>tags</name>
             <description>the tags for the service offering</description>
-            <pack>10</pack>
         </response>
     </responses>
 </root>

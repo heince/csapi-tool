@@ -1,9 +1,9 @@
 <root>
-    <host></host>
+    <host>10.1.5.101</host>
     <port>3306</port>
     <schema>cloud_usage</schema>
     <user>cloud</user>
-    <password></password>
+    <password>xxx</password>
     <offerings>
         <offering>
             <id>1</id>
@@ -12,6 +12,14 @@
         <offering>
             <id>2</id>
             <cost>0.05</cost>
+        </offering>
+        <offering>
+            <id>3</id>
+            <cost>0.06</cost>
+        </offering>
+        <offering>
+            <id>5</id>
+            <cost>0.07</cost>
         </offering>
         <offering>
             <id>10</id>
