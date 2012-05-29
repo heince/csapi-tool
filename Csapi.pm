@@ -12,17 +12,19 @@ sub usage_text {
     my $usage = <<EOF;
 $0 <cmd> [--cmd-opt] [cmd-arg]
 
-Display help on <cmd>:
+Display help on each command:
+$0 <cmd> -h
 $0 list -h
+$0 deploy -h
 
 (commands):
 console\t\trun interactively
 cmd-list\tlist available commands
-list\t\tlist (vm|account|site|diskoffering|svcoffering|template|user|job)
-deploy\t\tdeploy (vm)
-destroy\t\tdestroy (vm)
-stop\t\tstop (vm)
-start\t\tstart (vm)
+list\t\tlist        [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job)
+deploy\t\tdeploy    [--cmd-opt] (vm)
+destroy\t\tdestroy  [--cmd-opt] (vm)
+stop\t\tstop        [--cmd-opt] (vm)
+start\t\tstart      [--cmd-opt] (vm)
 usage\t\tusage -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
     
 EOF
