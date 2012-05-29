@@ -31,6 +31,12 @@ sub set_reboot_xml{
     $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/VM/reboot.xml"));
 }
 
+sub set_deploy_xml{
+    my $self = shift;
+    
+    $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/VM/deploy.xml"));
+}
+
 sub get_displayname{
     my $self = shift;
     
@@ -50,6 +56,33 @@ sub list_vm{
     
     #set initial command and xmlresult attr
     $self->set_command();
+   
+    #print the output
+    $self->get_output();
+}
+
+sub deploy_vm{
+    my $self = shift;
+    
+    my ($soid, $tid, $zid, $name) = @_;
+    
+    #set xmltmp
+    $self->set_deploy_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    #check param to exclude soid, tid, zid
+    if($self->command =~ /\b(serviceofferingid|templateid|zoneid|displayname)\b/){
+        die "please set serviceofferingid|templateid|zoneid|displayname using available cmd-opts\n";
+    }
+    
+    #set serviceofferingid|templateid|zoneid|displayname
+    if(defined $name){
+        $self->command($self->command . "&serviceofferingid=$soid" . "&templateid=$tid" . "&zoneid=$zid" . "&displayname=$name");
+    }else{
+        $self->command($self->command . "&serviceofferingid=$soid" . "&templateid=$tid" . "&zoneid=$zid");
+    }
    
     #print the output
     $self->get_output();
