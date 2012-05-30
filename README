@@ -54,12 +54,15 @@ Total Costs : $21.42
 
 Requirements:
 - minimum perl v5.10
-- install required perl modules from cpan: perl install_prerequisites.pl (may need sudo if perl installed using root)
+- For RedHat / CentOS 6 x64, extract required perl lib from 'csapi_perl_lib_RedHat6.tgz', copy it over to
+  /usr/local/lib64/perl5/ & /usr/local/share/perl5/
+- if you want to compile from cpan you will need libxml2-devel openssl-devel gcc make mysql-devel expat-devel
+  then install required perl modules from cpan: perl install_prerequisites.pl
 - on config/config.xml
-  * set apikey,secretkey
+  * set apikey,secretkey, profilename, etc
   * set urlpath e.g(https://10.1.1.1/client/api? or http://10.1.1.1:8080/client/api?)
   * if using https, set sslverifyhostname (0 disable, 1 enable)
 - set CSAPI_ROOT environment variable to install location, examples is under env/ directory
-- to show running vm usage + costs, you need to edit the usage.xml for database
-  configuration & the charging costs for each offering.
+- to show running vm usage + costs, you need to edit the usage.xml for database configuration & the charging
+  costs for each offering, make sure you can access the database remotely.
 
