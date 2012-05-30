@@ -4,7 +4,7 @@
 (commands):
 console\t\trun interactively
 cmd-list\tlist available commands
-list\t\tlist        [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job)
+list\t\tlist        [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job|zone)
 deploy\t\tdeploy    [--cmd-opt] (vm)
 destroy\t\tdestroy  [--cmd-opt] (vm)
 stop\t\tstop        [--cmd-opt] (vm)
