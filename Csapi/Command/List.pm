@@ -23,7 +23,7 @@ available cmd-opt:
 --id        [id|uuid]                           => 'set id or uuid for cmd-arg'
 
 available cmd-arg:
-vm|account|site|diskoffering|svcoffering|template|user|job
+vm|account|site|diskoffering|svcoffering|template|user|job|zone
 
 example:
 $0 list vm
@@ -49,31 +49,7 @@ sub validate{
     
     if(@args){
         given($args[0]){
-            when (/\bvm\b/i){
-                break;
-            }
-            when (/\baccount\b/i){
-                break;
-            }
-            when (/\bsite\b/i){
-                break;
-            }
-            when (/\b(do|diskoffering)\b/i){
-                break;
-            }
-            when (/\b(so|svcoffering)\b/i){
-                break;
-            }
-            when (/\btemplate\b/i){
-                break;
-            }
-            when (/\buser\b/i){
-                break;
-            }
-            when (/\busage\b/i){
-                break;
-            }
-            when (/\bjob\b/i){
+            when (/\b(vm|account|site|do|diskoffering|so|svcoffering|template|user|usage|job|zone)\b/i){
                 break;
             }
             default{
@@ -184,12 +160,12 @@ sub run{
             
             $obj->list_usage();
         }
-        when (/\bsite\b/){
+        when (/\bsite\b/i){
             use Site;
             $obj = Site->new();
             $obj->get_all_site();
         }
-        when (/\bjob\b/){
+        when (/\bjob\b/i){
             use AsyncJob;
             $obj = AsyncJob->new();
             check_opts(\$opts, \$obj);
@@ -199,8 +175,17 @@ sub run{
                 $obj->query_asyncjob();
             }else{
                 $obj->list_asyncjob();
-            }
+            } 
+        }
+        when (/\bzone\b/i){
+            use Zone;
+            $obj = Zone->new();
+            check_opts(\$opts, \$obj);
             
+            if(defined $opts->{'id'}){
+                $obj->uuid($opts->{'id'});
+            }
+            $obj->list_zones();
         }
     }
 
