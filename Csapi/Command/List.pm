@@ -49,7 +49,7 @@ sub validate{
     
     if(@args){
         given($args[0]){
-            when (/\b(vm|account|site|do|diskoffering|so|svcoffering|template|user|usage|job|zone)\b/i){
+            when (/\b(vm|account|site|do|diskoffering|so|svcoffering|template|user|usage|job|zone|network)\b/i){
                 break;
             }
             default{
@@ -186,6 +186,17 @@ sub run{
                 $obj->uuid($opts->{'id'});
             }
             $obj->list_zones();
+        }
+        when (/\bnetwork\b/i){
+            use Network;
+            
+            $obj = Network->new();
+            check_opts(\$opts, \$obj);
+            
+            if(defined $opts->{'id'}){
+                $obj->uuid($opts->{'id'});
+            }
+            $obj->list_networks();
         }
     }
 
