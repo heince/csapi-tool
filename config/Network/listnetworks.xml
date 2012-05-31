@@ -1,0 +1,242 @@
+<root>
+    <top>/listnetworksresponse/network</top>
+    <command>listNetworks</command>
+    <description>Lists all available networks.</description>
+    <isAsync>false</isAsync>
+    <defaultresponses>id,name,account,domain,cidr,gateway,state,type</defaultresponses>
+    <params>
+        <param>
+            <name>account</name>
+            <description>List resources by account. Must be used with the domainId parameter.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>acltype</name>
+            <description>list networks by ACL (access control list) type. Supported values are Account and Domain</description>
+            <required>false</required>    
+        </param>
+        <param>
+            <name>domainid</name>
+            <description>list only resources belonging to the domain specified</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>id</name>
+            <description>list networks by id</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>isrecursive</name>
+            <description>defaults to false, but if true, lists all resources from the parent specified by the domainId till leaves.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>issystem</name>
+            <description>true if network is system, false otherwise</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>keyword</name>
+            <description>List by keyword</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>listall</name>
+            <description>If set to false, list only resources belonging to the command&apos;s caller; if set to true - list resources that the caller is authorized to see. Default value is false</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>page</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>pagesize</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>physicalnetworkid</name>
+            <description>list networks by physical network id</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>projectid</name>
+            <description>list firewall rules by project</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>restartrequired</name>
+            <description>list network offerings by restartRequired option</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>specifyipranges</name>
+            <description>true if need to list only networks which support specifying ip ranges</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>supportedservices</name>
+            <description>list network offerings supporting certain services</description>
+            <required>false</required>
+            <type>list</type>
+        </param>
+        <param>
+            <name>traffictype</name>
+            <description>type of the traffic</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>type</name>
+            <description>the type of the network. Supported values are: Isolated and Shared</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>zoneid</name>
+            <description>the Zone ID of the network</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the id of the network</description>
+        </response>
+        <response>
+            <name>account</name>
+            <description>the owner of the network</description>
+        </response>
+        <response>
+            <name>acltype</name>
+            <description>acl type - access type to the network</description>
+        </response>
+        <response>
+            <name>broadcastdomaintype</name>
+            <description>Broadcast domain type of the network</description>
+        </response>
+        <response>
+            <name>broadcasturi</name>
+            <description>broadcast uri of the network</description>
+        </response>
+        <response>
+            <name>cidr</name>
+            <description>the cidr the network</description>
+        </response>
+        <response>
+            <name>displaytext</name>
+            <description>the displaytext of the network</description>
+        </response>
+        <response>
+            <name>dns1</name>
+            <description>the first DNS for the network</description>
+        </response>
+        <response>
+            <name>dns2</name>
+            <description>the second DNS for the network</description>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>the domain name of the network owner</description>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>the domain id of the network owner</description>
+        </response>
+        <response>
+            <name>gateway</name>
+            <description>the network&apos;s gateway</description>
+        </response>
+        <response>
+            <name>isdefault</name>
+            <description>true if network is default, false otherwise</description>
+        </response>
+        <response>
+            <name>issystem</name>
+            <description>true if network is system, false otherwise</description>
+        </response>
+        <response>
+            <name>name</name>
+            <description>the name of the network</description>
+        </response>
+        <response>
+            <name>netmask</name>
+            <description>the network&apos;s netmask</description>
+        </response>
+        <response>
+            <name>networkdomain</name>
+            <description>the network domain</description>
+        </response>
+        <response>
+            <name>networkofferingavailability</name>
+            <description>availability of the network offering the network is created from</description>
+        </response>
+        <response>
+            <name>networkofferingdisplaytext</name>
+            <description>display text of the network offering the network is created from</description>
+        </response>
+        <response>
+            <name>networkofferingid</name>
+            <description>network offering id the network is created from</description>
+        </response>
+        <response>
+            <name>networkofferingname</name>
+            <description>name of the network offering the network is created from</description>
+        </response>
+        <response>
+            <name>physicalnetworkid</name>
+            <description>the physical network id</description>
+        </response>
+        <response>
+            <name>project</name>
+            <description>the project name of the address</description>
+        </response>
+        <response>
+            <name>projectid</name>
+            <description>the project id of the ipaddress</description>
+        </response>
+        <response>
+            <name>related</name>
+            <description>related to what other network configuration</description>
+        </response>
+        <response>
+            <name>restartrequired</name>
+            <description>true network requires restart</description>
+        </response>
+        <response>
+            <name>specifyipranges</name>
+            <description>true if network supports specifying ip ranges, false otherwise</description>
+        </response>
+        <response>
+            <name>state</name>
+            <description>state of the network</description>
+        </response>
+        <response>
+            <name>subdomainaccess</name>
+            <description>true if users from subdomains can access the domain level network</description>
+        </response>
+        <response>
+            <name>traffictype</name>
+            <description>the traffic type of the network</description>
+        </response>
+        <response>
+            <name>type</name>
+            <description>the type of the network</description>
+        </response>
+        <response>
+            <name>vlan</name>
+            <description>the vlan of the network</description>
+        </response>
+        <response>
+            <name>zoneid</name>
+            <description>zone id of the network</description>
+        </response>
+        <response>
+            <name>zonename</name>
+            <description>the name of the zone the network belongs to</description>
+        </response>
+        <response>
+            <name>service</name>
+            <description>the list of services</description>
+        </response>
+    </responses>
+</root>
