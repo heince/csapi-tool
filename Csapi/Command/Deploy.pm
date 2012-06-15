@@ -76,6 +76,8 @@ sub option_spec {
     [ 'tid=s'    => 'set template id'],
     [ 'zid=s'    => 'set zone id'],
     [ 'name=s'    => 'set displayname'],
+    [ 'stime=s'   => 'set start time' ],
+    [ 'etime=s'   => 'set end time']
 }
 
 #check & set site
@@ -115,6 +117,23 @@ sub check_opts{
     }
 }
 
+sub check_time{
+    my ($opts, $obj) = @_;
+    
+    if(defined $$opts->{'stime'} and not defined $$opts->{'etime'}){
+        $$obj->stime($$opts->{'stime'});
+        $$obj->schedule_stime();
+    }
+    elsif(defined $$opts->{'etime'} and not defined $$opts->{'stime'}){
+        $$obj->etime($$opts->{'etime'});
+        $$obj->schedule_etime();
+    }else{
+        $$obj->stime($$opts->{'stime'});
+        $$obj->etime($$opts->{'etime'});
+        $$obj->schedule_both();
+    }
+}
+
 sub run{
 	my ($self, $opts, @args) = @_;
    
@@ -126,8 +145,13 @@ sub run{
             $obj = VM->new();
             
             check_site(\$opts, \$obj);
-            check_opts(\$opts, \$obj);
-            $obj->deploy_vm($opts->{'soid'}, $opts->{'tid'}, $opts->{'zid'}, $opts->{'name'});
+            
+            if(defined $opts->{'stime'} or defined $opts->{'etime'}){
+                check_time(\$opts, \$obj);
+            }else{
+                check_opts(\$opts, \$obj);
+                $obj->deploy_vm($opts->{'soid'}, $opts->{'tid'}, $opts->{'zid'}, $opts->{'name'});
+            }
         }
    }
    
