@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 
-has [qw /cpuused iplimit iptotal vmlimit vmtotal offerha isready status/] => ( is => 'rw', isa => 'Int', default => 9 );
+has [qw /cpuused iplimit iptotal vmlimit vmtotal offerha isready status level haschild/] => ( is => 'rw', isa => 'Int', default => 9 );
 
 has [qw /haenabled cpuspeed nic-type hosttags issystem memory tags bootable format ispublic
      size/] => ( is => 'rw', isa => 'Int', default => 10 );
@@ -22,7 +22,7 @@ has [qw /templatelimit templatetotal user-account systemvmtype iscustomized temp
      broadcasturi/] => ( is => 'rw', isa => 'Int', default => 14 );
 
 has [qw /account domain group isoname password nic-ip nic-isdefault securitygroup-domain jobprocstatus jobresultcode jobresulttype
-     securitygroup-name networkdomain receivedbytes sentbytes snapshottotal username isextractable domainname
+     securitygroup-name networkdomain receivedbytes sentbytes snapshottotal username isextractable domainname path
      /] => ( is => 'rw', isa => 'Int', default => 15 );
 
 has [qw /rootdevicetype securitygroup-account accounttype user-firstname user-lastname
