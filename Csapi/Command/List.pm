@@ -6,6 +6,8 @@ use strict;
 use warnings;
 use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 
+my $supported_args = qq /vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain/;
+
 #return usage output
 sub usage_text{
     my $usage = <<EOF;
@@ -23,7 +25,7 @@ available cmd-opt:
 --id        [id|uuid]                           => 'set id or uuid for cmd-arg'
 
 available cmd-arg:
-vm|account|site|diskoffering|svcoffering|template|user|job|zone
+$supported_args
 
 example:
 $0 list vm
@@ -46,10 +48,10 @@ sub validate{
     if(defined $cmd_opts->{'h'}){
         die $self->usage_text();
     }
-    
+
     if(@args){
         given($args[0]){
-            when (/\b(vm|account|site|do|diskoffering|so|svcoffering|template|user|usage|job|zone|network)\b/i){
+            when (/\b($supported_args)\b/i){     
                 break;
             }
             default{
@@ -197,6 +199,16 @@ sub run{
                 $obj->uuid($opts->{'id'});
             }
             $obj->list_networks();
+        }
+        when (/\bdomain\b/i){
+            use Domain;
+            $obj = Domain->new();
+            check_opts(\$opts, \$obj);
+            
+            if(defined $opts->{'id'}){
+                $obj->uuid($opts->{'id'});
+            }
+            $obj->list_domains();
         }
     }
 
