@@ -8,8 +8,11 @@ use Field;
 
 extends 'Field';
 
-has [qw/xmlconfig xmltmp xmlresult/] => (is => "rw");
+has [qw/xmlconfig xmltmp xmlresult stime etime/] => (is => "rw");
 has [qw/default_site param response noheader json uuid/] => (is => "rw");
+has [qw /stime_min_value/] => (is => "rw", isa => "Int", default => 10);  # in minutes
+has [qw /etime_min_value/] => (is => "rw", isa => "Int", default => 60);  # in minutes
+has [qw /min_vm_booking/] => (is => "rw", isa => "Int", default => 60); #in minutes
 
 #load and set xmlconfig and default site
 sub init{
@@ -168,7 +171,7 @@ sub pack_response{
 				$field = "0(user)";
 			}
 			when ($field eq '1'){
-				$field = "1(admin)";
+				$field = "1(root-admin)";
 			}
 			when ($field eq '2'){
 				$field = "2(domain-admin)";
@@ -238,6 +241,72 @@ sub get_xml_config{
 	}
 	
 	$self->xmlconfig(XML::LibXML->load_xml(location => $config));
+}
+
+sub get_epoch_time{
+	my $self = shift;
+	 
+	my $time = shift;
+   use Date::Parse;
+	
+	$time = str2time($time);
+	return $time;
+}
+
+sub get_localtime{
+	my $self = shift;
+	
+	return time;
+}
+
+# check start time
+# must be at least >= $self->stime_min_value from current time
+sub check_stime{
+	my $self = shift;
+	
+	my $time = shift;
+	my $current = $self->get_localtime();
+	#say "stime : $time";
+	#say "current : $current";
+	if($time < ($current + ($self->stime_min_value * 60))){
+		return 0;
+	}else{
+		return 1;
+	}
+}
+
+# check end time
+# must be at least >= $self->etime_min_value from current time
+sub check_etime{
+	my $self = shift;
+	
+	my $time = shift;
+	my $current = $self->get_localtime();
+	#say "etime : $time";
+	#say "current : $current";
+	if($time < ($current + ($self->etime_min_value * 60))){
+		return 0;
+	}else{
+		return 1;
+	}
+}
+
+#check vm booking period
+sub check_vm_booking{
+	my $self = shift;
+	
+	my ($epoch_stime,$epoch_etime) = @_;
+	
+	die "Start time should be >= " . $self->stime_min_value . " minutes from current time\n" unless $self->check_stime($epoch_stime);
+	die "End time should be >= " . $self->etime_min_value . " minutes from current time\n" unless $self->check_etime($epoch_etime);
+	
+	if($epoch_stime > $epoch_etime){
+		die "Start time can't be future than end time\n";
+	}
+	if(($epoch_etime - $epoch_stime) < ($self->min_vm_booking * 60)){
+		die "Minimum reservation period is " . $self->min_vm_booking . " minutes\n";
+	}
+	
 }
 
 sub trim
