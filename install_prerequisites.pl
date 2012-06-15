@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
 
 my $requires = "Mouse DBI DBD::mysql WWW::Mechanize URI::Encode XML::Simple XML::Twig XML::LibXML" .
-                " JSON LWP::Protocol::https  Digest::SHA CLI::Framework";
+                " JSON LWP::Protocol::https  Digest::SHA CLI::Framework Date::Parse";
 system("cpan $requires");
