@@ -37,6 +37,12 @@ sub set_deploy_xml{
     $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/VM/deploy.xml"));
 }
 
+sub set_destroy_xml{
+    my $self = shift;
+    
+    $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/VM/destroy.xml"));
+}
+
 sub get_displayname{
     my $self = shift;
     
@@ -59,6 +65,43 @@ sub list_vm{
    
     #print the output
     $self->get_output();
+}
+
+sub schedule_etime{
+    my $self = shift;
+    
+    my $epoch = $self->get_epoch_time($self->etime);
+    if($epoch){
+        die "End time should be >= " . $self->etime_min_value . " minutes from current time\n" unless $self->check_etime($epoch);
+        say "etime ok";
+    }else{
+        die "Failed to validate end time format: " . $self->etime . " ???\n";
+    }
+}
+
+sub schedule_stime{
+    my $self = shift;
+    
+    my $epoch = $self->get_epoch_time($self->stime);
+    if($epoch){
+        die "Start time should be >= " . $self->stime_min_value . " minutes from current time\n" unless $self->check_stime($epoch);
+        say "stime ok";
+    }else{
+        die "Failed to validate start time format: " . $self->stime . " ???\n";
+    }
+}
+
+sub schedule_both{
+    my $self = shift;
+    
+    my ($epoch_stime,$epoch_etime);
+    
+    $epoch_stime = $self->get_epoch_time($self->stime) or die "Failed to validate start time format: " . $self->stime . " ???\n";
+    $epoch_etime = $self->get_epoch_time($self->etime) or die "Failed to validate end time format: " . $self->etime . " ???\n";
+    
+    $self->check_vm_booking($epoch_stime,$epoch_etime);
+    
+    say "schedule both";
 }
 
 sub deploy_vm{
@@ -84,6 +127,27 @@ sub deploy_vm{
         $self->command($self->command . "&serviceofferingid=$soid" . "&templateid=$tid" . "&zoneid=$zid");
     }
    
+    #print the output
+    $self->get_output();
+}
+
+sub destroy_vm{
+    my $self = shift;
+    
+    my $displayname = shift;
+    
+    #set xmltmp
+    $self->set_destroy_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    if(defined $self->uuid){
+        say "\ndestroying " . $self->uuid . " a.k.a @$displayname";
+        
+        $self->command($self->command . "&id=" . $self->uuid) unless $self->param =~ /\bid=\b/;
+    }
+    
     #print the output
     $self->get_output();
 }
