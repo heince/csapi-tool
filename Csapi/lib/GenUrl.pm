@@ -108,11 +108,17 @@ sub get_result{
 	eval {  $temp = $mech->get($url); };
 	
 	if($@){
+		my $err;
 		my $resp = $mech->response();;
 		for my $key($resp->header_field_names()){
-			print $key, " : ", $resp->header( $key ), "\n" if $key =~ /Description/;
+			$err = ($key . " : " . $resp->header( $key ) . "\n") if $key =~ /Description/;
 		}
-		die "Error getting response from server, check the description above\n";
+		if($err){
+			print $err;
+			die "Error executing command, check the error above\n";
+		}else{
+			die "Error, please recheck if url path, key is valid\n";	
+		}
 	}
 	
 	if($self->command =~ /response=json/){ #json
