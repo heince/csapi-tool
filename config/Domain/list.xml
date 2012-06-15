@@ -1,0 +1,76 @@
+<root>
+    <top>/listdomainsresponse/domain</top>
+    <command>listDomains</command>
+    <defaultresponses>id,name,path,haschild</defaultresponses>
+    <description>Lists domains and provides detailed information for listed domains</description>
+    <isAsync>false</isAsync>
+    <params>
+      <param>
+        <name>id</name>
+        <description>List domain by domain ID.</description>
+        <required>false</required>
+      </param>
+      <param>
+        <name>keyword</name>
+        <description>List by keyword</description>
+        <required>false</required>
+      </param>
+      <param>
+        <name>level</name>
+        <description>List domains by domain level.</description>
+        <required>false</required>
+      </param>
+      <param>
+        <name>listall</name>
+        <description>If set to false, list only resources belonging to the command&apos;s caller; if set to true - list resources that the caller is authorized to see. Default value is false</description>
+        <required>false</required>
+      </param>
+      <param>
+        <name>name</name>
+        <description>List domain by domain name.</description>
+        <required>false</required>
+      </param>
+      <param>
+        <name>page</name>
+        <required>false</required>
+      </param>
+      <param>
+        <name>pagesize</name>
+        <required>false</required>
+      </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the ID of the domain</description>
+        </response>
+      <response>
+        <name>haschild</name>
+        <description>whether the domain has one or more sub-domains</description>
+      </response>
+      <response>
+        <name>level</name>
+        <description>the level of the domain</description>
+      </response>
+      <response>
+        <name>name</name>
+        <description>the name of the domain</description>
+      </response>
+      <response>
+        <name>networkdomain</name>
+        <description>the network domain</description>
+      </response>
+      <response>
+        <name>parentdomainid</name>
+        <description>the domain ID of the parent domain</description>
+      </response>
+      <response>
+        <name>parentdomainname</name>
+        <description>the domain name of the parent domain</description>
+      </response>
+        <response>
+            <name>path</name>
+            <description>the path of the domain</description>
+      </response>
+    </responses>
+</root>

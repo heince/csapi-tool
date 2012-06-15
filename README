@@ -4,8 +4,7 @@
 (commands):
 console        run interactively
 cmd-list       list available commands
-list           list     [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job|zone
-                                      |network)
+list           list     [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain)
 deploy         deploy   [--cmd-opt] (vm)
 destroy        destroy  [--cmd-opt] (vm)
 stop           stop     [--cmd-opt] (vm)
@@ -56,7 +55,8 @@ Total Costs : $21.42
 Requirements:
 - minimum perl v5.10
 - For RedHat / CentOS 6 x64, extract required perl lib from 'csapi_perl_lib_RedHat6.tgz', copy it over to
-  /usr/local/lib64/perl5/ & /usr/local/share/perl5/
+  /usr/local/lib64/perl5/ & /usr/local/share/perl5/, if it's a clean system run :
+  'tar -xf csapi_perl_lib_RedHat6.tgz -C /usr/'
 - if you want to compile from cpan you will need libxml2-devel openssl-devel gcc make mysql-devel expat-devel
   then install required perl modules from cpan: perl install_prerequisites.pl
 - on config/config.xml
