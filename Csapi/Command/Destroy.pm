@@ -13,6 +13,7 @@ Usage:
 $0 destroy [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
+--ia                                            => 'use integration api url (legacy port 8096)'
 --param     [comma separated api param]         => 'parameter field'
 --response  [comma separated api response]      => 'response field'
 --noheader                                      => 'do not print header'
@@ -55,6 +56,7 @@ sub validate{
 sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
+    [ 'ia'          => 'use integration api url (legacy port 8096)'],
     [ 'param=s'   => 'parameter field'  ],
     [ 'response=s'   => 'response field'  ],
     [ 'noheader'    =>  'do not print header' ],
@@ -90,6 +92,9 @@ sub get_vm_displayname{
 sub check_opts{
     my ($opts, $obj) = @_;
 
+    if(defined $$opts->{'ia'}){
+        $$obj->ia(1);
+    }
     if(defined $$opts->{'showparams'}){
         $$obj->set_destroy_xml();
         $$obj->print_param();

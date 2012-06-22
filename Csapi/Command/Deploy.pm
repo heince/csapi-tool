@@ -13,6 +13,7 @@ Usage:
 $0 deploy [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
+--ia                                            => 'use integration api url (legacy port 8096)'
 --param     [comma separated api param]         => 'parameter field'
 --response  [comma separated api response]      => 'response field'
 --noheader                                      => 'do not print header'
@@ -64,6 +65,7 @@ sub validate{
 sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
+    [ 'ia'          => 'use integration api url (legacy port 8096)'],
     [ 'param=s'   => 'parameter field'  ],
     [ 'response=s'   => 'response field'  ],
     [ 'noheader'    =>  'do not print header' ],
@@ -86,6 +88,9 @@ sub check_site{
     
     if(defined $$opts->{'site'}){
         $$obj->default_site($$opts->{'site'});
+        return 1;
+    }else{
+        return 0;
     }
 }
 
@@ -93,6 +98,9 @@ sub check_site{
 sub check_opts{
     my ($opts, $obj) = @_;
 
+    if(defined $$opts->{'ia'}){
+        $$obj->ia(1);
+    }
     if(defined $$opts->{'showparams'}){
         $$obj->set_deploy_xml();
         $$obj->print_param();
@@ -117,8 +125,46 @@ sub check_opts{
     }
 }
 
+sub set_cmd_line{
+    my ($opts, $obj) = @_;
+
+    #verify service offering id
+    use Serviceoffering;
+    my $tmp = Serviceoffering->new();
+    $tmp->is_valid_id($$opts->{'soid'});
+    
+    #verify template id
+    use Template;
+    $tmp = Template->new();
+    $tmp->is_valid_id($$opts->{'tid'});
+    
+    #verify zone id
+    use Zone;
+    $tmp = Zone->new();
+    $tmp->is_valid_id($$opts->{'zid'});
+    
+    if(defined $$opts->{'param'}){
+        if(check_site($opts, $obj)){
+            $$obj->cmd_line("cloudcmd deploy --param " . $$opts->{'param'} . " --soid " .  $$opts->{'soid'} . " --tid " . $$opts->{'tid'} .
+                            " --zid " . $$opts->{'zid'} . " --site " . $$opts->{'site'} . " vm");
+        }else{
+            $$obj->cmd_line("cloudcmd deploy --param " . $$opts->{'param'} . " --soid " .  $$opts->{'soid'} . " --tid " . $$opts->{'tid'} .
+                            " --zid " . $$opts->{'zid'} . " vm");
+        }
+    }else{
+        if(check_site($opts, $obj)){
+            $$obj->cmd_line("cloudcmd deploy --soid " .  $$opts->{'soid'} . " --tid " . $$opts->{'tid'} . " --zid " . $$opts->{'zid'} .
+                            " --site " . $$opts->{'site'} . " vm");
+        }else{
+            $$obj->cmd_line("cloudcmd deploy --soid " .  $$opts->{'soid'} . " --tid " . $$opts->{'tid'} . " --zid " . $$opts->{'zid'} . " vm");
+        }
+    }
+}
+
 sub check_time{
     my ($opts, $obj) = @_;
+    
+    set_cmd_line($opts, $obj);
     
     if(defined $$opts->{'stime'} and not defined $$opts->{'etime'}){
         $$obj->stime($$opts->{'stime'});
@@ -144,11 +190,10 @@ sub run{
             use VM;
             $obj = VM->new();
             
-            check_site(\$opts, \$obj);
-            
             if(defined $opts->{'stime'} or defined $opts->{'etime'}){
                 check_time(\$opts, \$obj);
             }else{
+                check_site(\$opts, \$obj);
                 check_opts(\$opts, \$obj);
                 $obj->deploy_vm($opts->{'soid'}, $opts->{'tid'}, $opts->{'zid'}, $opts->{'name'});
             }
