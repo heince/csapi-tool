@@ -7,6 +7,13 @@ use GenUrl;
 
 extends 'GenUrl';
 
+#default to listnetworks
+sub set_list_xml{
+    my $self = shift;
+    
+    $self->set_listnetworks_xml();
+}
+
 sub set_listnetworks_xml{
     my $self = shift;
     
