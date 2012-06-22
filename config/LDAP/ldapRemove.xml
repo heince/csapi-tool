@@ -1,0 +1,39 @@
+<root>
+    <top></top>
+    <command>ldapRemove</command>
+    <description>Remove the LDAP context for this site.</description>
+    <isAsync>false</isAsync>
+    <params>
+        <param></param>
+    </params>
+    <responses>
+        <response>
+            <name>binddn</name>
+            <description>Specify the distinguished name of a user with the search permission on the directory</description>
+        </response>
+        <response>
+            <name>bindpass</name>
+            <description>DN password</description>
+        </response>
+        <response>
+            <name>hostname</name>
+            <description>Hostname or ip address of the ldap server eg: my.ldap.com</description>
+        </response>
+        <response>
+            <name>port</name>
+            <description>Specify the LDAP port if required, default is 389</description>
+        </response>
+        <response>
+            <name>ssl</name>
+            <description>Check Use SSL if the external LDAP server is configured for LDAP over SSL</description>
+        </response>
+        <response>
+            <name>queryfilter</name>
+            <description>You specify a query filter here, which narrows down the users, who can be part of this domain</description>
+        </response>
+        <response>
+            <name>searchbase</name>
+            <description>The search base defines the starting point for the search in the directory tree Example:  dc=cloud,dc=com</description>
+        </response>
+    </responses>
+</root>
