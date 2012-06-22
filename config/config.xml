@@ -4,6 +4,7 @@
 		<profile>
 			<name>office-admin</name>
 			<urlpath>https://10.1.1.1/client/api?</urlpath>
+			<integrationapi>http://localhost:8096/client/api?</integrationapi>
 			<sslverifyhostname>0</sslverifyhostname>
 			<key>
 				<apikey>_z8NE5MOgtcyDMQs5MM_rAn2qHT2P2iQdLHfKIAfFUy8KAJ0_r1bCA</apikey>
@@ -16,6 +17,7 @@
 		<profile>
 			<name>office-heince</name>
 			<urlpath>https://10.1.1.2/client/api?</urlpath>
+			<integrationapi>http://localhost:8096/client/api?</integrationapi>
 			<sslverifyhostname>0</sslverifyhostname>
 			<key>
 				<apikey>jKV2wq9b8eFcxwCAoOxEriPngSgU90SoI9kkTEnqAh8n21puGikT7j-lC35ikHQ</apikey>
