@@ -18,13 +18,14 @@ $0 list -h
 $0 deploy -h
 
 (commands):
-console\t\trun interactively
-cmd-list\tlist available commands
-list\t\tlist        [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job)
-deploy\t\tdeploy    [--cmd-opt] (vm)
-destroy\t\tdestroy  [--cmd-opt] (vm)
-stop\t\tstop        [--cmd-opt] (vm)
-start\t\tstart      [--cmd-opt] (vm)
+console             run interactively
+cmd-list            list available commands
+list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job)
+deploy              deploy  [--cmd-opt] (vm)
+destroy             destroy [--cmd-opt] (vm)
+stop                stop    [--cmd-opt] (vm)
+start               start   [--cmd-opt] (vm)
+sync                sync    [--cmd-opt] (ldap)
 usage\t\tusage -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
     
 EOF
@@ -62,6 +63,9 @@ sub command_map {
     stop    => 'Csapi::Command::Stop',
     start    => 'Csapi::Command::Start',
     reboot    => 'Csapi::Command::Reboot',
+    sync    => 'Csapi::Command::Sync',
+    set     => 'Csapi::Command::Set',
+    remove     => 'Csapi::Command::Remove',
 }
 
 sub command_alias {
