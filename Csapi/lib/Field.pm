@@ -4,8 +4,8 @@ use Mouse;
 use strict;
 use warnings;
 
-
-has [qw /cpuused iplimit iptotal vmlimit vmtotal offerha isready status level haschild/] => ( is => 'rw', isa => 'Int', default => 9 );
+has [qw /cpuused iplimit iptotal vmlimit vmtotal offerha isready status level haschild port
+     /] => ( is => 'rw', isa => 'Int', default => 9 );
 
 has [qw /haenabled cpuspeed nic-type hosttags issystem memory tags bootable format ispublic
      size/] => ( is => 'rw', isa => 'Int', default => 10 );
@@ -32,7 +32,7 @@ has [qw /ipaddress netmask gateway networkkbsread passwordenabled nic-traffictyp
      passwordenabled dns1 dns2 internaldns1 internaldns2 restartrequired specifyipranges subdomainaccess traffictype
      /] => ( is => 'rw', isa => 'Int', default => 17 );
 
-has [qw /networkkbswrite nic-broadcasturi nic-isolationuri nic-macaddress nic-netmask
+has [qw /networkkbswrite nic-broadcasturi nic-isolationuri nic-macaddress nic-netmask queryfilter
      securitygroup-jobstatus user-accounttype/] => ( is => 'rw', isa => 'Int', default => 18 );
 
 has [qw /forvirtualnetwork iscleanuprequired snapshotavailable snapshotlimit templateavailable jobinstancetype
@@ -62,6 +62,8 @@ has [qw/id accountid domainid groupid guestosid hostid isoid templateid jobid ro
      securitygroup-ingressrule-ruleid user-id user-domainid ostypeid networkid usageid virtualmachineid userid zonetoken
      offeringid jobinstanceid cmd networkofferingid networkofferingname physicalnetworkid projectid related
      /] => ( is => 'rw', isa => 'Int', default => 38 );
+
+has [qw /searchbase/] => ( is => 'rw', isa => 'Int', default => 50 );
 
 has [qw /user-apikey user-secretkey apikey secretkey jobresult networkofferingdisplaytext
      /] => ( is => 'rw', isa => 'Int', default => 88 );
