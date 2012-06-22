@@ -16,7 +16,7 @@ use General;
 
 extends 'General';
 
-has [qw/site apikey secretkey flag command/] => (is => "rw", isa => "Str");
+has [qw/iasite site apikey secretkey flag command is_ldap ldap_command/] => (is => "rw", isa => "Str");
 
 #call print_xml to get the output
 sub get_output{
@@ -39,10 +39,25 @@ sub check{
 	$self->init();
 	
 	#set site , apikey, secretkey
-	$self->site($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| . $self->default_site . qq|"]/../urlpath/text()|)->string_value());
-	my $sslverifyhost = $self->trim($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| . $self->default_site . qq|"]/../sslverifyhostname/text()|)->string_value());
-	$self->apikey($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| . $self->default_site . qq|"]/../key/apikey/text()|)->string_value());
-	$self->secretkey($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| . $self->default_site . qq|"]/../key/secretkey/text()|)->string_value());
+	$self->iasite($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| .
+														 $self->default_site .
+														 qq|"]/../integrationapi/text()|)->string_value());
+	
+	$self->site($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| .
+														 $self->default_site .
+														 qq|"]/../urlpath/text()|)->string_value());
+	
+	my $sslverifyhost = $self->trim($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| .
+																					$self->default_site .
+																					qq|"]/../sslverifyhostname/text()|)->string_value());
+	
+	$self->apikey($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| .
+															$self->default_site .
+															qq|"]/../key/apikey/text()|)->string_value());
+	
+	$self->secretkey($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| .
+																$self->default_site .
+																qq|"]/../key/secretkey/text()|)->string_value());
 	
 	#check url
 	die "Please configure the correct urlpath\n" unless $self->site =~ /^http.*api\?$/;
@@ -65,35 +80,48 @@ sub check{
 sub get_result{
 	my $self = shift;
 	
-	#my ($site, $command, $api_key, $secret_key, $flag) = @_;
 	my ($field,$value);
 	my $my_filename = basename($0, '');
-	my $uri = URI::Encode->new();
+	
+	my $url;
+	
+	unless($self->ia){
+		my $uri = URI::Encode->new();
 
-	### Generate URL ###
-	#step1
-	
-	my $query = $self->command . "&apiKey=". $self->apikey;
-	my @list = split(/&/,$query);
-	foreach (@list){
-		if(/(.+)\=(.+)/){
-			$field = $1;
-			$value = $uri->encode($2, 1); # encode_reserved option is set to 1
-			$_ = $field."=".$value;
+		### Generate URL ###
+		#step1
+		
+		my $output;
+		
+		unless($self->is_ldap){
+			my $query = $self->command . "&apiKey=". $self->apikey;
+			my @list = split(/&/,$query);
+			foreach (@list){
+				if(/(.+)\=(.+)/){
+					$field = $1;
+					$value = $uri->encode($2, 1); # encode_reserved option is set to 1
+					$_ = $field."=".$value;
+				}
+			}
+		
+		#step2
+			foreach (@list){
+				$_ = lc($_);
+			}
+			
+			$output = join("&",sort @list);
+		}else{ #is ldap
+			$output = lc("apiKey" . "=" . $uri->encode($self->apikey,1)) . "&" . lc($self->command); #pre-generate encode on LDAP.pm
 		}
+		
+		#step3
+		my $digest = hmac_sha1($output, $self->secretkey);
+		my $base64_encoded = encode_base64($digest);chomp($base64_encoded);
+		my $url_encoded = $uri->encode($base64_encoded, 1); # encode_reserved option is set to 1
+		$url = $self->site."apikey=".$self->apikey."&" . $self->command . "&signature=".$url_encoded;
+	}else{
+		$url = $self->iasite . $self->command;
 	}
-	
-	#step2
-	foreach (@list){
-	$_ = lc($_);
-	}
-	my $output = join("&",sort @list);
-	
-	#step3
-	my $digest = hmac_sha1($output, $self->secretkey);
-	my $base64_encoded = encode_base64($digest);chomp($base64_encoded);
-	my $url_encoded = $uri->encode($base64_encoded, 1); # encode_reserved option is set to 1
-	my $url = $self->site."apikey=".$self->apikey."&".$self->command."&signature=".$url_encoded;
 	
 	if($self->flag == 1 || $self->flag ==3){
 		return $url;
@@ -108,17 +136,11 @@ sub get_result{
 	eval {  $temp = $mech->get($url); };
 	
 	if($@){
-		my $err;
-		my $resp = $mech->response();;
-		for my $key($resp->header_field_names()){
-			$err = ($key . " : " . $resp->header( $key ) . "\n") if $key =~ /Description/;
-		}
-		if($err){
-			print $err;
-			die "Error executing command, check the error above\n";
-		}else{
-			die "Error, please recheck if url path, key is valid\n";	
-		}
+		my $resp = $mech->response();
+		
+		say "\n" . $resp->decoded_content;
+
+		die "Error executing command, check the error above\n";
 	}
 	
 	if($self->command =~ /response=json/){ #json
