@@ -1,0 +1,28 @@
+<root>
+    <top>/deleteaccountresponse</top>
+    <command>deleteAccount</command>
+    <defaultresponses>jobid</defaultresponses>
+    <description>Deletes a account, and all users associated with this account</description>
+    <isAsync>true</isAsync>
+    <params>
+        <param>
+            <name>id</name>
+            <description>Account id</description>
+            <required>true</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>displaytext</name>
+            <description>any text associated with the success or failure</description>
+        </response>
+        <response>
+            <name>success</name>
+            <description>true if operation is executed successfully</description>
+        </response>
+        <response>
+            <name>jobid</name>
+            <description>the job id</description>
+        </response>
+    </responses>
+</root>
