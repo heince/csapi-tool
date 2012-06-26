@@ -138,7 +138,9 @@ sub get_result{
 	if($@){
 		my $resp = $mech->response();
 		
-		say "\n" . $resp->decoded_content;
+		my $xml = XML::LibXML->load_xml(string => $resp->decoded_content);
+		say "Error code: " . $xml->findnodes("/*/errorcode")->string_value() if $xml;
+		say "Error text: " . $xml->findnodes("/*/errortext")->string_value() if $xml;
 
 		die "Error executing command, check the error above\n";
 	}
