@@ -1,0 +1,126 @@
+<root>
+    <top>/createaccountresponse/account/user</top>
+    <command>createAccount</command>
+    <defaultresponses>id,account,username,domain,domainid,state</defaultresponses>
+    <isAsync>false</isAsync>
+    <params>
+        <param>
+            <name>accounttype</name>
+            <description>Type of the account.  Specify 0 for user, 1 for root admin, and 2 for domain admin</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>email</name>
+            <description>email</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>firstname</name>
+            <description>firstname</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>lastname</name>
+            <description>lastname</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>password</name>
+            <description>Hashed password (Default is MD5). If you wish to use any other hashing algorithm, you would need to write a custom authentication adapter See Docs section.</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>username</name>
+            <description>Unique username.</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>account</name>
+            <description>Creates the user under the specified account. If no account is specified, the username will be used as the account name.</description>
+            <required>false</required>
+        </param>
+        <param>
+             <name>accountdetails</name>
+            <description>details for account used to store specific parameters</description>
+            <required>false</required>
+            <type>map</type>
+        </param>
+        <param>
+            <name>domainid</name>
+            <description>Creates the user under the specified domain.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>networkdomain</name>
+            <description>Network domain for the account&apos;s networks</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>timezone</name>
+            <description>Specifies a timezone for this command. For more information on the timezone parameter, see Time Zone Format.</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the user ID</description>
+        </response>
+        <response>
+            <name>account</name>
+            <description>the account name of the user</description>
+        </response>
+        <response>
+            <name>accountid</name>
+            <description>the account ID of the user</description>
+        </response>
+        <response>
+            <name>accounttype</name>
+            <description>the account type of the user</description>
+        </response>
+        <response>
+            <name>apikey</name>
+            <description>the api key of the user</description>
+        </response>
+        <response>
+            <name>created</name>
+            <description>the date and time the user account was created</description>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>the domain name of the user</description>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>the domain ID of the user</description>
+        </response>
+        <response>
+            <name>email</name>
+            <description>the user email address</description>
+        </response>
+        <response>
+            <name>firstname</name>
+            <description>the user firstname</description>
+        </response>
+        <response>
+            <name>lastname</name>
+            <description>the user lastname</description>
+        </response>
+        <response>
+            <name>secretkey</name>
+            <description>the secret key of the user</description>
+        </response>
+        <response>
+            <name>state</name>
+            <description>the user state</description>
+        </response>
+        <response>
+            <name>timezone</name>
+            <description>the timezone user was created in</description>
+        </response>
+        <response>
+            <name>username</name>
+            <description>the user name</description>
+        </response>
+    </responses>
+</root>
