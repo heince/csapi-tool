@@ -12,6 +12,8 @@ stop           stop     [--cmd-opt] (vm)
 start          start    [--cmd-opt] (vm)
 usage          usage    -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
 set            set      [--cmd-opt] (ldap)
+create         create  [--cmd-opt] (account)
+delete         delete  [--cmd-opt] (account)
 
 available cmd-opt on list command:
 --ia                                            => 'use integration api url (legacy port 8096)'
@@ -26,6 +28,13 @@ available cmd-opt on list command:
 
 Example:
 * cloudcmd ls --site branch-profile vm (listing vm using 'branch-profile' connection)
+  output:
+  DISPLAYNAME              STATE       ACCOUNT        DOMAIN         NIC-IP         
+
+  HOST1                    Stopped     heince         DEV            192.168.89.134 
+  VIEWPOINT                Running     heince         DEV            192.168.89.38  
+  Cougar-c01               Running     heince         DEV            192.168.89.141
+
 * cloudcmd set --host ldap.example.com --queryfilter "(&(uid=%u))" --searchbase "ou=example,dc=com"
   --binddn "uid=user1,dc=example,dc=com"  --bindpass "demo" --ia ldap
 * cloudcmd deploy --soid xxx --tid xxx --zid xxx --name testvm1 --param networkids=xxx  vm
