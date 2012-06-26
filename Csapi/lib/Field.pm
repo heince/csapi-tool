@@ -7,7 +7,7 @@ use warnings;
 has [qw /cpuused iplimit iptotal vmlimit vmtotal offerha isready status level haschild port
      /] => ( is => 'rw', isa => 'Int', default => 9 );
 
-has [qw /haenabled cpuspeed nic-type hosttags issystem memory tags bootable format ispublic
+has [qw /haenabled cpuspeed nic-type hosttags issystem memory tags bootable format ispublic success
      size/] => ( is => 'rw', isa => 'Int', default => 10 );
 
 has [qw /cpunumber vmrunning vmstopped isdefault/] => ( is => 'rw', isa => 'Int', default => 11 );
