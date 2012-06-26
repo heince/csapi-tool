@@ -26,7 +26,11 @@ destroy             destroy [--cmd-opt] (vm)
 stop                stop    [--cmd-opt] (vm)
 start               start   [--cmd-opt] (vm)
 sync                sync    [--cmd-opt] (ldap)
-usage\t\tusage -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
+set                 set     [--cmd-opt] (ldap)
+remove              remove  [--cmd-opt] (ldap)
+usage               usage -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
+create              create  [--cmd-opt] (account)
+delete              delete  [--cmd-opt] (account)
     
 EOF
 }
@@ -66,6 +70,8 @@ sub command_map {
     sync    => 'Csapi::Command::Sync',
     set     => 'Csapi::Command::Set',
     remove     => 'Csapi::Command::Remove',
+    create     => 'Csapi::Command::Create',
+    delete     => 'Csapi::Command::Delete',
 }
 
 sub command_alias {
@@ -73,6 +79,9 @@ sub command_alias {
     # (the values should be found as "keys" in command_map()).
     sh  => 'console',
     ls  => 'list',
+    cr  => 'create',
+    del => 'delete',
+    rm  => 'remove'
 }
 
 sub init {
