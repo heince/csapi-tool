@@ -22,10 +22,11 @@ available cmd-opt:
 --id        [id / uuid]                         => 'set id / uuid to delete'                      
             
 available cmd-arg:
-account
+account|domain
 
 example:
 $0 delete --id xxx account
+$0 delete --id xxx domain
 EOF
 }
 
@@ -38,7 +39,7 @@ sub validate{
     
     if(@args){
         given($args[0]){
-            when (/\baccount\b/i){
+            when (/\b(account|domain)\b/i){
                 if($cmd_opts->{'showparams'} or $cmd_opts->{'showresponses'}){
                     break;
                 }else{
@@ -119,9 +120,18 @@ sub run{
    my $obj;
    
    given($args[0]){
-        when(/\baccount\b/){
+        when (/\baccount\b/){
             use Account;
             $obj = Account->new(accid => $opts->{'id'});
+            
+            check_site(\$opts, \$obj);
+            check_opts(\$opts, \$obj);
+            
+            $obj->delete();
+        }
+        when (/\bdomain\b/){
+            use Domain;
+            $obj = Domain->new(domid => $opts->{'id'});
             
             check_site(\$opts, \$obj);
             check_opts(\$opts, \$obj);
