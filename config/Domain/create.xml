@@ -1,0 +1,58 @@
+<root>
+    <top>/createdomainresponse/domain</top>
+    <command>createDomain</command>
+    <description>Creates a domain</description>
+    <defaultresponses>id,name,path</defaultresponses>
+    <isAsync>false</isAsync>
+    <params>
+        <param>
+            <name>name</name>
+            <description>creates domain with this name</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>networkdomain</name>
+            <description>Network domain for networks in the domain</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>parentdomainid</name>
+            <description>assigns new domain a parent domain by domain ID of the parent.  If no parent domain is specied, the ROOT domain is assumed.</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the ID of the domain</description>
+        </response>
+        <response>
+            <name>haschild</name>
+            <description>whether the domain has one or more sub-domains</description>
+        </response>
+        <response>
+            <name>level</name>
+            <description>the level of the domain</description>
+        </response>
+        <response>
+            <name>name</name>
+            <description>the name of the domain</description>
+        </response>
+        <response>
+            <name>networkdomain</name>
+            <description>the network domain</description>
+        </response>
+        <response>
+            <name>parentdomainid</name>
+            <description>the domain ID of the parent domain</description>
+        </response>
+        <response>
+            <name>parentdomainname</name>
+            <description>the domain name of the parent domain</description>
+        </response>
+        <response>
+            <name>path</name>
+            <description>the path of the domain</description>
+        </response>
+    </responses>
+</root>

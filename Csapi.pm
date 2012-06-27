@@ -29,8 +29,8 @@ sync                sync    [--cmd-opt] (ldap)
 set                 set     [--cmd-opt] (ldap)
 remove              remove  [--cmd-opt] (ldap)
 usage               usage -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
-create              create  [--cmd-opt] (account)
-delete              delete  [--cmd-opt] (account)
+create              create  [--cmd-opt] (account|domain)
+delete              delete  [--cmd-opt] (account|domain)
     
 EOF
 }

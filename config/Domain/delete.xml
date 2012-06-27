@@ -1,0 +1,33 @@
+<root>
+    <top>/deletedomainresponse</top>
+    <command>deleteDomain</command>
+    <description>Deletes a specified domain</description>
+    <defaultresponses>jobid</defaultresponses>
+    <isAsync>true</isAsync>
+    <params>
+        <param>
+            <name>id</name>
+            <description>ID of domain to delete</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>cleanup</name>
+            <description>true if all domain resources (child domains, accounts) have to be cleaned up, false otherwise</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>displaytext</name>
+            <description>any text associated with the success or failure</description>
+        </response>
+        <response>
+            <name>success</name>
+            <description>true if operation is executed successfully</description>
+        </response>
+        <response>
+            <name>jobid</name>
+            <description>the job id</description>
+        </response>
+    </responses>
+</root>
