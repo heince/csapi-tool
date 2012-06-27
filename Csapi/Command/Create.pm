@@ -29,13 +29,16 @@ available cmd-opt:
 --password  [password]                          => 'set password'
 --uname     [user name]                        => 'set username'
 --domainid  [domain id]                         => 'set domain id'
+--domainname  [domain name]                         => 'set domain name'
             
 available cmd-arg:
-account
+account domain
 
 example:
 $0 create --acctype 0 --email dummy\@example.com --fname dummy \\
           --lname cloud --password 'mypass' --uname dummy account
+
+$0 create --domainname "sales" domain
 EOF
 }
 
@@ -57,6 +60,13 @@ sub validate{
                     $cmd_opts->{'password'} and $cmd_opts->{'uname'};
                 }       
                 break;
+            }
+            when (/\bdomain\b/){
+                if($cmd_opts->{'showparams'} or $cmd_opts->{'showresponses'}){
+                    break;
+                }else{
+                    die "domainname required\n" unless $cmd_opts->{'domainname'};
+                }
             }
             default{
                 die "$_ argument not supported\n";
@@ -85,7 +95,8 @@ sub option_spec {
     [ 'lname=s' => 'Last name' ],
     [ 'password=s' => 'password' ],
     [ 'uname=s' => 'username' ],
-    [ 'domainid=s' => 'domain id']
+    [ 'domainid=s' => 'domain id'],
+    [ 'domainname=s' => 'domain name' ]
     
 }
 
@@ -137,7 +148,7 @@ sub run{
    my $obj;
    
    given($args[0]){
-        when(/\baccount\b/){
+        when (/\baccount\b/){
             use Account;
             $obj = Account->new(acctype => $opts->{'acctype'},
                                 accemail => $opts->{'email'},
@@ -145,6 +156,16 @@ sub run{
                                 lname => $opts->{'lname'},
                                 accpass => $opts->{'password'},
                                 uname => $opts->{'uname'});
+            
+            check_site(\$opts, \$obj);
+            check_opts(\$opts, \$obj);
+            
+            $obj->create();
+        }
+        when (/\bdomain\b/){
+            use Domain;
+            
+            $obj = Domain->new(domname => $opts->{'domainname'});
             
             check_site(\$opts, \$obj);
             check_opts(\$opts, \$obj);
