@@ -22,7 +22,7 @@ has [qw /templatelimit templatetotal user-account systemvmtype iscustomized temp
      broadcasturi/] => ( is => 'rw', isa => 'Int', default => 14 );
 
 has [qw /account domain group isoname password nic-ip nic-isdefault securitygroup-domain jobprocstatus jobresultcode jobresulttype
-     securitygroup-name networkdomain receivedbytes sentbytes snapshottotal username isextractable domainname path
+     securitygroup-name networkdomain receivedbytes sentbytes snapshottotal username isextractable domainname path parentdomainname
      /] => ( is => 'rw', isa => 'Int', default => 15 );
 
 has [qw /rootdevicetype securitygroup-account accounttype user-firstname user-lastname
@@ -60,7 +60,7 @@ has [qw /securitygroup-ingressrule-startport templatename/] => ( is => 'rw', isa
 has [qw/id accountid domainid groupid guestosid hostid isoid templateid jobid rootdeviceid serviceofferingid sourcetemplateid
      diskofferingid zoneid nic-id nic-gateway nic-networkid securitygroup-id securitygroup-domainid securitygroup-jobid
      securitygroup-ingressrule-ruleid user-id user-domainid ostypeid networkid usageid virtualmachineid userid zonetoken
-     offeringid jobinstanceid cmd networkofferingid networkofferingname physicalnetworkid projectid related
+     offeringid jobinstanceid cmd networkofferingid networkofferingname physicalnetworkid projectid related parentdomainid
      /] => ( is => 'rw', isa => 'Int', default => 38 );
 
 has [qw /searchbase/] => ( is => 'rw', isa => 'Int', default => 50 );
