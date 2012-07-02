@@ -7,7 +7,8 @@ use GenUrl;
 
 extends 'GenUrl';
 
-has [ qw /accid acctype accemail fname lname uname accpass/ ] => ( is => 'ro' );
+has [ qw /acctype accemail fname lname uname accpass/ ] => ( is => 'ro' );
+has [ qw /accid/ ] => ( is => 'rw' );
 
 #set xmltmp to hold list account xml file
 sub set_list_xml{
@@ -28,6 +29,44 @@ sub set_delete_xml{
     my $self = shift;
     
     $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/Account/delete.xml"));
+}
+
+sub get_accname_bydomid{
+    my $self = shift;
+    
+    my $domid = shift;
+    
+    #set xmltmp
+    $self->set_list_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    $self->command($self->command . "&listall=true&domainid=$domid");
+    $self->response("name");
+    
+    $self->get_xml;
+    
+    return $self->get_api_result();
+}
+
+sub get_accid{
+    my $self = shift;
+    
+    my ($domid, $name) = @_;
+    
+    #set xmltmp
+    $self->set_list_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    $self->command($self->command . "&domainid=$domid&name=$name");
+    $self->response("id");
+    
+    $self->get_xml;
+    
+    return $self->get_api_result();
 }
 
 sub list_account{
