@@ -1,7 +1,8 @@
 <root>
-    <top></top>
+    <top>/ldapremoveresponse/ldapremove</top>
     <command>ldapRemove</command>
     <description>Remove the LDAP context for this site.</description>
+    <defaultresponses>hostname,port,searchbase,queryfilter</defaultresponses>
     <isAsync>false</isAsync>
     <params>
         <param></param>
