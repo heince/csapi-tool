@@ -10,7 +10,7 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 start [--cmd-opt] [cmd-arg]
+$0 create [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
 --ia                                            => 'use integration api url (legacy port 8096)'

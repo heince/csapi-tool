@@ -10,7 +10,7 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 start [--cmd-opt] [cmd-arg]
+$0 set [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
 --ia                                            => 'use integration api url (legacy port 8096)'
@@ -33,10 +33,11 @@ ldap
 
 example:
 $0 set --host ldap.example.com --queryfilter "(&(uid=%u))" --searchbase "dc=cloud,dc=com" ldap
+$0 set --host ldap.example.com --binddn "cn=administrator,cn=users,dc=cloud,dc=com" \\
+       --searchbase "cn=users,dc=cloud,dc=com"  --bindpass "mypass"  --ia --queryfilter "(&(sAMAccountName=%u))"  ldap
 $0 set --host ldap.example.com --queryfilter "(&(uid=%u))" \\
         --searchbase "dc=cloud,dc=com" --binddn "cn=admin,dc=cloud,dc=com" \\
-        --bindpass "mypass" --ssl --truststore "/key/ldapstore.jks" \\
-        --storepass "mystorepass" ldap
+        --bindpass "mypass" --ssl --truststore "/key/ldapstore.jks" --storepass "mystorepass" ldap
 EOF
 }
 
@@ -141,8 +142,10 @@ sub run{
    given($args[0]){
         when(/\bldap\b/){
             use LDAP;
-            $obj = LDAP->new(ldaphostname => $opts->{'host'}, ldapqueryfilter => $opts->{'queryfilter'},
-                             ldapsearchbase => $opts->{'searchbase'});
+            $obj = LDAP->new(ldaphostname => $opts->{'host'},
+                             ldapqueryfilter => $opts->{'queryfilter'},
+                             ldapsearchbase => $opts->{'searchbase'}
+                             );
             $obj->is_ldap(1);
             
             check_site(\$opts, \$obj);
