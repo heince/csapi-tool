@@ -27,6 +27,42 @@ sub set_delete_xml{
     $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/Domain/delete.xml"));
 }
 
+sub get_dompath{
+    my $self = shift;
+    
+    #set xmltmp
+    $self->set_list_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    $self->command($self->command . "&id=" . $self->domid);
+    
+    $self->response("path");
+    
+    $self->get_xml;
+    
+    return $self->get_api_result();
+}
+
+sub is_valid_domain{
+    my $self = shift;
+    
+    #set xmltmp
+    $self->set_list_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    $self->command($self->command . "&id=" . $self->domid);
+    
+    if($self->get_xml){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
 sub list_domains{
     my $self = shift;
     
