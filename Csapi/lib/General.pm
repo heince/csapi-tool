@@ -13,6 +13,7 @@ has [qw/default_site param response noheader json uuid/] => (is => "rw");
 has [qw /stime_min_value/] => (is => "rw", isa => "Int", default => 10);  # in minutes
 has [qw /etime_min_value/] => (is => "rw", isa => "Int", default => 60);  # in minutes
 has [qw /min_vm_booking/] => (is => "rw", isa => "Int", default => 60); #in minutes
+has [qw /passwordlen/] => (is => "rw", isa => "Int", default => 15); 	#password length
 
 #load and set xmlconfig and default site
 sub init{
@@ -307,6 +308,20 @@ sub check_vm_booking{
 		die "Minimum reservation period is " . $self->min_vm_booking . " minutes\n";
 	}
 	
+}
+
+#generate simple password
+sub gen_password{
+	my $self = shift;
+	
+	my $str = 'abcdefghijkmnpqrstuvwxyz23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+	my $password = "";
+	
+	while (length($password) < $self->passwordlen) {
+     $password .= substr($str, (int(rand(length($str)))), 1);
+   }
+	
+	return $password;
 }
 
 sub trim
