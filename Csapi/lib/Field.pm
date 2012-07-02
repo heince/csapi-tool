@@ -32,7 +32,7 @@ has [qw /ipaddress netmask gateway networkkbsread passwordenabled nic-traffictyp
      passwordenabled dns1 dns2 internaldns1 internaldns2 restartrequired specifyipranges subdomainaccess traffictype
      /] => ( is => 'rw', isa => 'Int', default => 17 );
 
-has [qw /networkkbswrite nic-broadcasturi nic-isolationuri nic-macaddress nic-netmask queryfilter
+has [qw /networkkbswrite nic-broadcasturi nic-isolationuri nic-macaddress nic-netmask 
      securitygroup-jobstatus user-accounttype/] => ( is => 'rw', isa => 'Int', default => 18 );
 
 has [qw /forvirtualnetwork iscleanuprequired snapshotavailable snapshotlimit templateavailable jobinstancetype
@@ -61,7 +61,7 @@ has [qw/id accountid domainid groupid guestosid hostid isoid templateid jobid ro
      diskofferingid zoneid nic-id nic-gateway nic-networkid securitygroup-id securitygroup-domainid securitygroup-jobid
      securitygroup-ingressrule-ruleid user-id user-domainid ostypeid networkid usageid virtualmachineid userid zonetoken
      offeringid jobinstanceid cmd networkofferingid networkofferingname physicalnetworkid projectid related parentdomainid
-     /] => ( is => 'rw', isa => 'Int', default => 38 );
+     queryfilter /] => ( is => 'rw', isa => 'Int', default => 38 );
 
 has [qw /searchbase/] => ( is => 'rw', isa => 'Int', default => 50 );
 
