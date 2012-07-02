@@ -5,11 +5,17 @@ use strict;
 use warnings;
 use GenUrl;
 use URI::Encode;
+use Net::LDAP;
 
 extends 'GenUrl';
 
-has [ qw /ldaphostname ldapsearchbase ldapqueryfilter/ ] => (is => 'ro', isa => "Str");
-has [ qw /uri ldapport ldapbinddn ldapbindpass ldapssl ldaptruststore ldaptrustpass/ ] => (is => 'rw');
+has [ qw /ldaphostname ldapsearchbase ldapqueryfilter ldapdomid dompath/ ] => (is => 'ro', isa => "Str");
+has [ qw /uri ldapbinddn ldapbindpass ldapssl ldaptruststore ldaptrustpass ldapbind iswin istest
+     iachanged sitechanged/ ] => (is => 'rw');
+has [ qw /ldapport/ ] => ( is => 'rw', default => 389 );
+has [ qw /excludeuser/ ] => ( is => 'rw',);
+                            #default => 'Administrator,krbtgt,SUPPORT_*,Guest');
+#has [ 'default_mail' ] => ( is => 'rw', default => "rockstar\@example.com" );
 
 sub set_ldapConfig_xml{
     my $self = shift;
@@ -21,6 +27,227 @@ sub set_ldapRemove_xml{
     my $self = shift;
     
     $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/LDAP/ldapRemove.xml"));
+}
+
+sub bind_ldap{
+    my $self = shift;
+    
+    my $port = $self->ldapport;
+    
+    my $ldap = Net::LDAP->new($self->ldaphostname,
+                              port => $port)
+                          or die "$@";
+                          
+    if($self->ldapbinddn){
+        $self->ldapbind($ldap->bind($self->ldapbinddn, password => $self->ldapbindpass));
+    }else{
+        $self->ldapbind($ldap->bind());
+    }
+    
+    $self->ldapbind->code && die $self->ldapbind->error;
+    $self->ldapbind($ldap);
+}
+
+sub is_test{
+    my $self = shift;
+    
+    my ($result, $accountlist) = @_;
+    
+    say "This is a test \n";
+
+    my (@tmp, @ldaplist);
+    
+    #check LDAP entry, insert if not exist on cloudstack
+    foreach my $entry ($$result->entries) {
+        my $acc = $entry->get_value($self->ldapqueryfilter);
+        push @ldaplist, $acc;
+        @tmp = grep (/\b$acc\b/i, @$accountlist);
+        
+        unless(@tmp){
+            if($entry->get_value('givenName')){
+                if($entry->get_value('sn')){
+                    if($entry->get_value('mail')){
+                        say "inserting account $acc to CloudStack ...";
+                    }else{
+                        say "skipping account $acc, email not found";
+                    }
+                }else{
+                    say "skipping account $acc, Last Name not found";
+                }
+            }else{
+                say "skipping account $acc, First Name not found";
+            }
+        }else{
+            say "skipping account $acc, account exist";
+        }
+    }
+    
+    #check CloudStack entry, delete if not exist on LDAP
+    foreach my $cs(@$accountlist){
+        @tmp = grep (/\b$cs\b/i, @ldaplist);
+        
+        unless(@tmp){
+            say "deleting account $cs ...";
+        }
+    }
+}
+
+sub sync_ldap{
+    my $self = shift;
+    
+    my ($domainpath, $accname) = @_;
+    my (@accountlist, @ldaplist, @excludelist);
+    
+    my $result = $self->ldapsearch();
+    
+    #print domain path target
+    print "Domain Target : ";
+    print @$domainpath;
+    
+    #get current accounts
+    if($self->excludeuser){
+        @excludelist = split ',' => $self->excludeuser;
+    }
+    
+    for my $tmp(@$accname){
+        my $acc = unpack("A*" , $tmp);
+        
+        if(@excludelist){
+            unless(grep (/\b$acc\b/i, @excludelist)){
+                push @accountlist, $acc;
+            }
+        }else{
+            push @accountlist, $acc;
+        }
+    }
+    
+    if($self->istest){
+        $self->is_test($result,\@accountlist);  
+    }else{
+        my ($acc, $fname, $lname, $password, $mail );
+        
+        my (@tmp, @ldaplist);
+        
+        foreach my $entry ($$result->entries) {
+            $acc = $entry->get_value($self->ldapqueryfilter);
+            push @ldaplist, $acc;
+            @tmp = grep (/\b$acc\b/i, @accountlist);
+            
+            $password = $self->gen_password;
+            
+            use Account;
+            
+            unless(@tmp){
+                if($fname = $entry->get_value('givenName')){
+                    if($lname = $entry->get_value('sn')){
+                        if($mail = $entry->get_value('mail')){
+                            say "inserting account $acc to CloudStack ...";
+                            
+                            my $obj = Account->new(acctype => 0,
+                                accemail => $mail,
+                                fname => $fname,
+                                lname => $lname,
+                                accpass => $password,
+                                uname => $acc);
+                            
+                            $obj->param("domainid=" . $self->ldapdomid);    
+                            $obj->default_site($self->sitechanged) if $self->sitechanged;
+                            $obj->ia($self->iachanged) if $self->iachanged;
+                            
+                            $obj->create();
+                            
+                            say "done\n";
+                            
+                        }else{
+                            say "skipping account $acc, email not found";
+                        }
+                    }else{
+                        say "skipping account $acc, Last Name not found";
+                    }
+                }else{
+                    say "skipping account $acc, First Name not found";
+                }
+            }else{
+                say "skipping account $acc, account exist";
+            }
+        }
+        
+        #check CloudStack entry, delete if not exist on LDAP
+        foreach my $cs(@accountlist){
+            @tmp = grep (/\b$cs\b/i, @ldaplist);
+            
+            unless(@tmp){
+                say "deleting account $cs ...";
+                
+                my $obj = Account->new();
+                
+                $obj->default_site($self->sitechanged) if $self->sitechanged;
+                $obj->ia($self->iachanged) if $self->iachanged;
+                my $id = $obj->get_accid($self->ldapdomid, $cs);
+                chomp @$id;
+                
+                $obj->accid("@$id");
+                $obj->delete();
+                
+                say "Done\n";
+            }
+        }
+        
+    }
+}
+
+sub get_exclude_user_list{
+    my $self = shift;
+    
+    my @lists = split ',' => $self->excludeuser;
+    
+    my $excludelist;
+    for (@lists){
+        $excludelist .= qq#(!(# . $self->ldapqueryfilter . "=$_)) ";
+    }
+    
+    return $excludelist;
+}
+
+sub get_filter{
+    my $self = shift;
+    
+    my ($filter, $excludelist);
+    
+    if($self->ldapqueryfilter =~ /sAMAccountName/i){
+        if($self->excludeuser){
+            $excludelist = $self->get_exclude_user_list;
+            $filter = qq#(&(#  . $self->ldapqueryfilter . "=*)" . qq# (objectClass=user)# . " $excludelist)";
+        }else{
+            $filter = qq#(&(#  . $self->ldapqueryfilter . "=*)" . qq# (objectClass=user))#;
+        }  
+        $self->iswin(1);
+    }else{
+        if($self->excludeuser){
+            $excludelist = $self->get_exclude_user_list;
+            $filter = qq#(&(# . $self->ldapqueryfilter . "=*)" . " $excludelist)";
+        }else{
+            $filter = qq#(&(# . $self->ldapqueryfilter . "=*))";
+        }
+    }
+    #say $filter;
+    return $filter;
+}
+
+sub ldapsearch{
+    my $self = shift;
+    
+    $self->bind_ldap();
+    my $filter = $self->get_filter();
+    
+    my $attrs = [ 'givenName', 'sn', 'mail', $self->ldapqueryfilter ];
+    my $result = $self->ldapbind->search( base => $self->ldapsearchbase,
+                                          scope => "sub",
+                                          filter => $filter,
+                                          attrs => $attrs);
+    die "no record found\n" unless $result->entries;
+    
+    return \$result;
 }
 
 sub set_port{
@@ -114,6 +341,8 @@ sub removeldap{
     
     #print the output
     $self->get_output();
+    
+    say "Done\n";
 }
 
 1;
