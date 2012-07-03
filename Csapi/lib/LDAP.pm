@@ -9,13 +9,13 @@ use Net::LDAP;
 
 extends 'GenUrl';
 
-has [ qw /ldaphostname ldapsearchbase ldapqueryfilter ldapdomid dompath/ ] => (is => 'ro', isa => "Str");
+has [ qw /ldaphostname ldapsearchbase ldapqueryfilter ldapdomid dompath accmap/ ] => (is => 'ro', isa => "Str");
 has [ qw /uri ldapbinddn ldapbindpass ldapssl ldaptruststore ldaptrustpass ldapbind iswin istest
      iachanged sitechanged/ ] => (is => 'rw');
 has [ qw /ldapport/ ] => ( is => 'rw', default => 389 );
 has [ qw /excludeuser/ ] => ( is => 'rw',);
                             #default => 'Administrator,krbtgt,SUPPORT_*,Guest');
-#has [ 'default_mail' ] => ( is => 'rw', default => "rockstar\@example.com" );
+has [ 'default_mail' ] => ( is => 'rw' );
 
 sub set_ldapConfig_xml{
     my $self = shift;
@@ -59,7 +59,7 @@ sub is_test{
     
     #check LDAP entry, insert if not exist on cloudstack
     foreach my $entry ($$result->entries) {
-        my $acc = $entry->get_value($self->ldapqueryfilter);
+        my $acc = $entry->get_value($self->accmap);
         push @ldaplist, $acc;
         @tmp = grep (/\b$acc\b/i, @$accountlist);
         
@@ -69,7 +69,11 @@ sub is_test{
                     if($entry->get_value('mail')){
                         say "inserting account $acc to CloudStack ...";
                     }else{
-                        say "skipping account $acc, email not found";
+                        if($self->default_mail){
+                            say "inserting account $acc to CloudStack, setting default mail to " . $self->default_mail;
+                        }else{
+                            say "skipping account $acc, email not found";
+                        }
                     }
                 }else{
                     say "skipping account $acc, Last Name not found";
@@ -90,6 +94,67 @@ sub is_test{
             say "deleting account $cs ...";
         }
     }
+}
+
+sub delete_account{
+    my $self = shift;
+    
+    my $acc = shift;
+    
+    use Account;
+    
+    say "deleting account $acc ...";
+                
+    my $obj = Account->new();
+    
+    $obj->default_site($self->sitechanged) if $self->sitechanged;
+    $obj->ia($self->iachanged) if $self->iachanged;
+    my $id = $obj->get_accid($self->ldapdomid, $acc);
+    chomp @$id;
+    
+    $obj->accid("@$id");
+    $obj->delete();
+    
+    say "Done\n";
+}
+
+sub create_account{
+    my $self = shift;
+    
+    my ($acc, $fname, $lname, $password, $mail ) = @_;
+    
+    use Account;
+    
+    my $obj;
+    
+    if($self->default_mail){
+        say "inserting account $acc to CloudStack, setting default mail to " . $self->default_mail;
+        
+        $obj = Account->new(acctype => 0,
+                            accemail => $self->default_mail,
+                            fname => $fname,
+                            lname => $lname,
+                            accpass => $password,
+                            uname => $acc);
+        
+    }else{
+        say "inserting account $acc to CloudStack ...";
+        
+        $obj = Account->new(acctype => 0,
+                            accemail => $mail,
+                            fname => $fname,
+                            lname => $lname,
+                            accpass => $password,
+                            uname => $acc);
+    }
+    
+    $obj->param("domainid=" . $self->ldapdomid);    
+    $obj->default_site($self->sitechanged) if $self->sitechanged;
+    $obj->ia($self->iachanged) if $self->iachanged;
+    
+    $obj->create();
+    
+    say "Done";
 }
 
 sub sync_ldap{
@@ -129,37 +194,23 @@ sub sync_ldap{
         my (@tmp, @ldaplist);
         
         foreach my $entry ($$result->entries) {
-            $acc = $entry->get_value($self->ldapqueryfilter);
+            $acc = $entry->get_value($self->accmap);
             push @ldaplist, $acc;
             @tmp = grep (/\b$acc\b/i, @accountlist);
             
             $password = $self->gen_password;
             
-            use Account;
-            
             unless(@tmp){
                 if($fname = $entry->get_value('givenName')){
                     if($lname = $entry->get_value('sn')){
                         if($mail = $entry->get_value('mail')){
-                            say "inserting account $acc to CloudStack ...";
-                            
-                            my $obj = Account->new(acctype => 0,
-                                accemail => $mail,
-                                fname => $fname,
-                                lname => $lname,
-                                accpass => $password,
-                                uname => $acc);
-                            
-                            $obj->param("domainid=" . $self->ldapdomid);    
-                            $obj->default_site($self->sitechanged) if $self->sitechanged;
-                            $obj->ia($self->iachanged) if $self->iachanged;
-                            
-                            $obj->create();
-                            
-                            say "done\n";
-                            
+                            $self->create_account($acc, $fname, $lname, $password, $mail);
                         }else{
-                            say "skipping account $acc, email not found";
+                            if($self->default_mail){
+                                $self->create_account($acc, $fname, $lname, $password, $mail);
+                            }else{
+                                say "skipping account $acc, email not found";
+                            }
                         }
                     }else{
                         say "skipping account $acc, Last Name not found";
@@ -177,19 +228,7 @@ sub sync_ldap{
             @tmp = grep (/\b$cs\b/i, @ldaplist);
             
             unless(@tmp){
-                say "deleting account $cs ...";
-                
-                my $obj = Account->new();
-                
-                $obj->default_site($self->sitechanged) if $self->sitechanged;
-                $obj->ia($self->iachanged) if $self->iachanged;
-                my $id = $obj->get_accid($self->ldapdomid, $cs);
-                chomp @$id;
-                
-                $obj->accid("@$id");
-                $obj->delete();
-                
-                say "Done\n";
+                $self->delete_account($cs);
             }
         }
         
@@ -201,10 +240,12 @@ sub get_exclude_user_list{
     
     my @lists = split ',' => $self->excludeuser;
     
-    my $excludelist;
+    my $excludelist = qq#(!(|#;
     for (@lists){
-        $excludelist .= qq#(!(# . $self->ldapqueryfilter . "=$_)) ";
+        #$excludelist .= qq#(!(# . $self->accmap . "=$_)) ";
+        $excludelist .= "(" . $self->accmap . "=$_) ";
     }
+    $excludelist .= "))";
     
     return $excludelist;
 }
@@ -214,23 +255,23 @@ sub get_filter{
     
     my ($filter, $excludelist);
     
-    if($self->ldapqueryfilter =~ /sAMAccountName/i){
+    if($self->accmap =~ /sAMAccountName/i){
         if($self->excludeuser){
             $excludelist = $self->get_exclude_user_list;
-            $filter = qq#(&(#  . $self->ldapqueryfilter . "=*)" . qq# (objectClass=user)# . " $excludelist)";
+            $filter = qq# (&(objectClass=user) # . $self->ldapqueryfilter . " $excludelist)";
         }else{
-            $filter = qq#(&(#  . $self->ldapqueryfilter . "=*)" . qq# (objectClass=user))#;
+            $filter = qq# (&(objectClass=user) # . $self->ldapqueryfilter;
         }  
         $self->iswin(1);
     }else{
         if($self->excludeuser){
             $excludelist = $self->get_exclude_user_list;
-            $filter = qq#(&(# . $self->ldapqueryfilter . "=*)" . " $excludelist)";
+            $filter = qq#(&# . $self->ldapqueryfilter . " $excludelist)";
         }else{
-            $filter = qq#(&(# . $self->ldapqueryfilter . "=*))";
+            $filter = qq#(&(# . $self->accmap . "=*)" . $self->ldapqueryfilter .")";
         }
     }
-    #say $filter;
+    say $filter;
     return $filter;
 }
 
@@ -240,7 +281,7 @@ sub ldapsearch{
     $self->bind_ldap();
     my $filter = $self->get_filter();
     
-    my $attrs = [ 'givenName', 'sn', 'mail', $self->ldapqueryfilter ];
+    my $attrs = [ 'givenName', 'sn', 'mail', $self->accmap ];
     my $result = $self->ldapbind->search( base => $self->ldapsearchbase,
                                           scope => "sub",
                                           filter => $filter,

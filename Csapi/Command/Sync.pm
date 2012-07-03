@@ -17,21 +17,28 @@ available cmd-opt:
 --site          [site profile name]             => 'set site to be use'
 --domainid      [domain id]                     => 'set domain id'
 --ldaphost      [ldap server address]           => 'set LDAP server'
---queryfilter   [eg. uid or sAMAccountName on MS]   => 'set LDAP query filter for account name'
+--queryfilter   [eg. "(uid=user*)" ]            => 'set LDAP query filter for account name'
 --searchbase    [eg. dc=cloud,dc=com]           => 'set LDAP search base'
 --port          [LDAP port number]              => 'set ldap port number'
 --binddn        [eg. cn=admin,dc=cloud,dc=com]  => 'set user with search permissions'
 --bindpass      [password]                      => 'set bind user password'
 --excludeuser   [comma separated user]          => 'exclude user list'
---test          [test sync]                => 'summary of what need to be sync if success'
+--test          [test sync]                     => 'summary of what need to be sync if success'
+--defaultmail   [default mail]                  => 'set default mail if not found'
+--accmap        [eg. uid or sAMAccountName on AD]   => 'set account name attribute to map'
             
 available cmd-arg:
 ldap
 
 example:
-
-$0 sync --domainid xxx --ldaphost ldap.example.com --searchbase "dc=example,dc=com" --queryfilter "uid" \\
-        --excludeuser "batman,robin,mrbean" --ia ldap
+#open source LDAP example (This will get all uid user, excluding batman,robin & mrbean)
+$0 sync --domainid xxx --ldaphost ldap.example.com --searchbase "dc=example,dc=com"
+        --queryfilter "(uid=*)" --accmap "uid" --excludeuser "batman,robin,mrbean" --ia ldap
+        
+#Microsoft AD example (This will get all user with 'user' and 'guest' prefix )
+$0 sync --domainid xxx --ldaphost ldap.example.com --searchbase "dc=example,dc=com"
+        --queryfilter "(|(sAMAccountName=guest*) (sAMAccountName=user*))"
+        --accmap "sAMAccountName" --ia ldap
 EOF
 }
 
@@ -45,8 +52,9 @@ sub validate{
     if(@args){
         given($args[0]){
             when (/\bldap\b/){
-                die "domainid|ldaphost|queryfilter|searchbase is required\n" unless
+                die "domainid|ldaphost|accmap|searchbase|queryfilter is required\n" unless
                 $cmd_opts->{'domainid'} and
+                $cmd_opts->{'accmap'} and
                 $cmd_opts->{'queryfilter'} and
                 $cmd_opts->{'searchbase'} and
                 $cmd_opts->{'ldaphost'};
@@ -74,7 +82,9 @@ sub option_spec {
     [ 'binddn=s'    =>  'distinguished name of a user with the search permission'],
     [ 'bindpass=s'  =>  'dn password'],
     [ 'excludeuser=s' => 'exclude user list' ],
-    [ 'test'        =>  'test sync' ]
+    [ 'test'        =>  'test sync' ],
+    [ 'defaultmail=s' => 'set default mail' ],
+    [ 'accmap=s'          => 'set account name attribute to map' ]
 }
 
 #check & set site
@@ -114,6 +124,9 @@ sub check_ldap_opts{
     }
     if(defined $$opts->{'excludeuser'}){
         $$obj->excludeuser($$opts->{'excludeuser'});
+    }
+    if(defined $$opts->{'defaultmail'}){
+        $$obj->default_mail($$opts->{'defaultmail'});
     }
 }
 
@@ -155,6 +168,7 @@ sub run{
                              ldapqueryfilter => $opts->{'queryfilter'},
                              ldapsearchbase => $opts->{'searchbase'},
                              ldapdomid => $opts->{'domainid'},
+                             accmap => $opts->{'accmap'},
                              );
             check_site(\$opts, \$obj);
             check_opts(\$opts, \$obj);
