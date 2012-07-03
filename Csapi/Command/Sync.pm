@@ -33,11 +33,15 @@ ldap
 example:
 #open source LDAP example (This will get all uid user, excluding batman,robin & mrbean)
 $0 sync --domainid xxx --ldaphost ldap.example.com --searchbase "dc=example,dc=com"
+        --binddn "uid=admin,dc=example,dc=com"
+        --bindpass "mypass"
         --queryfilter "(uid=*)" --accmap "uid" --excludeuser "batman,robin,mrbean" --ia ldap
         
 #Microsoft AD example (This will get all user with 'user' and 'guest' prefix )
-$0 sync --domainid xxx --ldaphost ldap.example.com --searchbase "dc=example,dc=com"
+$0 sync --domainid xxx --ldaphost ldap.example.com --searchbase "cn=users,dc=example,dc=com"
         --queryfilter "(|(sAMAccountName=guest*) (sAMAccountName=user*))"
+        --binddn "cn=administrator,cn=users,dc=example,dc=com"
+        --bindpass "mypass"
         --accmap "sAMAccountName" --ia ldap
 EOF
 }
