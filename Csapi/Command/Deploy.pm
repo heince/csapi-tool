@@ -10,32 +10,32 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 deploy [--cmd-opt] [cmd-arg]
+cloudcmd deploy [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
---ia                                            => 'use integration api url (legacy port 8096)'
---param     [comma separated api param]         => 'parameter field'
---response  [comma separated api response]      => 'response field'
---noheader                                      => 'do not print header'
---showparams                                    => 'print supported parameter'
---showresponses                                 => 'print supported responses'
---json                                          => 'print output in json'
---site      [site profile name]                 => 'set site to be use'
---soid      [serviceofferingid]                 => 'set service offering id (required)'
---tid       [templateid]                        => 'set template id (required)'
---zid       [zoneid]                            => 'set zone id (required)'
---name      [displayname]                       => 'set displayname'
+--ia                                                => 'use integration api url (legacy port 8096)'
+-p | --param     [comma separated api param]        => 'parameter field'
+-r | --response  [comma separated api response]     => 'response field'
+--nh | --noheader                                   => 'do not print header'
+--sp | --showparams                                 => 'print supported parameter'
+--sr | --showresponses                              => 'print supported responses'
+--json                                              => 'print output in json'
+-s | --site      [site profile name]                => 'set site to be use'
+--soid           [serviceofferingid]                => 'set service offering id (required)'
+--tid            [templateid]                       => 'set template id (required)'
+--zid            [zoneid]                           => 'set zone id (required)'
+-n | --name      [displayname]                      => 'set displayname'
 
 available cmd-arg:
 vm
 
 example:
 #advanced network with dhcp
-$0 deploy --soid xxx --tid xxx --zid xxx --name testvm1 --param networkids=xxx  vm
+cloudcmd deploy --soid xxx --tid xxx --zid xxx -n testvm1 -p networkids=xxx  vm
+
 #advanced network with ip address specified
-$0 deploy --soid xxx --tid xxx --zid xxx --name testvm1 --param iptonetworklist[0].ip=192.168.89.224,iptonetworklist[0].networkid=xxx vm
-$0 deploy --showparams vm
-$0 deploy --showreponses vm
+cloudcmd deploy --soid xxx --tid xxx --zid xxx -n testvm1 -p iptonetworklist[0].ip=192.168.89.224,iptonetworklist[0].networkid=xxx vm
+
 EOF
 }
 
@@ -66,18 +66,18 @@ sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
     [ 'ia'          => 'use integration api url (legacy port 8096)'],
-    [ 'param=s'   => 'parameter field'  ],
-    [ 'response=s'   => 'response field'  ],
-    [ 'noheader'    =>  'do not print header' ],
-    [ 'showparams'  =>  'print supported parameter' ],
-    [ 'showresponses' => 'print supported responses' ],
+    [ 'param|p=s'   => 'parameter field'  ],
+    [ 'response|r=s'   => 'response field'  ],
+    [ 'noheader|nh'    =>  'do not print header' ],
+    [ 'showparams|sp'  =>  'print supported parameter' ],
+    [ 'showresponses|sr' => 'print supported responses' ],
     [ 'h|help'    =>  'print help' ], 
     [ 'json' => 'print output in json' ],
-    [ 'site=s' => 'set site'],
+    [ 'site|s=s' => 'set site'],
     [ 'soid=s'    => 'set service offering id'],
     [ 'tid=s'    => 'set template id'],
     [ 'zid=s'    => 'set zone id'],
-    [ 'name=s'    => 'set displayname'],
+    [ 'name|n=s'    => 'set displayname'],
     [ 'stime=s'   => 'set start time' ],
     [ 'etime=s'   => 'set end time']
 }

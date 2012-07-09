@@ -13,20 +13,21 @@ Usage:
 $0 delete [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
---ia                                            => 'use integration api url (legacy port 8096)'
---param     [comma separated api param]         => 'parameter field'
---response  [comma separated api response]      => 'response field'
---noheader                                      => 'do not print header'
---site      [site profile name]                 => 'set site to be use'
---json                                          => 'print output in json'
---id        [id / uuid]                         => 'set id / uuid to delete'                      
+--ia                                                => 'use integration api url (legacy port 8096)'
+-p | --param     [comma separated api param]        => 'parameter field'
+-r | --response  [comma separated api response]     => 'response field'
+--nh | --noheader                                   => 'do not print header'
+-s | --site      [site profile name]                => 'set site to be use'
+--json                                              => 'print output in json'
+-i | --id        [id / uuid]                        => 'set id / uuid to delete'                      
             
 available cmd-arg:
 account|domain
 
 example:
-$0 delete --id xxx account
-$0 delete --id xxx domain
+cloudcmd del -i xxx account
+cloudcmd del -i xxx domain
+
 EOF
 }
 
@@ -61,15 +62,13 @@ sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
     [ 'ia'          => 'use integration api url (legacy port 8096)' ],
-    [ 'param=s'   => 'parameter field'  ],
-    [ 'response=s'   => 'response field'  ],
-    [ 'noheader'    =>  'do not print header' ],
-    [ 'showparams'  =>  'print supported parameter' ],
-    [ 'showresponses' => 'print supported responses' ],
+    [ 'param|p=s'   => 'parameter field'  ],
+    [ 'response|r=s'   => 'response field'  ],
+    [ 'noheader|nh'    =>  'do not print header' ],
     [ 'h|help'    =>  'print help' ], 
-    [ 'site=s' => 'set site' ],
+    [ 'site|s=s' => 'set site' ],
     [ 'json' => 'print output in json' ],
-    [ 'id=s'  =>  'set id to be deleted' ],
+    [ 'id|i=s'  =>  'set id to be deleted' ],
 }
 
 #check & set site

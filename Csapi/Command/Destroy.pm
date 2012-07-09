@@ -10,25 +10,26 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 destroy [--cmd-opt] [cmd-arg]
+cloudcmd destroy [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
---ia                                            => 'use integration api url (legacy port 8096)'
---param     [comma separated api param]         => 'parameter field'
---response  [comma separated api response]      => 'response field'
---noheader                                      => 'do not print header'
---showparams                                    => 'print supported parameter'
---showresponses                                 => 'print supported responses'
---json                                          => 'print output in json'
---site      [site profile name]                 => 'set site to be use'
---id        [comma separated vmid]              => 'set vm id (required)'
+--ia                                                => 'use integration api url (legacy port 8096)'
+-p | --param     [comma separated api param]        => 'parameter field'
+-r | --response  [comma separated api response]     => 'response field'
+--nh | --noheader                                   => 'do not print header'
+--sp | --showparams                                 => 'print supported parameter'
+--sr | --showresponses                              => 'print supported responses'
+--json                                              => 'print output in json'
+-s | --site      [site profile name]                => 'set site to be use'
+-i | --id        [comma separated vmid]             => 'set vm id (required)'
 
 available cmd-arg:
 vm
 
 example:
-$0 destroy --id x vm
-$0 destroy --id x,y,z vm
+cloudcmd destroy -i x vm
+cloudcmd destroy -i x,y,z vm
+
 EOF
 }
 
@@ -38,6 +39,8 @@ sub validate{
     if(defined $cmd_opts->{'h'}){
         die $self->usage_text();
     }
+    
+    die "VM id required\n" unless $cmd_opts->{'id'};
     
     if(@args){
         given($args[0]){
@@ -57,15 +60,15 @@ sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
     [ 'ia'          => 'use integration api url (legacy port 8096)'],
-    [ 'param=s'   => 'parameter field'  ],
-    [ 'response=s'   => 'response field'  ],
-    [ 'noheader'    =>  'do not print header' ],
-    [ 'showparams'  =>  'print supported parameter' ],
-    [ 'showresponses' => 'print supported responses' ],
+    [ 'param|p=s'   => 'parameter field'  ],
+    [ 'response|r=s'   => 'response field'  ],
+    [ 'noheader|nh'    =>  'do not print header' ],
+    [ 'showparams|sp'  =>  'print supported parameter' ],
+    [ 'showresponses|sr' => 'print supported responses' ],
     [ 'h|help'    =>  'print help' ], 
     [ 'json' => 'print output in json' ],
-    [ 'site=s' => 'set site'],
-    [ 'id=s'    => 'set vm id'],
+    [ 'site|s=s' => 'set site'],
+    [ 'id|i=s'    => 'set vm id'],
 }
 
 #check & set site

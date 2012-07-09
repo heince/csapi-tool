@@ -10,17 +10,17 @@ sub usage_text {
     # The usage_text() hook in the Application Class is meant to return a
     # usage string describing the whole application.
     my $usage = <<EOF;
-$0 <cmd> [--cmd-opt] [cmd-arg]
+cloudcmd <cmd> [--cmd-opt] [cmd-arg]
 
 Display help on each command:
-$0 <cmd> -h
-$0 list -h
-$0 deploy -h
+cloudcmd <cmd> -h
+cloudcmd list -h
+cloudcmd deploy -h
 
 (commands):
 console             run interactively
 cmd-list            list available commands
-list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job)
+list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain)
 deploy              deploy  [--cmd-opt] (vm)
 destroy             destroy [--cmd-opt] (vm)
 stop                stop    [--cmd-opt] (vm)

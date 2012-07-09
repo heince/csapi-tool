@@ -18,18 +18,28 @@ create         create  [--cmd-opt] (account|domain)
 delete         delete  [--cmd-opt] (account|domain)
 
 available cmd-opt on list command:
---ia                                            => 'use integration api url (legacy port 8096)'
---param     [comma separated api param]         => 'parameter field'
---response  [comma separated api response]      => 'response field'
---noheader                                      => 'do not print header'
---showparams                                    => 'print supported parameter'
---showresponses                                 => 'print supported responses'
---json                                          => 'print output in json'
---site      [site profile name]                 => 'set site to be use'
---id        [id|uuid]                           => 'set id or uuid for cmd-arg'
+--ia                                                => 'use integration api url (legacy port 8096)'
+-p | --param     [comma separated api param]        => 'parameter field'
+-r | --response  [comma separated api response]     => 'response field'
+--nh | --noheader                                   => 'do not print header'
+--sp | --showparams                                 => 'print supported parameter'
+--sr | --showresponses                              => 'print supported responses'
+--json                                              => 'print output in json'
+-s | --site      [site profile name]                => 'set site to be use'
+-i | --id        [id|uuid]                          => 'set id or uuid for cmd-arg'
 
-Example:
-* cloudcmd ls --site branch-profile vm (listing vm using 'branch-profile' connection)
+example:
+cloudcmd ls -a vm                                   => list all vm
+cloudcmd ls --nh vm                                 => list vm without header
+cloudcmd ls -p account=heince,domainid=2 vm         => list vm with specified API parameter
+cloudcmd ls -r displayname,account,domain vm        => list vm with specified responses field
+cloudcmd ls --sp vm                                 => list parameter supported on listing vm
+cloudcmd ls --sr vm                                 => list response supported on listing vm
+cloudcmd ls -i xxx job                              => query async job by jobid
+cloudcmd ls -s office-admin vm                      => list vm using 'office-admin' site profile
+
+More Example:
+* cloudcmd ls -s branch-profile vm (listing vm using 'branch-profile' connection)
   output:
   DISPLAYNAME              STATE       ACCOUNT        DOMAIN         NIC-IP         
 
@@ -37,26 +47,22 @@ Example:
   VIEWPOINT                Running     heince         DEV            192.168.89.38  
   Cougar-c01               Running     heince         DEV            192.168.89.141
 
-* cloudcmd set --host ldap.example.com --queryfilter "(&(uid=%u))" --searchbase "ou=example,dc=com"
-  --binddn "uid=user1,dc=example,dc=com"  --bindpass "demo" --ia ldap
+* cloudcmd set -H ldap.example.com -f "(&(uid=%u))" -b "ou=example,dc=com"
+  -D "uid=user1,dc=example,dc=com"  -w "demo" --ia ldap
   
 * #open source LDAP example (This will get all uid user, excluding batman,robin & mrbean)
-  cloudcmd sync --domainid xxx --ldaphost ldap.example.com --searchbase "dc=example,dc=com"
-        --binddn "uid=admin,dc=example,dc=com"
-        --bindpass "mypass"
-        --queryfilter "(uid=*)" --accmap "uid" --excludeuser "batman,robin,mrbean" --ia ldap
+  cloudcmd sync -d xxx -H ldap.example.com -b "dc=example,dc=com"
+        -D "uid=admin,dc=example,dc=com" -w "mypass"
+        -f "(uid=*)" -a "uid" -x "batman,robin,mrbean" --ia ldap
         
   #Microsoft AD example (This will get all user with 'user' and 'guest' prefix )
-  cloudcmd sync --domainid xxx --ldaphost ldap.example.com --searchbase "dc=example,dc=com"
-        --queryfilter "(|(sAMAccountName=guest*) (sAMAccountName=user*))"
-        --binddn "cn=administrator,cn=users,dc=example,dc=com"
-        --bindpass "mypass"
-        --accmap "sAMAccountName" --ia ldap
+  cloudcmd sync -d xxx -H ldap.example.com -b "cn=users,dc=example,dc=com"
+        -f "(|(sAMAccountName=guest*) (sAMAccountName=user*))"
+        -D "cn=administrator,cn=users,dc=example,dc=com" -w "mypass"
+        -a "sAMAccountName" --ia ldap
         
-* cloudcmd deploy --soid xxx --tid xxx --zid xxx --name testvm1 --param networkids=xxx  vm
-* cloudcmd start --id 1,3,6 vm (start vm with id 1,3 and 6)
-* cloudcmd ls --param id=9c2f1c37-e317-45c0-9ec1-82d3216c0678 --response id,displayname,state vm
-  (show vm with id 3, only show id,name,state field)
+* cloudcmd deploy --soid xxx --tid xxx --zid xxx -n testvm1 -p networkids=xxx  vm
+* cloudcmd start -i 1,3,6 vm (start vm with id 1,3 and 6)
 * cloudcmd usage -s 2012-05-01 -e 2012-06-01 -a c6e3d03f-4337-44f2-af04-b4cf28709990 -type (1|2|6)
 Account: heince         
 Domain : DEV       
@@ -86,7 +92,7 @@ Requirements:
 - minimum perl v5.10
 - For RedHat / CentOS 6 x64, extract required perl lib from 'csapi_perl_lib_RedHat6.tgz', copy it over to
   /usr/local/lib64/perl5/ & /usr/local/share/perl5/, if it's a clean system run :
-  'tar -xf csapi_perl_lib_RedHat6.tgz -C /usr/'
+  'tar -xf csapi_perl_lib_RedHat6.tgz -C /'
 - if you want to compile from cpan you will need libxml2-devel openssl-devel gcc make mysql-devel expat-devel
   then install required perl modules from cpan: perl install_prerequisites.pl
 - on config/config.xml

@@ -10,21 +10,22 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 remove [--cmd-opt] [cmd-arg]
+cloudcmd remove [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
---ia                                            => 'use integration api url (legacy port 8096)'
---param     [comma separated api param]         => 'parameter field'
---response  [comma separated api response]      => 'response field'
---noheader                                      => 'do not print header'
---site      [site profile name]                 => 'set site to be use'
+--ia                                                => 'use integration api url (legacy port 8096)'
+-p | --param     [comma separated api param]        => 'parameter field'
+-r | --response  [comma separated api response]     => 'response field'
+--nh | --noheader                                   => 'do not print header'
+-s | --site      [site profile name]                => 'set site to be use'
 
 available cmd-arg:
 ldap
 
-example:
-$0 remove ldap  #remove ldap configuration
-$0 remove --site branch-office ldap
+example to remove ldap configuration:
+cloudcmd remove ldap  
+cloudcmd remove -s branch-office ldap
+
 EOF
 }
 
@@ -53,11 +54,11 @@ sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
     [ 'ia'          => 'use integration api url (legacy port 8096)'],
-    [ 'param=s'   => 'parameter field'  ],
-    [ 'response=s'   => 'response field'  ],
-    [ 'noheader'    =>  'do not print header' ],
+    [ 'param|p=s'   => 'parameter field'  ],
+    [ 'response|r=s'   => 'response field'  ],
+    [ 'noheader|nh'    =>  'do not print header' ],
     [ 'h|help'    =>  'print help' ], 
-    [ 'site=s' => 'set site'],
+    [ 'site|s=s' => 'set site'],
     
 }
 

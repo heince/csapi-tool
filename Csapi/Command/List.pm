@@ -12,40 +12,39 @@ my $supported_args = qq /vm|account|site|diskoffering|svcoffering|template|user|
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 list [--cmd-opt] [cmd-arg]
+cloudcmd ls [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
---ia                                            => 'use integration api url (legacy port 8096)'
---param     [comma separated api param]         => 'parameter field'
---response  [comma separated api response]      => 'response field'
---noheader                                      => 'do not print header'
---showparams                                    => 'print supported parameter'
---showresponses                                 => 'print supported responses'
---json                                          => 'print output in json'
---site      [site profile name]                 => 'set site to be use'
---id        [id|uuid]                           => 'set id or uuid for cmd-arg'
+--ia                                                => 'use integration api url (legacy port 8096)'
+-p | --param     [comma separated api param]        => 'parameter field'
+-r | --response  [comma separated api response]     => 'response field'
+--nh | --noheader                                   => 'do not print header'
+--sp | --showparams                                 => 'print supported parameter'
+--sr | --showresponses                              => 'print supported responses'
+--json                                              => 'print output in json'
+-s | --site      [site profile name]                => 'set site to be use'
+-i | --id        [id|uuid]                          => 'set id or uuid for cmd-arg'
 
 available cmd-arg:
 $supported_args
 
 example:
-$0 list vm
-$0 list --noheader vm
-$0 list --param account=heince,domainid=2 vm
-$0 ls --response displayname,account,domain vm
-$0 ls --showparams vm
-$0 ls --showresponses vm
-$0 ls job                                           #list async job
-$0 ls --id 83d53862-f0f7-4840-81eb-d5a37b7b0749 job #query async job by jobid
-$0 ls site                                          #show available site profile
-$0 ls --site office-admin vm                        #list vm using 'office-admin' profile
+cloudcmd ls -a vm                                   => list all vm
+cloudcmd ls --nh vm                                 => list vm without header
+cloudcmd ls -p account=heince,domainid=2 vm         => list vm with specified API parameter
+cloudcmd ls -r displayname,account,domain vm        => list vm with specified responses field
+cloudcmd ls --sp vm                                 => list parameter supported on listing vm
+cloudcmd ls --sr vm                                 => list response supported on listing vm
+cloudcmd ls -i xxx job                              => query async job by jobid
+cloudcmd ls -s office-admin vm                      => list vm using 'office-admin' site profile
+
 EOF
 }
 
 #print usage if no options specified
 sub validate{
     my ($self, $cmd_opts, @args) = @_;
-
+    
     if(defined $cmd_opts->{'h'}){
         die $self->usage_text();
     }
@@ -68,16 +67,18 @@ sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
     [ 'ia'          => 'use integration api url (legacy port 8096)'],
-    [ 'param=s'   => 'parameter field'  ],
-    [ 'response=s'   => 'response field'  ],
-    [ 'noheader'    =>  'do not print header' ],
-    [ 'showparams'  =>  'print supported parameter' ],
-    [ 'showresponses' => 'print supported responses' ],
+    [ 'param|p=s'   => 'parameter field'  ],
+    [ 'response|r=s'   => 'response field'  ],
+    [ 'noheader|nh'    =>  'do not print header' ],
+    [ 'showparams|sp'  =>  'print supported parameter' ],
+    [ 'showresponses|sr' => 'print supported responses' ],
     [ 'h|help'    =>  'print help' ],
     [ 'json' => 'print output in json' ],
-    [ 'site=s' => 'set site'],
-    [ 'id=s'    => 'set id']
+    [ 'site|s=s' => 'set site'],
+    [ 'id|i=s'    => 'set id'],
+    [ 'all|a'     => 'turn on listall=true' ]
 }
+
 
 #check and set param / response attribute 
 sub check_opts{
@@ -88,6 +89,9 @@ sub check_opts{
     }
     if(defined $$opts->{'site'}){
         $$obj->default_site($$opts->{'site'});
+    }
+    if(defined $$opts->{'all'}){
+        $$obj->param("listall=true");
     }
     if(defined $$opts->{'showparams'}){
         $$obj->set_list_xml();
@@ -100,7 +104,11 @@ sub check_opts{
         exit;
     }
     if(defined $$opts->{'param'}){
-        $$obj->param($$opts->{'param'});
+        if($$obj->param){
+            $$obj->param($$obj->param . "," . $$opts->{'param'});
+        }else{
+            $$obj->param($$opts->{'param'});   
+        }
     }
     if(defined $$opts->{'response'}){
         $$obj->response($$opts->{'response'});

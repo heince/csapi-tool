@@ -10,39 +10,38 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 sync [--cmd-opt] [cmd-arg]
+cloudcmd sync [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
---ia                                            => 'use integration api url (legacy port 8096)'
---site          [site profile name]             => 'set site to be use'
---domainid      [domain id]                     => 'set domain id'
---ldaphost      [ldap server address]           => 'set LDAP server'
---queryfilter   [eg. "(uid=user*)" ]            => 'set LDAP query filter for account name'
---searchbase    [eg. dc=cloud,dc=com]           => 'set LDAP search base'
---port          [LDAP port number]              => 'set ldap port number'
---binddn        [eg. cn=admin,dc=cloud,dc=com]  => 'set user with search permissions'
---bindpass      [password]                      => 'set bind user password'
---excludeuser   [comma separated user]          => 'exclude user list'
---test          [test sync]                     => 'summary of what need to be sync if success'
---defaultmail   [default mail]                  => 'set default mail if not found'
---accmap        [eg. uid or sAMAccountName on AD]   => 'set account name attribute to map'
+--ia                                                    => 'use integration api url (legacy port 8096)'
+-s | --site          [site profile name]                => 'set site to be use'
+-d | --domainid      [domain id]                        => 'set domain id'
+-H | --ldaphost      [ldap server address]              => 'set LDAP server'
+-f | --queryfilter   [eg. "(uid=user*)" ]               => 'set LDAP query filter for account name'
+-b | --searchbase    [eg. dc=cloud,dc=com]              => 'set LDAP search base'
+-P | --port          [LDAP port number]                 => 'set ldap port number'
+-D | --binddn        [eg. cn=admin,dc=cloud,dc=com]     => 'set user with search permissions'
+-w | --bindpass      [password]                         => 'set bind user password'
+-x | --excludeuser   [comma separated user]             => 'exclude user list'
+-t | --test          [test sync]                        => 'summary of what need to be sync if success'
+-e | --defaultmail   [default mail]                     => 'set default mail if not found'
+-a | --accmap        [eg. uid or sAMAccountName on AD]  => 'set account name attribute to map'
             
 available cmd-arg:
 ldap
 
 example:
 #open source LDAP example (This will get all uid user, excluding batman,robin & mrbean)
-$0 sync --domainid xxx --ldaphost ldap.example.com --searchbase "dc=example,dc=com"
-        --binddn "uid=admin,dc=example,dc=com"
-        --bindpass "mypass"
-        --queryfilter "(uid=*)" --accmap "uid" --excludeuser "batman,robin,mrbean" --ia ldap
+cloudcmd sync -d xxx -H ldap.example.com -b "dc=example,dc=com"
+        -D "uid=admin,dc=example,dc=com" -w "mypass"
+        -f "(uid=*)" -a "uid" -x "batman,robin,mrbean" --ia ldap
         
 #Microsoft AD example (This will get all user with 'user' and 'guest' prefix )
-$0 sync --domainid xxx --ldaphost ldap.example.com --searchbase "cn=users,dc=example,dc=com"
-        --queryfilter "(|(sAMAccountName=guest*) (sAMAccountName=user*))"
-        --binddn "cn=administrator,cn=users,dc=example,dc=com"
-        --bindpass "mypass"
-        --accmap "sAMAccountName" --ia ldap
+cloudcmd sync -d xxx -H ldap.example.com -b "cn=users,dc=example,dc=com"
+        -f "(|(sAMAccountName=guest*) (sAMAccountName=user*))"
+        -D "cn=administrator,cn=users,dc=example,dc=com" -w "mypass"
+        -a "sAMAccountName" --ia ldap
+        
 EOF
 }
 
@@ -77,18 +76,18 @@ sub option_spec {
     # specification for a particular command.
     [ 'ia'          => 'use integration api url (legacy port 8096)' ],
     [ 'h|help'    =>  'print help' ], 
-    [ 'site=s' => 'set site' ],
-    [ 'domainid=s' => 'domain id'],
-    [ 'queryfilter=s'    => 'set LDAP query filter'],
-    [ 'searchbase=s'    =>  'LDAP set base search'],
-    [ 'port=i'      =>  'set port'],
-    [ 'ldaphost=s'  =>  'set ldap hostname / ip' ],
-    [ 'binddn=s'    =>  'distinguished name of a user with the search permission'],
-    [ 'bindpass=s'  =>  'dn password'],
-    [ 'excludeuser=s' => 'exclude user list' ],
-    [ 'test'        =>  'test sync' ],
-    [ 'defaultmail=s' => 'set default mail' ],
-    [ 'accmap=s'          => 'set account name attribute to map' ]
+    [ 'site|s=s' => 'set site' ],
+    [ 'domainid|d=s' => 'domain id'],
+    [ 'queryfilter|f=s'    => 'set LDAP query filter'],
+    [ 'searchbase|b=s'    =>  'LDAP set base search'],
+    [ 'port|P=i'      =>  'set port'],
+    [ 'ldaphost|H=s'  =>  'set ldap hostname / ip' ],
+    [ 'binddn|D=s'    =>  'distinguished name of a user with the search permission'],
+    [ 'bindpass|w=s'  =>  'dn password'],
+    [ 'excludeuser|x=s' => 'exclude user list' ],
+    [ 'test|t'        =>  'test sync' ],
+    [ 'defaultmail|e=s' => 'set default mail' ],
+    [ 'accmap|a=s'          => 'set account name attribute to map' ]
 }
 
 #check & set site

@@ -10,35 +10,34 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 create [--cmd-opt] [cmd-arg]
+cloudcmd create [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
---ia                                            => 'use integration api url (legacy port 8096)'
---param     [comma separated api param]         => 'parameter field'
---response  [comma separated api response]      => 'response field'
---noheader                                      => 'do not print header'
---showparams                                    => 'print supported parameter'
---showresponses                                 => 'print supported responses'
---site      [site profile name]                 => 'set site to be use'
---json                                          => 'print output in json'
---acctype   [0 for user, 1 for root admin,      => 'account type'
+--ia                                                => 'use integration api url (legacy port 8096)'
+-p | --param     [comma separated api param]        => 'parameter field'
+-r | --response  [comma separated api response]     => 'response field'
+--nh | --noheader                                   => 'do not print header'
+--sp | --showparams                                 => 'print supported parameter'
+--sr | --showresponses                              => 'print supported responses'
+-s | --site      [site profile name]                => 'set site to be use'
+--json                                              => 'print output in json'
+-a | --acctype   [0 for user, 1 for root admin,     => 'account type'
             and 2 for domain admin]             
---email     [email address]                     => 'set email address'
---fname     [first name]                        => 'set first name'
---lname     [last name]                         => 'set last name'
---password  [password]                          => 'set password'
---uname     [user name]                        => 'set username'
---domainid  [domain id]                         => 'set domain id'
---domainname  [domain name]                         => 'set domain name'
+-e | --email     [email address]                    => 'set email address'
+-f | --fname     [first name]                       => 'set first name'
+-l | --lname     [last name]                        => 'set last name'
+-w | --password  [password]                         => 'set password'
+-u | --uname     [user name]                        => 'set username'
+-d | --domainid  [domain id]                        => 'set domain id'
+-D | --domainname  [domain name]                    => 'set domain name'
             
 available cmd-arg:
 account domain
 
 example:
-$0 create --acctype 0 --email dummy\@example.com --fname dummy \\
-          --lname cloud --password 'mypass' --uname dummy account
+cloudcmd create -a 0 -e dummy\@example.com -f dummy -l cloud -w 'mypass' -u dummy account
+cloudcmd create -D "sales" domain
 
-$0 create --domainname "sales" domain
 EOF
 }
 
@@ -81,22 +80,22 @@ sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
     [ 'ia'          => 'use integration api url (legacy port 8096)' ],
-    [ 'param=s'   => 'parameter field'  ],
-    [ 'response=s'   => 'response field'  ],
-    [ 'noheader'    =>  'do not print header' ],
-    [ 'showparams'  =>  'print supported parameter' ],
-    [ 'showresponses' => 'print supported responses' ],
+    [ 'param|p=s'   => 'parameter field'  ],
+    [ 'response|r=s'   => 'response field'  ],
+    [ 'noheader|nh'    =>  'do not print header' ],
+    [ 'showparams|sp'  =>  'print supported parameter' ],
+    [ 'showresponses|sr' => 'print supported responses' ],
     [ 'h|help'    =>  'print help' ], 
-    [ 'site=s' => 'set site' ],
+    [ 'site|s=s' => 'set site' ],
     [ 'json' => 'print output in json' ],
-    [ 'acctype=s' => 'Specify 0 for user, 1 for root admin, and 2 for domain admin' ],
-    [ 'email=s' => 'set email' ],
-    [ 'fname=s' => 'First name' ],
-    [ 'lname=s' => 'Last name' ],
-    [ 'password=s' => 'password' ],
-    [ 'uname=s' => 'username' ],
-    [ 'domainid=s' => 'domain id'],
-    [ 'domainname=s' => 'domain name' ]
+    [ 'acctype|a=s' => 'Specify 0 for user, 1 for root admin, and 2 for domain admin' ],
+    [ 'email|e=s' => 'set email' ],
+    [ 'fname|f=s' => 'First name' ],
+    [ 'lname|l=s' => 'Last name' ],
+    [ 'password|w=s' => 'password' ],
+    [ 'uname|u=s' => 'username' ],
+    [ 'domainid|d=s' => 'domain id'],
+    [ 'domainname|D=s' => 'domain name' ]
     
 }
 

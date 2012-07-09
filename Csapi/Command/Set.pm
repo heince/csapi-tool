@@ -10,34 +10,35 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 set [--cmd-opt] [cmd-arg]
+cloudcmd set [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
---ia                                            => 'use integration api url (legacy port 8096)'
---param     [comma separated api param]         => 'parameter field'
---response  [comma separated api response]      => 'response field'
---noheader                                      => 'do not print header'
---site      [site profile name]                 => 'set site to be use'
---host          [hostname]                      => 'set hostname'
---queryfilter   [eg. (&(uid=%u))]               => 'set LDAP query filter'
---searchbase    [eg. dc=cloud,dc=com]           => 'set LDAP search base'
---binddn        [eg. cn=admin,dc=cloud,dc=com]  => 'set user with search permissions'
---bindpass      [password]                      => 'set bind user password'
---port          [LDAP port number]              => 'set ldap port number'
---ssl                                           => 'use ssl'
---truststore    [eg. /key/ldapstore.jks]        => 'set path of the truststore'
---storepass     [password]                      => 'password for truststore'
+--ia                                                 => 'use integration api url (legacy port 8096)'
+-p | --param     [comma separated api param]         => 'parameter field'
+-r | --response  [comma separated api response]      => 'response field'
+--nh | --noheader                                    => 'do not print header'
+-s | --site      [site profile name]                 => 'set site to be use'
+-H | --host          [hostname / IP]                 => 'set hostname'
+-f | --queryfilter   [eg. (&(uid=%u))]               => 'set LDAP query filter'
+-b | --searchbase    [eg. dc=cloud,dc=com]           => 'set LDAP search base'
+-D | --binddn        [eg. cn=admin,dc=cloud,dc=com]  => 'set user with search permissions'
+-w | --bindpass      [password]                      => 'set bind user password'
+-P | --port          [LDAP port number]              => 'set ldap port number'
+--ssl                                                => 'use ssl'
+-T | --truststore    [eg. /key/ldapstore.jks]        => 'set path of the truststore'
+-W | --storepass     [password]                      => 'password for truststore'
 
 available cmd-arg:
 ldap
 
 example:
-$0 set --host ldap.example.com --queryfilter "(&(uid=%u))" --searchbase "dc=cloud,dc=com" ldap
-$0 set --host ldap.example.com --binddn "cn=administrator,cn=users,dc=cloud,dc=com" \\
-       --searchbase "cn=users,dc=cloud,dc=com"  --bindpass "mypass"  --ia --queryfilter "(&(sAMAccountName=%u))"  ldap
-$0 set --host ldap.example.com --queryfilter "(&(uid=%u))" \\
-        --searchbase "dc=cloud,dc=com" --binddn "cn=admin,dc=cloud,dc=com" \\
-        --bindpass "mypass" --ssl --truststore "/key/ldapstore.jks" --storepass "mystorepass" ldap
+cloudcmd set -H ldap.example.com -f "(&(uid=%u))" -b "dc=cloud,dc=com" ldap
+cloudcmd set -H ldap.example.com -D "cn=administrator,cn=users,dc=cloud,dc=com" \\
+       -b "cn=users,dc=cloud,dc=com"  -w "mypass"  --ia -f "(&(sAMAccountName=%u))"  ldap
+cloudcmd set -H ldap.example.com -f "(&(uid=%u))" \\
+        -b "dc=cloud,dc=com" -D "cn=admin,dc=cloud,dc=com" \\
+        -w "mypass" --ssl -T "/key/ldapstore.jks" -W "mystorepass" ldap
+
 EOF
 }
 
@@ -81,20 +82,20 @@ sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
     [ 'ia'          => 'use integration api url (legacy port 8096)'],
-    [ 'param=s'   => 'parameter field'  ],
-    [ 'response=s'   => 'response field'  ],
-    [ 'noheader'    =>  'do not print header' ],
+    [ 'param|p=s'   => 'parameter field'  ],
+    [ 'response|r=s'   => 'response field'  ],
+    [ 'noheader|nh'    =>  'do not print header' ],
     [ 'h|help'    =>  'print help' ], 
-    [ 'site=s' => 'set site'],
-    [ 'host=s' => 'set hostname'],
-    [ 'queryfilter=s'    => 'set LDAP query filter'],
-    [ 'searchbase=s'    =>  'LDAP set base search'],
-    [ 'port=i'      =>  'set port'],
+    [ 'site|s=s' => 'set site'],
+    [ 'host|H=s' => 'set hostname'],
+    [ 'queryfilter|f=s'    => 'set LDAP query filter'],
+    [ 'searchbase|b=s'    =>  'LDAP set base search'],
+    [ 'port|P=i'      =>  'set port'],
     [ 'ssl'            =>  'use ssl'],
-    [ 'binddn=s'    =>  'distinguished name of a user with the search permission'],
-    [ 'bindpass=s'  =>  'dn password'],
-    [ 'truststore=s'    =>  'path of cert store'],
-    [ 'storepass=s'     =>  'password of the store'],
+    [ 'binddn|D=s'    =>  'distinguished name of a user with the search permission'],
+    [ 'bindpass|w=s'  =>  'dn password'],
+    [ 'truststore|T=s'    =>  'path of cert store'],
+    [ 'storepass|W=s'     =>  'password of the store'],
     
 }
 

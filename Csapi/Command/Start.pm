@@ -10,27 +10,26 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 start [--cmd-opt] [cmd-arg]
+cloudcmd start [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
---ia                                            => 'use integration api url (legacy port 8096)'
---param     [comma separated api param]         => 'parameter field'
---response  [comma separated api response]      => 'response field'
---noheader                                      => 'do not print header'
---showparams                                    => 'print supported parameter'
---showresponses                                 => 'print supported responses'
---json                                          => 'print output in json'
---site      [site profile name]                 => 'set site to be use'
---id        [comma separated id|uuid]           => 'set id'
+--ia                                                => 'use integration api url (legacy port 8096)'
+-p | --param     [comma separated api param]        => 'parameter field'
+-r | --response  [comma separated api response]     => 'response field'
+--nh | --noheader                                   => 'do not print header'
+--sp | --showparams                                 => 'print supported parameter'
+--sr | --showresponses                              => 'print supported responses'
+--json                                              => 'print output in json'
+-s | --site      [site profile name]                => 'set site to be use'
+-i | --id        [comma separated id|uuid]          => 'set id'
 
 available cmd-arg:
 vm
 
 example:
-$0 start --id 1,2,3 vm
-$0 start --id 33b9d87a-93cd-4235-bb10-09ece1325487 --param forced=true --noheader vm
-$0 start --showparams vm
-$0 start --showreponses vm
+cloudcmd start -i 1,2,3 vm
+cloudcmd start -i 33b9d87a-93cd-4235-bb10-09ece1325487 -p forced=true --nh vm
+
 EOF
 }
 
@@ -59,15 +58,15 @@ sub option_spec {
     # The option_spec() hook in the Command Class provides the option
     # specification for a particular command.
     [ 'ia'          => 'use integration api url (legacy port 8096)'],
-    [ 'param=s'   => 'parameter field'  ],
-    [ 'response=s'   => 'response field'  ],
-    [ 'noheader'    =>  'do not print header' ],
-    [ 'showparams'  =>  'print supported parameter' ],
-    [ 'showresponses' => 'print supported responses' ],
+    [ 'param|p=s'   => 'parameter field'  ],
+    [ 'response|r=s'   => 'response field'  ],
+    [ 'noheader|nh'    =>  'do not print header' ],
+    [ 'showparams|sp'  =>  'print supported parameter' ],
+    [ 'showresponses|sr' => 'print supported responses' ],
     [ 'h|help'    =>  'print help' ], 
     [ 'json' => 'print output in json' ],
-    [ 'site=s' => 'set site'],
-    [ 'id=s'    => 'set id or uuid'],
+    [ 'site|s=s' => 'set site'],
+    [ 'id|i=s'    => 'set id or uuid'],
 }
 
 #check & set site
