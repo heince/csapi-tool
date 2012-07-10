@@ -1,0 +1,94 @@
+<root>
+    <top>/listprojectsresponse/project</top>
+    <command>listProjects</command>
+    <description>Lists projects and provides detailed information for listed projects</description>
+    <isAsync>false</isAsync>
+    <defaultresponses>id,name,account,domain,displaytext,state</defaultresponses>
+    <params>
+        <param>
+            <name>account</name>
+            <description>List resources by account. Must be used with the domainId parameter.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>displaytext</name>
+            <description>list projects by display text</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>domainid</name>
+            <description>list only resources belonging to the domain specified</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>id</name>
+            <description>list projects by project ID</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>isrecursive</name>
+            <description>defaults to false, but if true, lists all resources from the parent specified by the domainId till leaves.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>keyword</name>
+            <description>List by keyword</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>listall</name>
+            <description>If set to false, list only resources belonging to the command&apos;s caller; if set to true - list resources that the caller is authorized to see. Default value is false</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>name</name>
+            <description>list projects by name</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>page</name>
+            <description>empty</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>pagesize</name>
+            <description>empty</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>state</name>
+            <description>list projects by state</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the id of the project</description>
+        </response>
+        <response>
+            <name>account</name>
+            <description>the account name of the project&apos;s owner</description>
+        </response>
+        <response>
+            <name>displaytext</name>
+            <description>the displaytext of the project</description>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>the domain name where the project belongs to</description>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>the domain id the project belongs to</description>
+        </response>
+        <response>
+            <name>name</name>
+            <description>the name of the project</description>
+        </response>
+        <response>
+             <name>state</name>
+            <description>the state of the project</description>
+        </response>
+    </responses>
+</root>

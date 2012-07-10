@@ -1,0 +1,54 @@
+<root>
+    <top>/updateprojectresponse</top>
+    <command>updateProject</command>
+    <defaultresponses>jobid</defaultresponses>
+    <description>Updates a project</description>
+    <isAsync>true</isAsync>
+    <params>
+        <param>
+            <name>id</name>
+            <description>id of the project to be modified</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>account</name>
+            <description>new Admin account for the project</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>displaytext</name>
+            <description>display text of the project</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the id of the project</description>
+        </response>
+        <response>
+            <name>account</name>
+            <description>the account name of the project&apos;s owner</description>
+        </response>
+        <response>
+            <name>displaytext</name>
+            <description>the displaytext of the project</description>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>the domain name where the project belongs to</description>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>the domain id the project belongs to</description>
+        </response>
+        <response>
+            <name>name</name>
+            <description>the name of the project</description>
+        </response>
+        <response>
+             <name>state</name>
+            <description>the state of the project</description>
+        </response>
+    </responses>
+</root>

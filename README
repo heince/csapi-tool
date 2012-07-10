@@ -3,9 +3,9 @@
 - support with apikey or through integration api port 8096 (without key)
 
 (commands):
-console        run interactively
 cmd-list       list available commands
-list           list     [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain)
+list           list     [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job|zone|
+                                    network|domain|project|projectivt)
 deploy         deploy   [--cmd-opt] (vm)
 destroy        destroy  [--cmd-opt] (vm)
 stop           stop     [--cmd-opt] (vm)
@@ -14,8 +14,11 @@ usage          usage    -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
 set            set      [--cmd-opt] (ldap)
 remove         remove   [--cmd-opt] (ldap)
 sync           sync     [--cmd-opt] (ldap)
-create         create  [--cmd-opt] (account|domain)
-delete         delete  [--cmd-opt] (account|domain)
+create         create  [--cmd-opt] (account|domain|project)
+delete         delete  [--cmd-opt] (account|domain|project|projectIvt)
+update         update  [--cmd-opt] (account|domain|project|projectIvt)
+suspend        suspend [--cmd-opt] project
+activate       activate [--cmd-opt] project
 
 available cmd-opt on list command:
 --ia                                                => 'use integration api url (legacy port 8096)'
@@ -27,6 +30,7 @@ available cmd-opt on list command:
 --json                                              => 'print output in json'
 -s | --site      [site profile name]                => 'set site to be use'
 -i | --id        [id|uuid]                          => 'set id or uuid for cmd-arg'
+--geturl                                            => 'get api url'
 
 example:
 cloudcmd ls -a vm                                   => list all vm

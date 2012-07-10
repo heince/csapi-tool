@@ -6,7 +6,8 @@ use strict;
 use warnings;
 use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 
-my $supported_args = qq /vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain/;
+my $supported_args = qq /vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain/ .
+                     qq /|project|projectIvt/;
 
 #return usage output
 sub usage_text{
@@ -24,6 +25,7 @@ available cmd-opt:
 --json                                              => 'print output in json'
 -s | --site      [site profile name]                => 'set site to be use'
 -i | --id        [id|uuid]                          => 'set id or uuid for cmd-arg'
+--geturl                                            => 'get api url'
 
 available cmd-arg:
 $supported_args
@@ -76,13 +78,14 @@ sub option_spec {
     [ 'json' => 'print output in json' ],
     [ 'site|s=s' => 'set site'],
     [ 'id|i=s'    => 'set id'],
-    [ 'all|a'     => 'turn on listall=true' ]
+    [ 'all|a'     => 'turn on listall=true' ],
+    [ 'geturl'    => 'get api url' ]
 }
 
 
 #check and set param / response attribute 
 sub check_opts{
-    my ($opts, $obj) = @_;
+    my ($opts, $obj, $args) = @_;
 
     if(defined $$opts->{'ia'}){
         $$obj->ia(1);
@@ -94,12 +97,20 @@ sub check_opts{
         $$obj->param("listall=true");
     }
     if(defined $$opts->{'showparams'}){
-        $$obj->set_list_xml();
+        if($args eq 'projectIvt'){
+            $$obj->set_listProjectInvitations_xml;
+        }else{
+            $$obj->set_list_xml();
+        }
         $$obj->print_param();
         exit;
     }
     if(defined $$opts->{'showresponses'}){
-        $$obj->set_list_xml();
+        if($args eq 'projectIvt'){
+            $$obj->set_listProjectInvitations_xml;
+        }else{
+            $$obj->set_list_xml();
+        }
         $$obj->print_response();
         exit;
     }
@@ -119,6 +130,9 @@ sub check_opts{
     if($$opts->{'json'}){
         $$obj->json('true');
     }
+    if($$opts->{'geturl'}){
+        $$obj->geturl(1);
+    }
 }
 
 sub run{
@@ -129,49 +143,49 @@ sub run{
         when (/\bvm\b/i){
             use VM;
             $obj = VM->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             $obj->list_vm();
         }
         when (/\baccount\b/i){
             use Account;
             $obj = Account->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             $obj->list_account();
         }
         when (/\b(do|diskoffering)\b/i){
             use Diskoffering;
             $obj = Diskoffering->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             $obj->list_diskoffering();
             }
         when (/\b(so|svcoffering)\b/i){
             use Serviceoffering;
             $obj = Serviceoffering->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             $obj->list_serviceoffering();
             }
         when (/\btemplate\b/i){
             use Template;
             $obj = Template->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             $obj->list_template();
         }
         when (/\buser\b/i){
             use User;
             $obj = User->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             $obj->list_user();
         }
         when (/\busage\b/i){
             use Usage;
             $obj = Usage->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             $obj->list_usage();
         }
@@ -183,7 +197,7 @@ sub run{
         when (/\bjob\b/i){
             use AsyncJob;
             $obj = AsyncJob->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             if(defined $opts->{'id'}){
                 $obj->param("jobid=" . $opts->{'id'});
@@ -195,7 +209,7 @@ sub run{
         when (/\bzone\b/i){
             use Zone;
             $obj = Zone->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             if(defined $opts->{'id'}){
                 $obj->uuid($opts->{'id'});
@@ -206,7 +220,7 @@ sub run{
             use Network;
             
             $obj = Network->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             if(defined $opts->{'id'}){
                 $obj->uuid($opts->{'id'});
@@ -215,13 +229,33 @@ sub run{
         }
         when (/\bdomain\b/i){
             use Domain;
+            
             $obj = Domain->new();
-            check_opts(\$opts, \$obj);
+            check_opts(\$opts, \$obj, undef);
             
             if(defined $opts->{'id'}){
                 $obj->uuid($opts->{'id'});
             }
             $obj->list_domains();
+        }
+        when (/\bproject\b/){
+            use Project;
+            
+            $obj = Project->new();
+            
+            check_opts(\$opts, \$obj, undef);
+            
+            $obj->list_projects();
+        }
+        when(/\bprojectIvt\b/i){
+            use Project;
+            
+            $obj = Project->new();
+            
+            check_opts(\$opts, \$obj, 'projectIvt');
+            
+            $obj->list_projectInvitations;
+            
         }
     }
 

@@ -1,0 +1,59 @@
+<root>
+    <top>/createprojectresponse</top>
+    <command>createProject</command>
+    <description>Creates a project</description>
+    <isAsync>true</isAsync>
+    <defaultresponses>jobid</defaultresponses>
+    <params>
+        <param>
+            <name>displaytext</name>
+            <description>display text of the project</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>name</name>
+            <description>name of the project</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>account</name>
+            <description>account who will be Admin for the project</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>domainid</name>
+            <description>domain ID of the account owning a project</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the id of the project</description>
+        </response>
+        <response>
+            <name>account</name>
+            <description>the account name of the project&apos;s owner</description>
+        </response>
+        <response>
+            <name>displaytext</name>
+            <description>the displaytext of the project</description>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>the domain name where the project belongs to</description>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>the domain id the project belongs to</description>
+        </response>
+        <response>
+            <name>name</name>
+            <description>the name of the project</description>
+        </response>
+        <response>
+             <name>state</name>
+            <description>the state of the project</description>
+        </response>
+    </responses>
+</root>

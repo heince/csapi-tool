@@ -1,0 +1,44 @@
+<root>
+    <top>/suspendprojectresponse</top>
+    <command>suspendProject</command>
+    <description>Suspends a project</description>
+    <isAsync>true</isAsync>
+    <defaultresponses>jobid</defaultresponses>
+    <params>
+        <param>
+            <name>id</name>
+            <description>Project id</description>
+            <required>true</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the id of the project</description>
+        </response>
+        <response>
+            <name>account</name>
+            <description>the account name of the project&apos;s owner</description>
+        </response>
+        <response>
+            <name>displaytext</name>
+            <description>the displaytext of the project</description>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>the domain name where the project belongs to</description>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>the domain id the project belongs to</description>
+        </response>
+        <response>
+            <name>name</name>
+            <description>the name of the project</description>
+        </response>
+        <response>
+             <name>state</name>
+            <description>the state of the project</description>
+        </response>
+    </responses>
+</root>

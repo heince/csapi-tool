@@ -1,4 +1,4 @@
-package Csapi::Command::Delete;
+package Csapi::Command::Suspend;
 
 use base qw( CLI::Framework::Command );
 use v5.10;
@@ -10,24 +10,24 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 delete [--cmd-opt] [cmd-arg]
+cloudcmd suspend [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
 --ia                                                => 'use integration api url (legacy port 8096)'
 -p | --param     [comma separated api param]        => 'parameter field'
 -r | --response  [comma separated api response]     => 'response field'
 --nh | --noheader                                   => 'do not print header'
+--sp | --showparams                                 => 'print supported parameter'
+--sr | --showresponses                              => 'print supported responses'
 -s | --site      [site profile name]                => 'set site to be use'
 --json                                              => 'print output in json'
--i | --id        [id / uuid]                        => 'set id / uuid to delete'
---geturl                                            => 'get api url'
+-i | --id        [id/uuid]                          => 'set id'
             
 available cmd-arg:
-account domain project projectivt
+project
 
 example:
-cloudcmd del -i xxx account
-cloudcmd del -i xxx domain
+cloudcmd suspend -i xxx project
 
 EOF
 }
@@ -41,14 +41,12 @@ sub validate{
     
     if(@args){
         given($args[0]){
-            when (/\b(account|domain|project|projectivt)\b/i){
+            when (/\bproject\b/i){
                 if($cmd_opts->{'showparams'} or $cmd_opts->{'showresponses'}){
                     break;
                 }else{
-                    die "id is required\n" unless $cmd_opts->{'id'};
+                    die "Project ID required\n" unless $cmd_opts->{'id'};
                 }
-                
-                break;
             }
             default{
                 die "$_ argument not supported\n";
@@ -66,11 +64,14 @@ sub option_spec {
     [ 'param|p=s'   => 'parameter field'  ],
     [ 'response|r=s'   => 'response field'  ],
     [ 'noheader|nh'    =>  'do not print header' ],
+    [ 'showparams|sp'  =>  'print supported parameter' ],
+    [ 'showresponses|sr' => 'print supported responses' ],
     [ 'h|help'    =>  'print help' ], 
     [ 'site|s=s' => 'set site' ],
     [ 'json' => 'print output in json' ],
-    [ 'id|i=s'  =>  'set id to be deleted' ],
+    [ 'id|i=s'      => 'set id/uuid' ],
     [ 'geturl'    => 'get api url' ]
+    
 }
 
 #check & set site
@@ -86,16 +87,6 @@ sub check_site{
 sub check_opts{
     my ($opts, $obj) = @_;
 
-    if(defined $$opts->{'showparams'}){
-        $$obj->set_delete_xml();
-        $$obj->print_param();
-        exit;
-    }
-    if(defined $$opts->{'showresponses'}){
-        $$obj->set_delete_xml();
-        $$obj->print_response();
-        exit;
-    }
     if(defined $$opts->{'ia'}){
         $$obj->ia(1);
     }
@@ -114,21 +105,26 @@ sub check_opts{
     if($$opts->{'geturl'}){
         $$obj->geturl(1);
     }
-
 }
 
-#call delete
-sub del{
-    my ($opts, $obj, $args) = @_;
+sub suspend_project{
+    my ($opts, $obj) = @_;
+    
+    if(defined $opts->{'showparams'}){
+        $obj->set_suspend_xml();
+        $obj->print_param();
+        exit;
+    }
+    if(defined $opts->{'showresponses'}){
+        $obj->set_suspend_xml();
+        $obj->print_response();
+        exit;
+    }
     
     check_site(\$opts, \$obj);
     check_opts(\$opts, \$obj);
     
-    if($args eq 'projectivt'){
-        $obj->delete_projectInvitation();
-    }else{
-        $obj->delete();
-    } 
+    $obj->suspend();
 }
 
 sub run{
@@ -137,29 +133,12 @@ sub run{
    my $obj;
    
    given($args[0]){
-        when (/\baccount\b/i){
-            use Account;
-            $obj = Account->new(accid => $opts->{'id'});
-            
-            del($opts, $obj, undef);
-        }
-        when (/\bdomain\b/i){
-            use Domain;
-            $obj = Domain->new(domid => $opts->{'id'});
-            
-            del($opts, $obj, undef);
-        }
         when (/\bproject\b/i){
             use Project;
+            
             $obj = Project->new(project_id => $opts->{'id'});
             
-            del($opts, $obj, undef);
-        }
-        when (/\bprojectivt\b/i){
-            use Project;
-            $obj = Project->new(invitation_id => $opts->{'id'});
-            
-            del($opts, $obj, 'projectivt');
+            suspend_project($opts, $obj);
         }
    }
    

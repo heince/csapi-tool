@@ -1,4 +1,4 @@
-package Csapi::Command::Create;
+package Csapi::Command::Update;
 
 use base qw( CLI::Framework::Command );
 use v5.10;
@@ -10,7 +10,7 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-cloudcmd create [--cmd-opt] [cmd-arg]
+cloudcmd update [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
 --ia                                                => 'use integration api url (legacy port 8096)'
@@ -21,25 +21,16 @@ available cmd-opt:
 --sr | --showresponses                              => 'print supported responses'
 -s | --site      [site profile name]                => 'set site to be use'
 --json                                              => 'print output in json'
--a | --acctype   [0 for user, 1 for root admin,     => 'account type'
-            and 2 for domain admin]             
--e | --email     [email address]                    => 'set email address'
--f | --fname     [first name]                       => 'set first name'
--l | --lname     [last name]                        => 'set last name'
--w | --password  [password]                         => 'set password'
--u | --uname     [user name]                        => 'set username'
--d | --domainid  [domain id]                        => 'set domain id'
--D | --domainname  [domain name]                    => 'set domain name'
--n | --name                                         => 'set name'
---dt                                                => 'set displaytext'
+-i | --id        [id/uuid]                          => 'set id'
+-a | --account   [account]                          => 'set account'
+--dt             [displaytext]                      => 'set displaytext'
 --geturl                                            => 'get api url'
             
 available cmd-arg:
-account domain project
+account domain project projectIvt
 
 example:
-cloudcmd create -a 0 -e dummy\@example.com -f dummy -l cloud -w 'mypass' -u dummy account
-cloudcmd create -D "sales" domain
+cloudcmd update -i xxx -a xxx --dt "aloha" project
 
 EOF
 }
@@ -70,11 +61,11 @@ sub validate{
                     die "domainname required\n" unless $cmd_opts->{'domainname'};
                 }
             }
-            when (/\bproject\b/i){
+            when (/\b(project|projectIvt)\b/i){
                 if($cmd_opts->{'showparams'} or $cmd_opts->{'showresponses'}){
                     break;
                 }else{
-                    die "name|displaytext required\n" unless $cmd_opts->{'name'} and $cmd_opts->{'dt'};
+                    die "Project ID required\n" unless $cmd_opts->{'id'};
                 }
             }
             default{
@@ -98,16 +89,9 @@ sub option_spec {
     [ 'h|help'    =>  'print help' ], 
     [ 'site|s=s' => 'set site' ],
     [ 'json' => 'print output in json' ],
-    [ 'acctype|a=s' => 'Specify 0 for user, 1 for root admin, and 2 for domain admin' ],
-    [ 'email|e=s' => 'set email' ],
-    [ 'fname|f=s' => 'First name' ],
-    [ 'lname|l=s' => 'Last name' ],
-    [ 'password|w=s' => 'password' ],
-    [ 'uname|u=s' => 'username' ],
-    [ 'domainid|d=s' => 'domain id'],
-    [ 'domainname|D=s' => 'domain name' ],
-    [ 'name|n=s'    =>  'name' ],
-    [ 'dt=s'      =>  'displaytext' ],
+    [ 'account|a=s'    =>  'account name' ],
+    [ 'dt=s'      =>  'description / displaytext' ],
+    [ 'id|i=s'      => 'set id/uuid' ],
     [ 'geturl'    => 'get api url' ]
     
 }
@@ -125,16 +109,6 @@ sub check_site{
 sub check_opts{
     my ($opts, $obj) = @_;
 
-    if(defined $$opts->{'showparams'}){
-        $$obj->set_create_xml();
-        $$obj->print_param();
-        exit;
-    }
-    if(defined $$opts->{'showresponses'}){
-        $$obj->set_create_xml();
-        $$obj->print_response();
-        exit;
-    }
     if(defined $$opts->{'ia'}){
         $$obj->ia(1);
     }
@@ -157,13 +131,50 @@ sub check_opts{
 }
 
 
-sub create{
+sub update_project{
     my ($opts, $obj) = @_;
+    
+    if(defined $opts->{'showparams'}){
+        $obj->set_updateProject_xml();
+        $obj->print_param();
+        exit;
+    }
+    if(defined $opts->{'showresponses'}){
+        $obj->set_updateProject_xml();
+        $obj->print_response();
+        exit;
+    }
+    if(defined $opts->{'account'}){
+        $obj->project_account($opts->{'account'});
+    }
+    if(defined $opts->{'dt'}){
+        $obj->project_displaytext($opts->{'dt'});
+    }
     
     check_site(\$opts, \$obj);
     check_opts(\$opts, \$obj);
     
-    $obj->create();
+    $obj->update_project();
+}
+
+sub update_projectInvitation{
+    my ($opts, $obj) = @_;
+    
+    if(defined $opts->{'showparams'}){
+        $obj->set_updateProjectInvitation_xml();
+        $obj->print_param();
+        exit;
+    }
+    if(defined $opts->{'showresponses'}){
+        $obj->set_updateProjectInvitation_xml();
+        $obj->print_response();
+        exit;
+    }
+    if(defined $opts->{'account'}){
+        $obj->project_account($opts->{'account'});
+    }
+    
+    $obj->update_projectInvitation;
 }
 
 sub run{
@@ -193,10 +204,15 @@ sub run{
         when (/\bproject\b/i){
             use Project;
             
-            $obj = Project->new(project_name => $opts->{'name'},
-                                project_displaytext => $opts->{'desc'});
+            $obj = Project->new(project_id => $opts->{'id'});
             
-            create($opts, $obj);
+            update_project($opts, $obj);
+        }
+        when (/\bprojectIvt\b/i){
+            use Project;
+            
+            $obj = Project->new(project_id => $opts->{'id'});
+            update_projectInvitation($opts, $obj);
         }
    }
    

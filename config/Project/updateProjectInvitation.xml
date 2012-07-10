@@ -1,0 +1,39 @@
+<root>
+    <top>/updateprojectinvitationresponse</top>
+    <command>updateProjectInvitation</command>
+    <defaultresponses>jobid</defaultresponses>
+    <description>Accepts or declines project invitation</description>
+    <isAsync>true</isAsync>
+    <params>
+        <param>
+            <name>projectid</name>
+            <description>id of the project to join</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>accept</name>
+            <description>if true, accept the invitation, decline if false. True by default</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>account</name>
+            <description>account that is joining the project</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>token</name>
+            <description>list invitations for specified account; this parameter has to be specified with domainId</description>
+            <required>false</required>
+        </param>
+    </params>
+    <reponses>
+        <response>
+            <name>displaytext</name>
+            <description>any text associated with the success or failure</description>
+        </response>
+        <response>
+            <name>success</name>
+            <description>true if operation is executed successfully</description>
+        </response>
+    </reponses>
+</root>

@@ -20,7 +20,9 @@ cloudcmd deploy -h
 (commands):
 console             run interactively
 cmd-list            list available commands
-list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain)
+list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|
+                                        template|user|job|zone|network|domain|project|
+                                        projectIvt)
 deploy              deploy  [--cmd-opt] (vm)
 destroy             destroy [--cmd-opt] (vm)
 stop                stop    [--cmd-opt] (vm)
@@ -29,8 +31,11 @@ sync                sync    [--cmd-opt] (ldap)
 set                 set     [--cmd-opt] (ldap)
 remove              remove  [--cmd-opt] (ldap)
 usage               usage -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
-create              create  [--cmd-opt] (account|domain)
-delete              delete  [--cmd-opt] (account|domain)
+create              create  [--cmd-opt] (account|domain|project)
+delete              delete  [--cmd-opt] (account|domain|project|projectIvt)
+update              update  [--cmd-opt] (account|domain|project|projectIvt)
+suspend             suspend [--cmd-opt] project
+activate            activate [--cmd-opt] project
     
 EOF
 }
@@ -72,6 +77,9 @@ sub command_map {
     remove     => 'Csapi::Command::Remove',
     create     => 'Csapi::Command::Create',
     delete     => 'Csapi::Command::Delete',
+    update     => 'Csapi::Command::Update',
+    suspend    => 'Csapi::Command::Suspend',
+    activate    => 'Csapi::Command::Activate',
 }
 
 sub command_alias {
