@@ -74,6 +74,7 @@ sub schedule_etime{
     if($epoch){
         die "End time should be >= " . $self->etime_min_value . " minutes from current time\n" unless $self->check_etime($epoch);
         say "etime ok";
+        say $self->cmd_line;
     }else{
         die "Failed to validate end time format: " . $self->etime . " ???\n";
     }
@@ -86,6 +87,7 @@ sub schedule_stime{
     if($epoch){
         die "Start time should be >= " . $self->stime_min_value . " minutes from current time\n" unless $self->check_stime($epoch);
         say "stime ok";
+        say $self->cmd_line;
     }else{
         die "Failed to validate start time format: " . $self->stime . " ???\n";
     }
@@ -102,6 +104,7 @@ sub schedule_both{
     $self->check_vm_booking($epoch_stime,$epoch_etime);
     
     say "schedule both";
+    say $self->cmd_line;
 }
 
 sub deploy_vm{

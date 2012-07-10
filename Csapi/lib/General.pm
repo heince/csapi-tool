@@ -9,7 +9,7 @@ use Field;
 extends 'Field';
 
 has [qw/xmlconfig xmltmp xmlresult stime etime cmd_line ia/] => (is => "rw");
-has [qw/default_site param response noheader json uuid/] => (is => "rw");
+has [qw/default_site param response noheader json uuid geturl/] => (is => "rw");
 has [qw /stime_min_value/] => (is => "rw", isa => "Int", default => 10);  # in minutes
 has [qw /etime_min_value/] => (is => "rw", isa => "Int", default => 60);  # in minutes
 has [qw /min_vm_booking/] => (is => "rw", isa => "Int", default => 60); #in minutes

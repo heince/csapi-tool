@@ -36,4 +36,26 @@ sub list_template{
     $self->get_output();
 }
 
+#return true if id is valid
+sub is_valid_id{
+    my $self = shift;
+    
+    my $id = shift;
+    
+    #set xmltmp
+    $self->set_list_xml();
+    
+    #setparam
+    $self->param("id=$id" . "&templatefilter=" . $self->templatefilter);
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    if($self->get_xml){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
 1;

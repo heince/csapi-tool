@@ -27,6 +27,8 @@ available cmd-opt:
 --ssl                                                => 'use ssl'
 -T | --truststore    [eg. /key/ldapstore.jks]        => 'set path of the truststore'
 -W | --storepass     [password]                      => 'password for truststore'
+--json                                              => 'print output in json'
+--geturl                                            => 'get api url'
 
 available cmd-arg:
 ldap
@@ -87,6 +89,7 @@ sub option_spec {
     [ 'noheader|nh'    =>  'do not print header' ],
     [ 'h|help'    =>  'print help' ], 
     [ 'site|s=s' => 'set site'],
+    [ 'json'     => 'print json output'],
     [ 'host|H=s' => 'set hostname'],
     [ 'queryfilter|f=s'    => 'set LDAP query filter'],
     [ 'searchbase|b=s'    =>  'LDAP set base search'],
@@ -96,6 +99,7 @@ sub option_spec {
     [ 'bindpass|w=s'  =>  'dn password'],
     [ 'truststore|T=s'    =>  'path of cert store'],
     [ 'storepass|W=s'     =>  'password of the store'],
+    [ 'geturl'    => 'get api url' ]
     
 }
 
@@ -131,6 +135,12 @@ sub check_opts{
         $$obj->ldapssl(1) if $$opts->{'ssl'};
         $$obj->ldaptruststore($$opts->{'truststore'}) if $$opts->{'truststore'};
         $$obj->ldaptrustpass($$opts->{'storepass'}) if $$opts->{'storepass'};
+    }
+    if($$opts->{'json'}){
+        $$obj->json('true');
+    }
+    if($$opts->{'geturl'}){
+        $$obj->geturl(1);
     }
 }
 

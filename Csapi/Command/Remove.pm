@@ -18,6 +18,8 @@ available cmd-opt:
 -r | --response  [comma separated api response]     => 'response field'
 --nh | --noheader                                   => 'do not print header'
 -s | --site      [site profile name]                => 'set site to be use'
+--json                                              => 'print output in json'
+--geturl                                            => 'get api url'
 
 available cmd-arg:
 ldap
@@ -59,6 +61,8 @@ sub option_spec {
     [ 'noheader|nh'    =>  'do not print header' ],
     [ 'h|help'    =>  'print help' ], 
     [ 'site|s=s' => 'set site'],
+    [ 'json'     => 'print json output'],
+    [ 'geturl'    => 'get api url' ]
     
 }
 
@@ -86,6 +90,12 @@ sub check_opts{
     }
     if($$opts->{'noheader'}){
         $$obj->noheader('true');
+    }
+    if($$opts->{'json'}){
+        $$obj->json('true');
+    }
+    if($$opts->{'geturl'}){
+        $$obj->geturl(1);
     }
 }
 

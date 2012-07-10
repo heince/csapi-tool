@@ -25,6 +25,7 @@ available cmd-opt:
 --tid            [templateid]                       => 'set template id (required)'
 --zid            [zoneid]                           => 'set zone id (required)'
 -n | --name      [displayname]                      => 'set displayname'
+--geturl                                            => 'get api url'
 
 available cmd-arg:
 vm
@@ -79,7 +80,8 @@ sub option_spec {
     [ 'zid=s'    => 'set zone id'],
     [ 'name|n=s'    => 'set displayname'],
     [ 'stime=s'   => 'set start time' ],
-    [ 'etime=s'   => 'set end time']
+    [ 'etime=s'   => 'set end time'],
+    [ 'geturl'    => 'get api url' ]
 }
 
 #check & set site
@@ -123,6 +125,9 @@ sub check_opts{
     if($$opts->{'json'}){
         $$obj->json('true');
     }
+    if($$opts->{'geturl'}){
+        $$obj->geturl(1);
+    }
 }
 
 sub set_cmd_line{
@@ -145,18 +150,31 @@ sub set_cmd_line{
     
     if(defined $$opts->{'param'}){
         if(check_site($opts, $obj)){
-            $$obj->cmd_line("cloudcmd deploy --param " . $$opts->{'param'} . " --soid " .  $$opts->{'soid'} . " --tid " . $$opts->{'tid'} .
-                            " --zid " . $$opts->{'zid'} . " --site " . $$opts->{'site'} . " vm");
+            $$obj->cmd_line("cloudcmd deploy --param " . $$opts->{'param'} .
+                            " --soid " . $$opts->{'soid'} .
+                            " --tid " . $$opts->{'tid'} .
+                            " --zid " . $$opts->{'zid'} .
+                            " --site " . $$opts->{'site'} .
+                            " vm");
         }else{
-            $$obj->cmd_line("cloudcmd deploy --param " . $$opts->{'param'} . " --soid " .  $$opts->{'soid'} . " --tid " . $$opts->{'tid'} .
-                            " --zid " . $$opts->{'zid'} . " vm");
+            $$obj->cmd_line("cloudcmd deploy --param " . $$opts->{'param'} .
+                            " --soid " .  $$opts->{'soid'} .
+                            " --tid " . $$opts->{'tid'} .
+                            " --zid " . $$opts->{'zid'} .
+                            " vm");
         }
     }else{
         if(check_site($opts, $obj)){
-            $$obj->cmd_line("cloudcmd deploy --soid " .  $$opts->{'soid'} . " --tid " . $$opts->{'tid'} . " --zid " . $$opts->{'zid'} .
-                            " --site " . $$opts->{'site'} . " vm");
+            $$obj->cmd_line("cloudcmd deploy --soid " .  $$opts->{'soid'} .
+                            " --tid " . $$opts->{'tid'} .
+                            " --zid " . $$opts->{'zid'} .
+                            " --site " . $$opts->{'site'} .
+                            " vm");
         }else{
-            $$obj->cmd_line("cloudcmd deploy --soid " .  $$opts->{'soid'} . " --tid " . $$opts->{'tid'} . " --zid " . $$opts->{'zid'} . " vm");
+            $$obj->cmd_line("cloudcmd deploy --soid " .  $$opts->{'soid'} .
+                            " --tid " . $$opts->{'tid'} .
+                            " --zid " . $$opts->{'zid'} .
+                            " vm");
         }
     }
 }

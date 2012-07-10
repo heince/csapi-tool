@@ -123,6 +123,12 @@ sub get_result{
 		$url = $self->iasite . $self->command;
 	}
 	
+	#print url and exit if --geturl is true
+	if($self->geturl){
+		say $url;
+		exit 0;
+	}
+	
 	if($self->flag == 1 || $self->flag ==3){
 		return $url;
 		if($self->flag == 1){

@@ -22,6 +22,7 @@ available cmd-opt:
 --json                                              => 'print output in json'
 -s | --site      [site profile name]                => 'set site to be use'
 -i | --id        [comma separated vmid]             => 'set vm id (required)'
+--geturl                                            => 'get api url'
 
 available cmd-arg:
 vm
@@ -69,6 +70,7 @@ sub option_spec {
     [ 'json' => 'print output in json' ],
     [ 'site|s=s' => 'set site'],
     [ 'id|i=s'    => 'set vm id'],
+    [ 'geturl'    => 'get api url' ]
 }
 
 #check & set site
@@ -119,6 +121,9 @@ sub check_opts{
     }
     if($$opts->{'json'}){
         $$obj->json('true');
+    }
+    if($$opts->{'geturl'}){
+        $$obj->geturl(1);
     }
 }
 
