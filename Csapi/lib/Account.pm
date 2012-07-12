@@ -7,8 +7,8 @@ use GenUrl;
 
 extends 'GenUrl';
 
-has [ qw /acctype accemail fname lname uname accpass/ ] => ( is => 'ro' );
-has [ qw /accid/ ] => ( is => 'rw' );
+has [ qw /acctype fname lname accpass uname/ ] => ( is => 'ro' );
+has [ qw /accid acclock accemail accname/ ] => ( is => 'rw' );
 
 #set xmltmp to hold list account xml file
 sub set_list_xml{
@@ -29,6 +29,42 @@ sub set_delete_xml{
     my $self = shift;
     
     $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/Account/delete.xml"));
+}
+
+sub set_update_xml{
+    my $self = shift;
+    
+    $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/Account/update.xml"));
+}
+
+sub set_disable_xml{
+    my $self = shift;
+    
+    $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/Account/disable.xml"));
+}
+
+sub set_enable_xml{
+    my $self = shift;
+    
+    $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/Account/enable.xml"));
+}
+
+sub set_addAccountToProject_xml{
+    my $self = shift;
+    
+    $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/Account/addAccountToProject.xml"));
+}
+
+sub set_listProjectAccounts_xml{
+    my $self = shift;
+    
+    $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/Account/listProjectAccounts.xml"));
+}
+
+sub set_deleteAccountFromProject_xml{
+    my $self = shift;
+    
+    $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/Account/deleteAccountFromProject.xml"));
 }
 
 sub get_accname_bydomid{
@@ -86,7 +122,7 @@ sub list_account{
 sub set_accid{
     my $self = shift;
     
-    $self->command($self->command . "&id=" . $self->accid);
+    $self->command($self->command . "&id=" . $self->accid) if $self->accid;
 }
 
 #set account type
@@ -100,7 +136,7 @@ sub set_acctype{
 sub set_email{
     my $self = shift;
     
-    $self->command($self->command . "&email=" . $self->accemail);
+    $self->command($self->command . "&email=" . $self->accemail) if $self->accemail;
 }
 
 #set first name
@@ -121,7 +157,13 @@ sub set_lname{
 sub set_uname{
     my $self = shift;
     
-    $self->command($self->command . "&username=" . $self->uname);
+    $self->command($self->command . "&username=" . $self->uname) if $self->uname;
+}
+
+sub set_accname{
+    my $self = shift;
+    
+    $self->command($self->command . "&account=" . $self->accname) if $self->accname;
 }
 
 #set password
@@ -147,13 +189,6 @@ sub set_required_create{
     $self->set_password;
 }
 
-#set param that required for deleting account
-sub set_required_delete{
-    my $self = shift;
-    
-    $self->set_accid;
-}
-
 sub create{
     my $self = shift;
     
@@ -170,6 +205,13 @@ sub create{
     $self->get_output();
 }
 
+#set param that required for deleting account
+sub set_required_delete{
+    my $self = shift;
+    
+    $self->set_accid;
+}
+
 sub delete{
     my $self = shift;
     
@@ -181,6 +223,153 @@ sub delete{
     
     #set required param
     $self->set_required_delete();
+    
+    #print the output
+    $self->get_output();
+}
+
+sub set_required_update{
+    my $self = shift;
+    
+    $self->set_accid;
+}
+
+sub update{
+    my $self = shift;
+    
+    #set xmltmp
+    $self->set_update_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    #set required param
+    $self->set_required_update();
+    
+    #print the output
+    $self->get_output();
+}
+
+sub set_required_disable{
+    my $self = shift;
+    
+    $self->set_accid;
+    
+    if($self->acclock){
+        $self->command($self->command . "&lock=true");
+    }else{
+        $self->command($self->command . "&lock=false");
+    }
+}
+
+sub disable{
+    my $self = shift;
+    
+    #set xmltmp
+    $self->set_disable_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    #set required param
+    $self->set_required_disable();
+    
+    #print the output
+    $self->get_output();
+}
+
+sub set_required_enable{
+    my $self = shift;
+    
+    $self->set_accid;
+    
+}
+
+sub enable{
+    my $self = shift;
+    
+    #set xmltmp
+    $self->set_enable_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    #set required param
+    $self->set_required_enable();
+    
+    #print the output
+    $self->get_output();
+}
+
+sub set_required_deleteAccountFromProject{
+    my $self = shift;
+    
+    $self->set_accname;
+}
+
+sub delete_accountFromProject{
+    my $self = shift;
+    
+    my ($projectid) = shift;
+    
+    #set xmltmp
+    $self->set_deleteAccountFromProject_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    #add projectid command
+    $self->command($self->command . "&projectid=$projectid");
+    
+    #set other required param if any
+    $self->set_required_deleteAccountFromProject;
+    
+    #print the output
+    $self->get_output();
+}
+
+sub set_required_addAccountToProject{
+    my $self = shift;
+    
+    $self->set_email;
+    $self->set_accname;
+    
+}
+
+sub addAccountToProject{
+    my $self = shift;
+    
+    my ($projectid) = shift;
+    
+    #set xmltmp
+    $self->set_addAccountToProject_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    #add projectid command
+    $self->command($self->command . "&projectid=$projectid");
+    
+    #set other required param if any
+    $self->set_required_addAccountToProject;
+    
+    #print the output
+    $self->get_output();
+}
+
+sub list_projectAccounts{
+    my $self = shift;
+    
+    my ($projectid) = shift;
+    
+    #set xmltmp
+    $self->set_listProjectAccounts_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    #add projectid command
+    $self->command($self->command . "&projectid=$projectid");
     
     #print the output
     $self->get_output();
