@@ -10,7 +10,7 @@ use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 sub usage_text{
     my $usage = <<EOF;
 Usage:
-$0 delete [--cmd-opt] [cmd-arg]
+cloudcmd delete [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
 --ia                                                => 'use integration api url (legacy port 8096)'
@@ -20,14 +20,16 @@ available cmd-opt:
 -s | --site      [site profile name]                => 'set site to be use'
 --json                                              => 'print output in json'
 -i | --id        [id / uuid]                        => 'set id / uuid to delete'
+-a | --account   [account name]                     => 'set account name (supported on accountfromproject)'
 --geturl                                            => 'get api url'
             
 available cmd-arg:
-account domain project projectivt
+account domain project projectivt accountfromproject
 
 example:
 cloudcmd del -i xxx account
 cloudcmd del -i xxx domain
+cloudcmd del -i [project id] -a [account name] accountfromproject
 
 EOF
 }
@@ -41,7 +43,7 @@ sub validate{
     
     if(@args){
         given($args[0]){
-            when (/\b(account|domain|project|projectivt)\b/i){
+            when (/\b(account|domain|project|projectivt|accountfromproject)\b/i){
                 if($cmd_opts->{'showparams'} or $cmd_opts->{'showresponses'}){
                     break;
                 }else{
@@ -70,6 +72,7 @@ sub option_spec {
     [ 'site|s=s' => 'set site' ],
     [ 'json' => 'print output in json' ],
     [ 'id|i=s'  =>  'set id to be deleted' ],
+    [ 'account|a=s'  =>  'set account name' ],
     [ 'geturl'    => 'get api url' ]
 }
 
@@ -126,7 +129,11 @@ sub del{
     
     if($args eq 'projectivt'){
         $obj->delete_projectInvitation();
-    }else{
+    }
+    elsif($args eq 'accountfromproject'){
+        $obj->delete_accountFromProject($opts->{'id'});
+    }
+    else{
         $obj->delete();
     } 
 }
@@ -160,6 +167,16 @@ sub run{
             $obj = Project->new(invitation_id => $opts->{'id'});
             
             del($opts, $obj, 'projectivt');
+        }
+        when (/\baccountfromproject\b/){
+            if((defined $opts->{'id'}) and (defined $opts->{'account'})){
+                use Account;
+                
+                $obj = Account->new(accname => $opts->{'account'});
+            
+                del($opts, $obj, 'accountfromproject');
+            } 
+            
         }
    }
    
