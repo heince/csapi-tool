@@ -1,0 +1,35 @@
+<root>
+    <top>/disableaccountresponse</top>
+    <command>disableAccount</command>
+    <defaultresponses>jobid</defaultresponses>
+    <description>Disables an account</description>
+    <isAsync>true</isAsync>
+    <params>
+        <param>
+            <name>lock</name>
+            <description>If true, only lock the account; else disable the account</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>account</name>
+            <description>Disables specified account.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>domainid</name>
+            <description>Disables specified account in this domain.</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>id</name>
+            <description>Account id</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>jobid</name>
+            <description>the job id</description>
+        </response>
+    </responses>
+</root>

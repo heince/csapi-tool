@@ -1,0 +1,34 @@
+<root>
+    <top>/deleteaccountfromprojectresponse</top>
+    <command>deleteAccountFromProject</command>
+    <defaultresponses>jobid</defaultresponses>
+    <description>Deletes account from the project</description>
+    <isAsync>true</isAsync>
+    <sinceVersion>3.0.0</sinceVersion>
+    <params>
+        <param>
+            <name>account</name>
+            <description>name of the account to be removed from the project</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>projectid</name>
+            <description>id of the project to remove the account from</description>
+            <required>true</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>displaytext</name>
+            <description>any text associated with the success or failure</description>
+        </response>
+        <response>
+            <name>success</name>
+            <description>true if operation is executed successfully</description>
+        </response>
+        <response>
+            <name>jobid</name>
+            <description>the job id</description>
+        </response>
+    </responses>
+</root>

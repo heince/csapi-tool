@@ -1,0 +1,184 @@
+<root>
+    <top>/updateaccountresponse/account</top>
+    <command>updateAccount</command>
+    <defaultresponses>id,name,accounttype,domain,domainid,state</defaultresponses>
+    <description>Updates account information for the authenticated user</description>
+    <isAsync>false</isAsync>
+    <params>
+        <param>
+            <name>newname</name>
+            <description>new name for the account</description>
+            <required>true</required>
+        </param>
+        <param>
+            <name>account</name>
+            <description>the current account name</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>accountdetails</name>
+            <description>details for account used to store specific parameters</description>
+            <required>false</required>
+            <type>map</type>
+        </param>
+        <param>
+             <name>domainid</name>
+            <description>the ID of the domain where the account exists</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>id</name>
+            <description>Account id</description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>networkdomain</name>
+            <description>Network domain for the account&apos;s networks; empty string will update domainName with NULL value</description>
+            <required>false</required>
+        </param>
+    </params>
+    <responses>
+        <response>
+            <name>id</name>
+            <description>the id of the account</description>
+        </response>
+        <response>
+            <name>accountdetails</name>
+            <description>details for the account</description>
+        </response>
+        <response>
+            <name>accounttype</name>
+            <description>account type (admin, domain-admin, user)</description>
+        </response>
+        <response>
+            <name>domain</name>
+            <description>name of the Domain the account belongs too</description>
+        </response>
+        <response>
+            <name>domainid</name>
+            <description>id of the Domain the account belongs too</description>
+        </response>
+        <response>
+            <name>ipavailable</name>
+            <description>the total number of public ip addresses available for this account to acquire</description>
+        </response>
+        <response>
+            <name>iplimit</name>
+            <description>the total number of public ip addresses this account can acquire</description>
+        </response>
+        <response>
+            <name>iptotal</name>
+            <description>the total number of public ip addresses allocated for this account</description>
+        </response>
+        <response>
+            <name>iscleanuprequired</name>
+            <description>true if the account requires cleanup</description>
+        </response>
+        <response>
+            <name>name</name>
+            <description>the name of the account</description>
+        </response>
+        <response>
+            <name>networkavailable</name>
+            <description>the total number of networks available to be created for this account</description>
+            <sinceVersion>3.0.1</sinceVersion>
+        </response>
+        <response>
+            <name>networkdomain</name>
+            <description>the network domain</description>
+        </response>
+        <response>
+            <name>networklimit</name>
+            <description>the total number of networks the account can own</description>
+            <sinceVersion>3.0.1</sinceVersion>
+        </response>
+        <response>
+            <name>networktotal</name>
+            <description>the total number of networks owned by account</description>
+            <sinceVersion>3.0.1</sinceVersion>
+        </response>
+        <response>
+            <name>projectavailable</name>
+            <description>the total number of projects available for administration by this account</description>
+            <sinceVersion>3.0.1</sinceVersion>
+        </response>
+        <response>
+            <name>projectlimit</name>
+            <description>the total number of projects the account can own</description>
+            <sinceVersion>3.0.1</sinceVersion>
+        </response>
+        <response>
+            <name>projecttotal</name>
+            <description>the total number of projects being administrated by this account</description>
+            <sinceVersion>3.0.1</sinceVersion>
+        </response>
+        <response>
+            <name>receivedbytes</name>
+            <description>the total number of network traffic bytes received</description>
+        </response>
+        <response>
+            <name>sentbytes</name>
+            <description>the total number of network traffic bytes sent</description>
+        </response>
+        <response>
+            <name>snapshotavailable</name>
+            <description>the total number of snapshots available for this account</description>
+        </response>
+        <response>
+            <name>snapshotlimit</name>
+            <description>the total number of snapshots which can be stored by this account</description>
+        </response>
+        <response>
+            <name>snapshottotal</name>
+            <description>the total number of snapshots stored by this account</description>
+        </response>
+        <response>
+            <name>state</name>
+            <description>the state of the account</description>
+        </response>
+        <response>
+            <name>templateavailable</name>
+            <description>the total number of templates available to be created by this account</description>
+        </response>
+        <response>
+            <name>templatelimit</name>
+            <description>the total number of templates which can be created by this account</description>
+        </response>
+        <response>
+            <name>templatetotal</name>
+            <description>the total number of templates which have been created by this account</description>
+        </response>
+        <response>
+            <name>vmavailable</name>
+            <description>the total number of virtual machines available for this account to acquire</description>
+        </response>
+        <response>
+            <name>vmlimit</name>
+            <description>the total number of virtual machines that can be deployed by this account</description>
+        </response>
+        <response>
+            <name>vmrunning</name>
+            <description>the total number of virtual machines running for this account</description>
+        </response>
+        <response>
+            <name>vmstopped</name>
+            <description>the total number of virtual machines stopped for this account</description>
+        </response>
+        <response>
+            <name>vmtotal</name>
+            <description>the total number of virtual machines deployed by this account</description>
+        </response>
+        <response>
+            <name>volumeavailable</name>
+            <description>the total volume available for this account</description>
+        </response>
+        <response>
+            <name>volumelimit</name>
+            <description>the total volume which can be used by this account</description>
+        </response>
+        <response>
+            <name>volumetotal</name>
+            <description>the total volume being used by this account</description>
+        </response>
+    </responses>
+</root>
