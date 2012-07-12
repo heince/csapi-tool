@@ -22,7 +22,7 @@ console             run interactively
 cmd-list            list available commands
 list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|
                                         template|user|job|zone|network|domain|project|
-                                        projectIvt)
+                                        projectIvt|projectAcc)
 deploy              deploy  [--cmd-opt] (vm)
 destroy             destroy [--cmd-opt] (vm)
 stop                stop    [--cmd-opt] (vm)
@@ -32,10 +32,13 @@ set                 set     [--cmd-opt] (ldap)
 remove              remove  [--cmd-opt] (ldap)
 usage               usage -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
 create              create  [--cmd-opt] (account|domain|project)
-delete              delete  [--cmd-opt] (account|domain|project|projectIvt)
+delete              delete  [--cmd-opt] (account|domain|project|projectIvt|accountfromproject)
 update              update  [--cmd-opt] (account|domain|project|projectIvt)
 suspend             suspend [--cmd-opt] project
 activate            activate [--cmd-opt] project
+disable             disable [--cmd-opt] account
+enable              enable  [--cmd-opt] account
+add                 add     [--cmd-opt] account
     
 EOF
 }
@@ -80,6 +83,9 @@ sub command_map {
     update     => 'Csapi::Command::Update',
     suspend    => 'Csapi::Command::Suspend',
     activate    => 'Csapi::Command::Activate',
+    disable    => 'Csapi::Command::Disable',
+    enable     => 'Csapi::Command::Enable',
+    add         => 'Csapi::Command::Add',
 }
 
 sub command_alias {
