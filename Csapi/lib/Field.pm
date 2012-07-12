@@ -65,7 +65,9 @@ has [qw/id accountid domainid groupid guestosid hostid isoid templateid jobid ro
 
 has [qw /searchbase/] => ( is => 'rw', isa => 'Int', default => 50 );
 
-has [qw /user-apikey user-secretkey apikey secretkey jobresult networkofferingdisplaytext
+has [qw /user-apikey user-secretkey apikey secretkey networkofferingdisplaytext
      /] => ( is => 'rw', isa => 'Int', default => 88 );
+
+has [qw /jobresult/] => ( is => 'rw', isa => 'Int', default => 100 );
 
 1;
