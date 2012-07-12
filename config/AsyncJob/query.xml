@@ -1,7 +1,7 @@
 <root>
     <top>/queryasyncjobresultresponse</top>
     <command>queryAsyncJobResult</command>
-    <defaultresponses>jobid,jobstatus,jobresult</defaultresponses>
+    <defaultresponses>jobid,jobstatus,cmd</defaultresponses>
     <params>
         <param>
             <name>jobid</name>

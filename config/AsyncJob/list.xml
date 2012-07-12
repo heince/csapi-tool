@@ -1,7 +1,7 @@
 <root>
     <top>/listasyncjobsresponse/asyncjobs</top>
     <command>listAsyncJobs</command>
-    <defaultresponses>jobid,jobstatus,cmd,jobresult</defaultresponses>
+    <defaultresponses>jobid,jobstatus,cmd</defaultresponses>
     <params>
         <param>
             <name>account</name>
