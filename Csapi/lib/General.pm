@@ -33,10 +33,17 @@ sub print_xml{
 	}else{
 		#print header
 		my $default_responses = $self->get_default_response();
-		print @{$self->set_header($default_responses, $self->xmltmp)};
-		 
-		#print content
-		print @{$self->get_api_result()};
+		my @result = @$default_responses;
+		if(($#result == 0) and ($result[0] eq 'jobid')){
+			my @jobid = @{$self->get_api_result()};
+			system("$0 ls -s " . $self->default_site . " -i " . $jobid [0]. " job");
+		}else{
+			print @{$self->set_header($default_responses, $self->xmltmp)};
+			
+			#print content
+			print @{$self->get_api_result()};
+		}
+		
 	}
 }
 
@@ -190,9 +197,13 @@ sub pack_response{
 			}
 		}
 		when (/\bjobresult\b/){
-			if(length($field) > 200){
+			if(length($field) > 300){
 				$field = "Completed";
 			}
+		}
+		when (/\bcmd\b/){
+			my @cmd = split '\.' => $field;
+			$field = $cmd[4];
 		}
 	}	
 	#say "field:" . $field;
