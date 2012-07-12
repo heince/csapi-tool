@@ -16,7 +16,7 @@ use General;
 
 extends 'General';
 
-has [qw/iasite site apikey secretkey flag command is_ldap ldap_command/] => (is => "rw", isa => "Str");
+has [qw/iasite site gen_apikey gen_secretkey flag command is_ldap ldap_command/] => (is => "rw", isa => "Str");
 
 #call print_xml to get the output
 sub get_output{
@@ -51,11 +51,11 @@ sub check{
 																					$self->default_site .
 																					qq|"]/../sslverifyhostname/text()|)->string_value());
 	
-	$self->apikey($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| .
+	$self->gen_apikey($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| .
 															$self->default_site .
 															qq|"]/../key/apikey/text()|)->string_value());
 	
-	$self->secretkey($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| .
+	$self->gen_secretkey($self->xmlconfig->findnodes(qq|/root/site/profile/name[text()="| .
 																$self->default_site .
 																qq|"]/../key/secretkey/text()|)->string_value());
 	
@@ -69,10 +69,10 @@ sub check{
 	$ENV{'PERL_LWP_SSL_VERIFY_HOSTNAME'} = $sslverifyhost;
 	
 	#check apikey
-	die "please set apikey\n" unless $self->apikey ne '';
+	die "please set apikey\n" unless $self->gen_apikey ne '';
 	
 	#check secretkey
-	die "please set secretkey\n" unless $self->secretkey ne '';
+	die "please set secretkey\n" unless $self->gen_secretkey ne '';
 	
 }
 
@@ -94,7 +94,7 @@ sub get_result{
 		my $output;
 		
 		unless($self->is_ldap){
-			my $query = $self->command . "&apiKey=". $self->apikey;
+			my $query = $self->command . "&apiKey=". $self->gen_apikey;
 			my @list = split(/&/,$query);
 			foreach (@list){
 				if(/(.+)\=(.+)/){
@@ -111,14 +111,14 @@ sub get_result{
 			
 			$output = join("&",sort @list);
 		}else{ #is ldap
-			$output = lc("apiKey" . "=" . $uri->encode($self->apikey,1)) . "&" . lc($self->command); #pre-generate encode on LDAP.pm
+			$output = lc("apiKey" . "=" . $uri->encode($self->gen_apikey,1)) . "&" . lc($self->command); #pre-generate encode on LDAP.pm
 		}
 		
 		#step3
-		my $digest = hmac_sha1($output, $self->secretkey);
+		my $digest = hmac_sha1($output, $self->gen_secretkey);
 		my $base64_encoded = encode_base64($digest);chomp($base64_encoded);
 		my $url_encoded = $uri->encode($base64_encoded, 1); # encode_reserved option is set to 1
-		$url = $self->site."apikey=".$self->apikey."&" . $self->command . "&signature=".$url_encoded;
+		$url = $self->site."apikey=".$self->gen_apikey."&" . $self->command . "&signature=".$url_encoded;
 	}else{
 		$url = $self->iasite . $self->command;
 	}
@@ -176,7 +176,7 @@ sub get_xml{
 	
 	$self->check;
 	$self->flag(2);
-	$self->get_result($self->site, $self->command, $self->apikey, $self->secretkey, $self->flag);
+	$self->get_result($self->site, $self->command, $self->gen_apikey, $self->gen_secretkey, $self->flag);
 }
 
 #get json result
@@ -186,7 +186,7 @@ sub get_json{
 	$self->check;
 	$self->flag(2);
 	$self->command($self->command . "&response=json");
-	$self->get_result($self->site, $self->command, $self->apikey, $self->secretkey, $self->flag);
+	$self->get_result($self->site, $self->command, $self->gen_apikey, $self->gen_secretkey, $self->flag);
 }
 
 #get url result
@@ -195,7 +195,7 @@ sub get_url{
 	
 	$self->check;
 	$self->flag(1);
-	$self->get_result($self->site, $self->command, $self->apikey, $self->secretkey, $self->flag);
+	$self->get_result($self->site, $self->command, $self->gen_apikey, $self->gen_secretkey, $self->flag);
 }
 
 #get json and xml result
@@ -204,7 +204,7 @@ sub get_both{
 	
 	$self->check;
 	$self->flag(3);
-	$self->get_result($self->site, $self->command, $self->apikey, $self->secretkey, $self->flag);
+	$self->get_result($self->site, $self->command, $self->gen_apikey, $self->gen_secretkey, $self->flag);
 }
 1;
 
