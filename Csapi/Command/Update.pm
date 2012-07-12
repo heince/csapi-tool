@@ -31,6 +31,7 @@ account domain project projectIvt
 
 example:
 cloudcmd update -i xxx -a xxx --dt "aloha" project
+cloudcmd update -i xxx -p newname=rambo account
 
 EOF
 }
@@ -47,10 +48,6 @@ sub validate{
             when (/\baccount\b/i){
                 if($cmd_opts->{'showparams'} or $cmd_opts->{'showresponses'}){
                     break;
-                }else{
-                    die "acctype|email|fname|lname|password|username is required\n" unless $cmd_opts->{'acctype'} >= 0 and
-                    $cmd_opts->{'acctype'} <= 2 and$cmd_opts->{'email'} and $cmd_opts->{'fname'} and $cmd_opts->{'lname'} and
-                    $cmd_opts->{'password'} and $cmd_opts->{'uname'};
                 }       
                 break;
             }
@@ -173,8 +170,34 @@ sub update_projectInvitation{
     if(defined $opts->{'account'}){
         $obj->project_account($opts->{'account'});
     }
+    check_site(\$opts, \$obj);
+    check_opts(\$opts, \$obj);
     
     $obj->update_projectInvitation;
+}
+
+sub update_account{
+    my ($opts, $obj) = @_;
+    
+    if(defined $opts->{'showparams'}){
+        $obj->set_update_xml();
+        $obj->print_param();
+        exit;
+    }
+    if(defined $opts->{'showresponses'}){
+        $obj->set_update_xml();
+        $obj->print_response();
+        exit;
+    }
+    if(defined $opts->{'id'}){
+        $obj->accid($opts->{'id'});
+    }
+    
+    check_site(\$opts, \$obj);
+    check_opts(\$opts, \$obj);
+    
+    $obj->update;
+    
 }
 
 sub run{
@@ -185,14 +208,9 @@ sub run{
    given($args[0]){
         when (/\baccount\b/i){
             use Account;
-            $obj = Account->new(acctype => $opts->{'acctype'},
-                                accemail => $opts->{'email'},
-                                fname => $opts->{'fname'},
-                                lname => $opts->{'lname'},
-                                accpass => $opts->{'password'},
-                                uname => $opts->{'uname'});
+            $obj = Account->new();
             
-            create($opts, $obj);
+            update_account($opts, $obj);
         }
         when (/\bdomain\b/i){
             use Domain;
