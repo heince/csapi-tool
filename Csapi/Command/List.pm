@@ -7,7 +7,7 @@ use warnings;
 use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 
 my $supported_args = qq /vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain/ .
-                     qq /|project|projectIvt/;
+                     qq /|project|projectIvt|projectAcc/;
 
 #return usage output
 sub usage_text{
@@ -26,6 +26,7 @@ available cmd-opt:
 -s | --site      [site profile name]                => 'set site to be use'
 -i | --id        [id|uuid]                          => 'set id or uuid for cmd-arg'
 --geturl                                            => 'get api url'
+--field          [comma separated field+value]      => 'custom field size'
 
 available cmd-arg:
 $supported_args
@@ -79,7 +80,8 @@ sub option_spec {
     [ 'site|s=s' => 'set site'],
     [ 'id|i=s'    => 'set id'],
     [ 'all|a'     => 'turn on listall=true' ],
-    [ 'geturl'    => 'get api url' ]
+    [ 'geturl'    => 'get api url' ],
+    [ 'field=s'     => 'custom field size' ]
 }
 
 
@@ -99,7 +101,11 @@ sub check_opts{
     if(defined $$opts->{'showparams'}){
         if($args eq 'projectIvt'){
             $$obj->set_listProjectInvitations_xml;
-        }else{
+        }
+        elsif($args eq 'projectAcc'){
+            $$obj->set_listProjectAccounts_xml;
+        }
+        else{
             $$obj->set_list_xml();
         }
         $$obj->print_param();
@@ -108,7 +114,11 @@ sub check_opts{
     if(defined $$opts->{'showresponses'}){
         if($args eq 'projectIvt'){
             $$obj->set_listProjectInvitations_xml;
-        }else{
+        }
+        elsif($args eq 'projectAcc'){
+            $$obj->set_listProjectAccounts_xml;
+        }
+        else{
             $$obj->set_list_xml();
         }
         $$obj->print_response();
@@ -132,6 +142,17 @@ sub check_opts{
     }
     if($$opts->{'geturl'}){
         $$obj->geturl(1);
+    }
+    if($$opts->{'field'}){
+        my @field = split ',' => $$opts->{'field'};
+        for(@field){
+            my @tmp = split '=' => $_;
+            my ($fieldname, $fieldsize) = @tmp;
+            unless ($fieldsize =~ /\d+/){
+                die "field size cannot empty and must be integer value\n";
+            }
+            $$obj->$fieldname($fieldsize);
+        }
     }
 }
 
@@ -256,6 +277,17 @@ sub run{
             
             $obj->list_projectInvitations;
             
+        }
+        when (/\bprojectAcc\b/i){
+            if(defined $opts->{'id'}){
+                use Account;
+            
+                $obj = Account->new();
+                check_opts(\$opts, \$obj, 'projectAcc');
+                $obj->list_projectAccounts($opts->{'id'});
+            }else{
+                die "Project id is required, use -i [project id]\n";
+            }      
         }
     }
 
