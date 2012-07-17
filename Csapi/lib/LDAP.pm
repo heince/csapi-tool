@@ -9,13 +9,12 @@ use Net::LDAP;
 
 extends 'GenUrl';
 
-has [ qw /ldaphostname ldapsearchbase ldapqueryfilter ldapdomid dompath accmap/ ] => (is => 'ro', isa => "Str");
-has [ qw /uri ldapbinddn ldapbindpass ldapssl ldaptruststore ldaptrustpass ldapbind iswin istest
-     iachanged sitechanged/ ] => (is => 'rw');
-has [ qw /ldapport/ ] => ( is => 'rw', default => 389 );
-has [ qw /excludeuser/ ] => ( is => 'rw',);
+has [ qw/ldaphostname ldapsearchbase ldapqueryfilter ldapdomid dompath accmap/ ] => (is => 'ro', isa => "Str");
+has [ qw/uri ldapbinddn ldapbindpass ldapssl ldaptruststore ldaptrustpass ldapbind iswin istest
+     iachanged sitechanged default_mail/ ] => (is => 'rw');
+has [ qw/ldapport/ ] => ( is => 'rw', default => 389 );
+has [ qw/excludeuser/ ] => ( is => 'rw',);
                             #default => 'Administrator,krbtgt,SUPPORT_*,Guest');
-has [ 'default_mail' ] => ( is => 'rw' );
 
 sub set_ldapConfig_xml{
     my $self = shift;
