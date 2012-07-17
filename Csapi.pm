@@ -1,10 +1,10 @@
 package Csapi;
 
-use base qw( CLI::Framework );
+use base qw( CLI::Framework);
 
 use v5.10;
-use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
-use General;
+use strict;
+use warnings;
 
 sub usage_text {
     # The usage_text() hook in the Application Class is meant to return a
@@ -22,11 +22,12 @@ console             run interactively
 cmd-list            list available commands
 list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|
                                         template|user|job|zone|network|domain|project|
-                                        projectIvt|projectAcc)
+                                        projectIvt|projectAcc|router)
 deploy              deploy  [--cmd-opt] (vm)
-destroy             destroy [--cmd-opt] (vm)
-stop                stop    [--cmd-opt] (vm)
-start               start   [--cmd-opt] (vm)
+destroy             destroy [--cmd-opt] (vm|router)
+stop                stop    [--cmd-opt] (vm|router)
+start               start   [--cmd-opt] (vm|router)
+reboot              reboot  [--cmd-opt] (vm|router)
 sync                sync    [--cmd-opt] (ldap)
 set                 set     [--cmd-opt] (ldap)
 remove              remove  [--cmd-opt] (ldap)

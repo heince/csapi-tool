@@ -4,7 +4,8 @@ use base qw( CLI::Framework::Command );
 use v5.10;
 use strict;
 use warnings;
-use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
+
+my $supported_args = qq \vm|router\;
 
 #return usage output
 sub usage_text{
@@ -25,10 +26,10 @@ available cmd-opt:
 --geturl                                            => 'get api url'
 
 available cmd-arg:
-vm
+$supported_args
 
 example:
-cloudcmd reboot -i 1,2,3 vm
+cloudcmd reboot -i 1,2,3 $supported_args
 cloudcmd reboot -i 33b9d87a-93cd-4235-bb10-09ece1325487 -p forced=true vm
 
 EOF
@@ -43,7 +44,7 @@ sub validate{
     
     if(@args){
         given($args[0]){
-            when (/\bvm\b/i){
+            when (/\b($supported_args)\b/i){
                 break;
             }
             default{
@@ -131,7 +132,7 @@ sub run{
    my $obj;
    
    given($args[0]){
-        when(/\bvm\b/){
+        when(/\bvm\b/i){
             use VM;
             $obj = VM->new();
             
@@ -147,6 +148,24 @@ sub run{
                     $obj->reboot_vm($displayname);
                 }
             }
+        }
+        when (/\brouter\b/i){
+        	if(defined $opts->{'id'}){
+        		use Router;
+        	
+        		$obj = Router->new();
+        		my @ids = split ',' , $opts->{'id'};
+        		
+        		#loop through id
+                for(@ids){
+                    check_site(\$opts, \$obj);
+                    $obj->uuid($_);
+                    check_opts(\$opts, \$obj);
+                    $obj->reboot_router();
+                }
+        	}else{
+        		die "router id required\n";
+        	}
         }
    }
    

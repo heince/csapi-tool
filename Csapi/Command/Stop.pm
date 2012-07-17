@@ -4,7 +4,8 @@ use base qw( CLI::Framework::Command );
 use v5.10;
 use strict;
 use warnings;
-use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
+
+my $supported_args = qq \vm|router\;
 
 #return usage output
 sub usage_text{
@@ -25,11 +26,11 @@ available cmd-opt:
 --geturl                                            => 'get api url'
 
 available cmd-arg:
-vm
+$supported_args
 
 example:
-cloudcmd stop -i [id|uuid] vm
-cloudcmd stop -i [id|uuid] -p forced=true --nh vm
+cloudcmd stop -i [id|uuid] vm|router
+cloudcmd stop -i [id|uuid] -p forced=true --nh vm|router
 
 EOF
 }
@@ -43,7 +44,7 @@ sub validate{
     
     if(@args){
         given($args[0]){
-            when (/\bvm\b/i){
+            when (/\b($supported_args)\b/i){
                 break;
             }
             default{
@@ -147,6 +148,24 @@ sub run{
                     $obj->stop_vm($displayname);
                 }
             }
+        }
+        when (/\brouter\b/i){
+        	if(defined $opts->{'id'}){
+        		use Router;
+        	
+        		$obj = Router->new();
+        		my @ids = split ',' , $opts->{'id'};
+        		
+        		#loop through id
+                for(@ids){
+                    check_site(\$opts, \$obj);
+                    $obj->uuid($_);
+                    check_opts(\$opts, \$obj);
+                    $obj->stop_router();
+                }
+        	}else{
+        		die "router id required\n";
+        	}
         }
    }
    
