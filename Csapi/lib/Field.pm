@@ -23,23 +23,24 @@ has [qw /templatelimit templatetotal user-account systemvmtype iscustomized temp
 
 has [qw /account domain group isoname password nic-ip nic-isdefault securitygroup-domain jobprocstatus jobresultcode jobresulttype
      securitygroup-name networkdomain receivedbytes sentbytes snapshottotal username isextractable domainname path parentdomainname
-     /] => ( is => 'rw', isa => 'Int', default => 15 );
+     scriptsversion/] => ( is => 'rw', isa => 'Int', default => 15 );
 
-has [qw /rootdevicetype securitygroup-account accounttype user-firstname user-lastname
+has [qw /rootdevicetype securitygroup-account accounttype user-firstname user-lastname redundantstate
      firstname lastname/] => ( is => 'rw', isa => 'Int', default => 16 );
 
 has [qw /ipaddress netmask gateway networkkbsread passwordenabled nic-traffictype volumeavailable allocationstate dhcpprovider
      passwordenabled dns1 dns2 internaldns1 internaldns2 restartrequired specifyipranges subdomainaccess traffictype
+     guestipaddress guestnetmask linklocalip linklocalmacaddress linklocalnetmask publicip publicmacaddress publicnetmask
      /] => ( is => 'rw', isa => 'Int', default => 17 );
 
-has [qw /networkkbswrite nic-broadcasturi nic-isolationuri nic-macaddress nic-netmask 
+has [qw /networkkbswrite nic-broadcasturi nic-isolationuri nic-macaddress nic-netmask guestmacaddress
      securitygroup-jobstatus user-accounttype/] => ( is => 'rw', isa => 'Int', default => 18 );
 
 has [qw /forvirtualnetwork iscleanuprequired snapshotavailable snapshotlimit templateavailable jobinstancetype
-     /] => ( is => 'rw', isa => 'Int', default => 19 );
+     isredundantrouter/] => ( is => 'rw', isa => 'Int', default => 19 );
 
 has [qw /hostname isodisplaytext user-timezone displaytext description timezone guestcidraddress broadcastdomaintype
-     cidr/] => ( is => 'rw', isa => 'Int', default => 20 );
+     cidr name/] => ( is => 'rw', isa => 'Int', default => 20 );
 
 has [qw /serviceofferingname templatedisplaytext securitygroup-ingressrule-cidr/] => ( is => 'rw', isa => 'Int', default => 21 );
 
@@ -53,7 +54,7 @@ has [qw /displayname created securitygroup-description securitygroup-ingressrule
 
 has [qw /enddate startdate networkofferingavailability/] => ( is => 'rw', isa => 'Int', default => 30 );
 
-has [qw /securitygroup-ingressrule-securitygroupname vlan name/] => ( is => 'rw', isa => 'Int', default => 34 );
+has [qw /securitygroup-ingressrule-securitygroupname vlan/] => ( is => 'rw', isa => 'Int', default => 34 );
 
 has [qw /securitygroup-ingressrule-startport templatename/] => ( is => 'rw', isa => 'Int', default => 35 );
 
@@ -61,7 +62,7 @@ has [qw/id accountid domainid groupid guestosid hostid isoid templateid jobid ro
      diskofferingid zoneid nic-id nic-gateway nic-networkid securitygroup-id securitygroup-domainid securitygroup-jobid
      securitygroup-ingressrule-ruleid user-id user-domainid ostypeid networkid usageid virtualmachineid userid zonetoken
      offeringid jobinstanceid cmd networkofferingid networkofferingname physicalnetworkid projectid related parentdomainid
-     queryfilter /] => ( is => 'rw', isa => 'Int', default => 38 );
+     queryfilter guestnetworkid linklocalnetworkid podid publicnetworkid/] => ( is => 'rw', isa => 'Int', default => 38 );
 
 has [qw /searchbase/] => ( is => 'rw', isa => 'Int', default => 50 );
 
