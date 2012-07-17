@@ -7,8 +7,8 @@ use GenUrl;
 
 extends 'GenUrl';
 
-has [ qw /acctype fname lname accpass uname/ ] => ( is => 'ro' );
-has [ qw /accid acclock accemail accname/ ] => ( is => 'rw' );
+has [ qw/acctype fname lname accpass uname/ ] => ( is => 'ro' );
+has [ qw/accid acclock accemail accname/ ] => ( is => 'rw' );
 
 #set xmltmp to hold list account xml file
 sub set_list_xml{

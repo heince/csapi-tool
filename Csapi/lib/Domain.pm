@@ -7,7 +7,7 @@ use GenUrl;
 
 extends 'GenUrl';
 
-has [ qw /domname domid/ ] => ( is => 'ro' );
+has [ qw |domname domid| ] => ( is => 'ro' );
 
 sub set_list_xml{
     my $self = shift;
