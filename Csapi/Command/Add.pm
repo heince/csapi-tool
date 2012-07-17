@@ -4,7 +4,6 @@ use base qw( CLI::Framework::Command );
 use v5.10;
 use strict;
 use warnings;
-use lib ("$ENV{'CSAPI_ROOT'}/Csapi/lib");
 
 #return usage output
 sub usage_text{

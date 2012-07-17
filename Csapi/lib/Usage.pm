@@ -5,7 +5,6 @@ use 5.010;
 use XML::Simple;
 use DBI;
 use DBD::mysql;
-use lib ("$ENV{'CSAPI_ROOT'}/lib");
 use Mouse;
 use GenUrl;
 
