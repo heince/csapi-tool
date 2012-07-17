@@ -1,7 +1,7 @@
 package GenUrl;
 use strict;
 use warnings;
-use 5.010;
+use v5.10;
 
 use Digest::SHA qw(hmac_sha1);
 use File::Basename qw(basename);
