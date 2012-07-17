@@ -5,10 +5,12 @@ use warnings;
 BEGIN{
     unless($ENV{'CSAPI_ROOT'}){
         die "Can't found CSAPI_ROOT env variable, please set one!\n";
+    }else{
+    	push @INC, "$ENV{'CSAPI_ROOT'}";
+    	push @INC, "$ENV{'CSAPI_ROOT'}/Csapi/lib";
     }
 }
 
-use lib ("$ENV{'CSAPI_ROOT'}");
 use Csapi;
 
 Csapi->run;
