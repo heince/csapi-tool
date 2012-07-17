@@ -1,0 +1,168 @@
+<root>
+	<top>/destroyrouterresponse</top>
+    <command>destroyRouter</command>
+    <description>Destroys a router.</description>
+    <isAsync>true</isAsync>
+    <defaultresponses>jobid</defaultresponses>
+    <params>
+    	<param>
+    		<name>id</name>
+	        <description>the ID of the router</description>
+	        <required>true</required>
+    	</param>
+    </params>
+    <responses>
+    	<response>
+            <name>jobid</name>
+            <description>the ID of the latest async job acting on this object</description>
+        </response>
+    	<response>
+    		<name>id</name>
+        	<description>the id of the router</description>
+    	</response>
+    	<response>
+    		<name>account</name>
+        	<description>the account associated with the router</description>
+    	</response>
+    	<response>
+    		<name>created</name>
+        	<description>the date and time the router was created</description>
+    	</response>
+    	<response>
+    		<name>dns1</name>
+        	<description>the first DNS for the router</description>
+    	</response>
+    	<response>
+    		<name>dns2</name>
+        	<description>the second DNS for the router</description>
+    	</response>
+    	<response>
+    		<name>domain</name>
+        	<description>the domain associated with the router</description>
+    	</response>
+    	<response>
+    		<name>domainid</name>
+        	<description>the domain ID associated with the router</description>
+    	</response>
+    	<response>
+    		<name>gateway</name>
+        	<description>the gateway for the router</description>
+    	</response>
+    	<response>
+    		<name>guestipaddress</name>
+        	<description>the guest IP address for the router</description>
+    	</response>
+    	<response>
+    		<name>guestmacaddress</name>
+        	<description>the guest MAC address for the router</description>
+    	</response>
+    	<response>
+    		<name>guestnetmask</name>
+        	<description>the guest netmask for the router</description>
+    	</response>
+    	<response>
+    		<name>guestnetworkid</name>
+        	<description>the ID of the corresponding guest network</description>
+    	</response>
+    	<response>
+    		<name>hostid</name>
+        	<description>the host ID for the router</description>
+    	</response>
+    	<response>
+    		<name>hostname</name>
+        	<description>the hostname for the router</description>
+    	</response>
+    	<response>
+    		<name>isredundantrouter</name>
+        	<description>if this router is an redundant virtual router</description>
+    	</response>
+    	<response>
+    		<name>linklocalip</name>
+        	<description>the link local IP address for the router</description>
+    	</response>
+    	<response>
+    		<name>linklocalmacaddress</name>
+        	<description>the link local MAC address for the router</description>
+    	</response>
+    	<response>
+    		<name>linklocalnetmask</name>
+        	<description>the link local netmask for the router</description>
+    	</response>
+    	<response>
+    		<name>linklocalnetworkid</name>
+        	<description>the ID of the corresponding link local network</description>
+    	</response>
+    	<response>
+    		<name>name</name>
+        	<description>the name of the router</description>
+    	</response>
+    	<response>
+    		<name>networkdomain</name>
+       	 	<description>the network domain for the router</description>
+    	</response>
+    	<response>
+    		<name>podid</name>
+        	<description>the Pod ID for the router</description>
+    	</response>
+    	<response>
+    		<name>project</name>
+        	<description>the project name of the address</description>
+    	</response>
+    	<response>
+    		<name>projectid</name>
+        	<description>the project id of the ipaddress</description>
+    	</response>
+    	<response>
+    		<name>publicip</name>
+        	<description>the public IP address for the router</description>
+    	</response>
+    	<response>
+    		<name>publicmacaddress</name>
+        	<description>the public MAC address for the router</description>
+    	</response>
+    	<response>
+    		<name>publicnetmask</name>
+       		<description>the public netmask for the router</description>
+    	</response>
+    	<response>
+    		<name>publicnetworkid</name>
+        	<description>the ID of the corresponding public network</description>
+    	</response>
+    	<response>
+    		<name>redundantstate</name>
+        	<description>the state of redundant virtual router</description>
+    	</response>
+    	<response>
+    		<name>scriptsversion</name>
+        	<description>the version of scripts</description>
+    	</response>
+    	<response>
+    		<name>serviceofferingid</name>
+        	<description>the ID of the service offering of the virtual machine</description>
+    	</response>
+    	<response>
+    		<name>serviceofferingname</name>
+        	<description>the name of the service offering of the virtual machine</description>
+    	</response>
+    	<response>
+    		<name>state</name>
+        	<description>the state of the router</description>
+    	</response>
+    	<response>
+    		<name>templateid</name>
+        	<description>the template ID for the router</description>
+    	</response>
+    	<response>
+    		<name>templateversion</name>
+        	<description>the version of template</description>
+    	</response>
+    	<response>
+    		<name>zoneid</name>
+        	<description>the Zone ID for the router</description>
+    	</response>
+    	<response>
+    		<name>zonename</name>
+        	<description>the Zone name for the router</description>
+    	</response>
+    </responses>
+</root>
