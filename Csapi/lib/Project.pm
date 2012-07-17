@@ -7,8 +7,8 @@ use GenUrl;
 
 extends 'GenUrl';
 
-has [ qw /project_name project_displaytext/ ] => ( is => 'rw' );
-has [ qw /project_id project_account invitation_id/ ] => ( is => 'rw' );
+has [ qw/project_name project_displaytext/ ] => ( is => 'rw' );
+has [ qw/project_id project_account invitation_id/ ] => ( is => 'rw' );
 
 #default to listProjects
 sub set_list_xml{
