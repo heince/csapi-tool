@@ -1,0 +1,101 @@
+<root>
+	<top>/listfirewallrulesresponse/firewallrule</top>
+    <command>listFirewallRules</command>
+    <description>Lists all firewall rules for an IP address.</description>
+    <isAsync>false</isAsync>
+    <defaultresponses>id,cidrlist,startport,endport,protocol,ipaddress,state</defaultresponses>
+    <params>
+    	<param>
+    		<name>account</name>
+	        <description>List resources by account. Must be used with the domainId parameter.</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>domainid</name>
+	        <description>list only resources belonging to the domain specified</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>id</name>
+	        <description>Lists rule with the specified ID.</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>ipaddressid</name>
+	        <description>the id of IP address of the firewall services</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>isrecursive</name>
+	        <description>defaults to false, but if true, lists all resources from the parent specified by the domainId till leaves.</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>keyword</name>
+	        <description>List by keyword</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>listall</name>
+	        <description>If set to false, list only resources belonging to the command&apos;s caller; if set to true - list resources that the caller is authorized to see. Default value is false</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+            <name>page</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+            <name>pagesize</name>
+            <description></description>
+            <required>false</required>
+        </param>
+        <param>
+        	<name>projectid</name>
+	        <description>list firewall rules by project</description>
+	        <required>false</required>
+        </param>
+    </params>
+    <responses>
+    	<response>
+    		<name>id</name>
+        	<description>the ID of the firewall rule</description>
+    	</response>
+    	<response>
+    		<name>cidrlist</name>
+        	<description>the cidr list to forward traffic from</description>
+    	</response>
+    	<response>
+    		<name>endport</name>
+        	<description>the ending port of firewall rule&apos;s port range</description>
+    	</response>
+    	<response>
+    		<name>icmpcode</name>
+        	<description>error code for this icmp message</description>
+    	</response>
+    	<response>
+    		<name>icmptype</name>
+        	<description>type of the icmp message being sent</description>
+    	</response>
+    	<response>
+    		<name>ipaddress</name>
+        	<description>the public ip address for the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>ipaddressid</name>
+        	<description>the public ip address id for the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>protocol</name>
+        	<description>the protocol of the firewall rule</description>
+    	</response>
+    	<response>
+    		<name>startport</name>
+        	<description>the starting port of firewall rule&apos;s port range</description>
+    	</response>
+    	<response>
+    		<name>state</name>
+        	<description>the state of the rule</description>
+    	</response>
+    </responses>
+</root>

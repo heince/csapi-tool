@@ -1,0 +1,99 @@
+<root>
+	<top>/createportforwardingruleresponse</top>
+    <command>createPortForwardingRule</command>
+    <description>Creates a port forwarding rule</description>
+    <isAsync>true</isAsync>
+    <defaultresponses>jobid</defaultresponses>
+    <params>
+    	<param>
+    		<name>ipaddressid</name>
+	        <description>the IP address id of the port forwarding rule</description>
+	        <required>true</required>
+    	</param>
+    	<param>
+    		<name>privateport</name>
+	        <description>the starting port of port forwarding rule&apos;s private port range</description>
+	        <required>true</required>
+    	</param>
+    	<param>
+    		<name>protocol</name>
+	        <description>the protocol for the port fowarding rule. Valid values are TCP or UDP.</description>
+	        <required>true</required>
+    	</param>
+    	<param>
+    		<name>publicport</name>
+	        <description>the starting port of port forwarding rule&apos;s public port range</description>
+	        <required>true</required>
+    	</param>
+    	<param>
+    		<name>virtualmachineid</name>
+	        <description>the ID of the virtual machine for the port forwarding rule</description>
+	        <required>true</required>
+    	</param>
+    	<param>
+    		<name>cidrlist</name>
+	        <description>the cidr list to forward traffic from</description>
+	        <required>false</required>
+	        <type>list</type>
+    	</param>
+    	<param>
+    		 <name>openfirewall</name>
+	        <description>if true, firewall rule for source/end pubic port is automatically created; if false - firewall rule has to be created explicitely. Has value true by default</description>
+	        <required>false</required>
+    	</param>
+    </params>
+    <responses>
+    	<response>
+    		 <name>id</name>
+       		 <description>the ID of the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>cidrlist</name>
+        	<description>the cidr list to forward traffic from</description>
+    	</response>
+    	<response>
+    		<name>ipaddress</name>
+        	<description>the public ip address for the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>ipaddressid</name>
+        	<description>the public ip address id for the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>privateendport</name>
+        	<description>the ending port of port forwarding rule&apos;s private port range</description>
+    	</response>
+    	<response>
+    		<name>privateport</name>
+        	<description>the starting port of port forwarding rule&apos;s private port range</description>
+    	</response>
+    	<response>
+    		<name>protocol</name>
+        	<description>the protocol of the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>publicendport</name>
+        	<description>the ending port of port forwarding rule&apos;s private port range</description>
+    	</response>
+    	<response>
+    		<name>publicport</name>
+       		<description>the starting port of port forwarding rule&apos;s public port range</description>
+    	</response>
+    	<response>
+    		<name>state</name>
+        	<description>the state of the rule</description>
+    	</response>
+    	<response>
+    		<name>virtualmachinedisplayname</name>
+        	<description>the VM display name for the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>virtualmachineid</name>
+        	<description>the VM ID for the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>virtualmachinename</name>
+        	<description>the VM name for the port forwarding rule</description>
+    	</response>
+    </responses>
+</root>

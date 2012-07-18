@@ -1,0 +1,92 @@
+<root>
+	<top>/createfirewallruleresponse</top>
+    <command>createFirewallRule</command>
+    <description>Creates a firewall rule for a given ip address</description>
+    <isAsync>true</isAsync>
+    <defaultresponses>jobid</defaultresponses>
+    <params>
+    	<param>
+    		<name>protocol</name>
+	        <description>the protocol for the firewall rule. Valid values are TCP/UDP/ICMP.</description>
+	        <required>true</required>
+    	</param>
+    	<param>
+    		<name>cidrlist</name>
+	        <description>the cidr list to forward traffic from</description>
+	        <required>false</required>
+	        <type>list</type>
+    	</param>
+    	<param>
+    		<name>endport</name>
+	        <description>the ending port of firewall rule</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>icmpcode</name>
+	        <description>error code for this icmp message</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>icmptype</name>
+	        <description>type of the icmp message being sent</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>ipaddressid</name>
+	        <description>the IP address id of the port forwarding rule</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>startport</name>
+	        <description>the starting port of firewall rule</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>type</name>
+	        <description>type of firewallrule: system/user</description>
+	        <required>false</required>
+    	</param>
+    </params>
+    <responses>
+    	<response>
+    		<name>id</name>
+        	<description>the ID of the firewall rule</description>
+    	</response>
+    	<response>
+    		<name>cidrlist</name>
+        	<description>the cidr list to forward traffic from</description>
+    	</response>
+    	<response>
+    		<name>endport</name>
+        	<description>the ending port of firewall rule&apos;s port range</description>
+    	</response>
+    	<response>
+    		<name>icmpcode</name>
+        	<description>error code for this icmp message</description>
+    	</response>
+    	<response>
+    		<name>icmptype</name>
+        	<description>type of the icmp message being sent</description>
+    	</response>
+    	<response>
+    		<name>ipaddress</name>
+        	<description>the public ip address for the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>ipaddressid</name>
+        	<description>the public ip address id for the port forwarding rule</description>
+    	</response>
+    	<response>
+    		<name>protocol</name>
+        	<description>the protocol of the firewall rule</description>
+    	</response>
+    	<response>
+    		<name>startport</name>
+        	<description>the starting port of firewall rule&apos;s port range</description>
+    	</response>
+    	<response>
+    		<name>state</name>
+        	<description>the state of the rule</description>
+    	</response>
+    </responses>
+</root>

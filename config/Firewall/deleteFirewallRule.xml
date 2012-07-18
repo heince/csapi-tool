@@ -1,0 +1,24 @@
+<root>
+	<top>/deletefirewallruleresponse</top>
+    <command>deleteFirewallRule</command>
+    <description>Deletes a firewall rule</description>
+    <isAsync>true</isAsync>
+    <defaultresponses>jobid</defaultresponses>
+    <params>
+    	<param>
+    		<name>id</name>
+	        <description>the ID of the firewall rule</description>
+	        <required>true</required>
+    	</param>
+    </params>
+    <responses>
+    	<response>
+    		<name>displaytext</name>
+        	<description>any text associated with the success or failure</description>
+    	</response>
+    	<response>
+    		<name>success</name>
+        	<description>true if operation is executed successfully</description>
+    	</response>
+    </responses>
+ </root>
