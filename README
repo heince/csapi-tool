@@ -7,7 +7,7 @@ console             run interactively
 cmd-list            list available commands
 list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|
                                         template|user|job|zone|network|domain|project|
-                                        projectIvt|projectAcc|router)
+                                        projectIvt|projectAcc|router|fwrule|pfrule)
 deploy              deploy  [--cmd-opt] (vm)
 destroy             destroy [--cmd-opt] (vm|router)
 stop                stop    [--cmd-opt] (vm|router)
@@ -17,8 +17,8 @@ sync                sync    [--cmd-opt] (ldap)
 set                 set     [--cmd-opt] (ldap)
 remove              remove  [--cmd-opt] (ldap)
 usage               usage -s 2012-05-01 -e 2012-06-01 -a 1 -type (1|2|6)
-create              create  [--cmd-opt] (account|domain|project)
-delete              delete  [--cmd-opt] (account|domain|project|projectIvt|accountfromproject)
+create              create  [--cmd-opt] (account|domain|project|fwrule|pfrule)
+delete              delete  [--cmd-opt] (account|domain|project|projectIvt|accountfromproject|fwrule|pfrule)
 update              update  [--cmd-opt] (account|domain|project|projectIvt)
 suspend             suspend [--cmd-opt] project
 activate            activate [--cmd-opt] project

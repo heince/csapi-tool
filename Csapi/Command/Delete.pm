@@ -5,6 +5,8 @@ use v5.10;
 use strict;
 use warnings;
 
+my $supported_args = qq \account|domain|project|projectivt|accountfromproject|fwrule|pfrule\;
+
 #return usage output
 sub usage_text{
     my $usage = <<EOF;
@@ -23,7 +25,7 @@ available cmd-opt:
 --geturl                                            => 'get api url'
             
 available cmd-arg:
-account domain project projectivt accountfromproject
+$supported_args
 
 example:
 cloudcmd del -i xxx account
@@ -42,7 +44,7 @@ sub validate{
     
     if(@args){
         given($args[0]){
-            when (/\b(account|domain|project|projectivt|accountfromproject)\b/i){
+            when (/\b($supported_args)\b/i){
                 if($cmd_opts->{'showparams'} or $cmd_opts->{'showresponses'}){
                     break;
                 }else{
@@ -172,10 +174,20 @@ sub run{
                 use Account;
                 
                 $obj = Account->new(accname => $opts->{'account'});
-            
                 del($opts, $obj, 'accountfromproject');
-            } 
-            
+            }
+        }
+        when (/\bfwrule\b/i){
+        	use Firewall;
+        	
+        	$obj = Firewall->new(uuid => $opts->{'id'});
+        	$obj->delete_firewallrule();
+        }
+        when (/\bpfrule\b/i){
+        	use Firewall;
+        	
+        	$obj = Firewall->new(uuid => $opts->{'id'});
+        	$obj->delete_pfrule();
         }
    }
    

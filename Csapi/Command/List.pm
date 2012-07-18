@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 my $supported_args = qq \vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain\ .
-                     qq \|project|projectIvt|projectAcc|router\;
+                     qq \|project|projectIvt|projectAcc|router|fwrule|pfrule\;
 
 #return usage output
 sub usage_text{
@@ -293,6 +293,26 @@ sub run{
                 $obj->uuid($opts->{'id'});
             }
             $obj->list_routers();
+        }
+        when (/\bfwrule\b/i){
+        	use Firewall;
+        	
+        	$obj = Firewall->new();
+        	check_opts(\$opts, \$obj, undef);
+        	if(defined $opts->{'id'}){
+                $obj->uuid($opts->{'id'});
+            }
+            $obj->list_FirewallRules();
+        }
+        when (/\bpfrule\b/i){
+        	use Firewall;
+        	
+        	$obj = Firewall->new();
+        	check_opts(\$opts, \$obj, undef);
+        	if(defined $opts->{'id'}){
+                $obj->uuid($opts->{'id'});
+            }
+            $obj->list_PortForwardingRules();
         }
     }
 

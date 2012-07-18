@@ -5,6 +5,8 @@ use v5.10;
 use strict;
 use warnings;
 
+my $supported_args = qq \account|domain|project|fwrule|pfrule\;
+
 #return usage output
 sub usage_text{
     my $usage = <<EOF;
@@ -30,15 +32,17 @@ available cmd-opt:
 -d | --domainid  [domain id]                        => 'set domain id'
 -D | --domainname  [domain name]                    => 'set domain name'
 -n | --name                                         => 'set name'
+--proto                                             => 'set protocol'
 --dt                                                => 'set displaytext'
 --geturl                                            => 'get api url'
             
 available cmd-arg:
-account domain project
+$supported_args
 
 example:
 cloudcmd create -a 0 -e dummy\@example.com -f dummy -l cloud -w 'mypass' -u dummy account
 cloudcmd create -D "sales" domain
+cloudcmd create -p ipaddressid=xxx,privateport=23,publicport=3323,protocol=tcp,virtualmachineid=xxx pfrule
 
 EOF
 }
@@ -76,6 +80,16 @@ sub validate{
                     die "name|displaytext required\n" unless $cmd_opts->{'name'} and $cmd_opts->{'dt'};
                 }
             }
+            when (/\bfwrule\b/i){
+            	if($cmd_opts->{'showparams'} or $cmd_opts->{'showresponses'}){
+                    break;
+                }else{
+                    die "protocol required\n" unless $cmd_opts->{'proto'};
+                }
+            }
+            when (/\bpfrule\b/i){
+            	break;
+            }
             default{
                 die "$_ argument not supported\n";
             }
@@ -106,6 +120,7 @@ sub option_spec {
     [ 'domainid|d=s' => 'domain id'],
     [ 'domainname|D=s' => 'domain name' ],
     [ 'name|n=s'    =>  'name' ],
+    [ 'proto=s' 	=> 'protocol' ],
     [ 'dt=s'      =>  'displaytext' ],
     [ 'geturl'    => 'get api url' ]
     
@@ -186,7 +201,6 @@ sub run{
             use Domain;
             
             $obj = Domain->new(domname => $opts->{'domainname'});
-            
             create($opts, $obj);
         }
         when (/\bproject\b/i){
@@ -196,6 +210,22 @@ sub run{
                                 project_displaytext => $opts->{'desc'});
             
             create($opts, $obj);
+        }
+        when (/\bfwrule\b/i){
+        	use Firewall;
+        	
+        	$obj = Firewall->new();
+        	check_site(\$opts, \$obj);
+    		check_opts(\$opts, \$obj);
+    		$obj->create_firewallrule($opts->{'proto'});
+        }
+        when (/\bpfrule\b/i){
+        	use Firewall;
+        	
+        	$obj = Firewall->new();
+        	check_site(\$opts, \$obj);
+    		check_opts(\$opts, \$obj);
+    		$obj->create_portforwardingrule();
         }
    }
    
