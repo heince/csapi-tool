@@ -43,6 +43,7 @@ example:
 cloudcmd create -a 0 -e dummy\@example.com -f dummy -l cloud -w 'mypass' -u dummy account
 cloudcmd create -D "sales" domain
 cloudcmd create -p ipaddressid=xxx,privateport=23,publicport=3323,protocol=tcp,virtualmachineid=xxx pfrule
+cloudcmd create --proto TCP -p startport=7000,endport=7100,cidrlist=0.0.0.0/0,ipaddressid=xxx fwrule
 
 EOF
 }
@@ -137,15 +138,30 @@ sub check_site{
 
 #check and set param / response attribute 
 sub check_opts{
-    my ($opts, $obj) = @_;
+    my ($opts, $obj, $args) = @_;
 
     if(defined $$opts->{'showparams'}){
-        $$obj->set_create_xml();
+    	if($args eq 'fwrule'){
+    		$$obj->set_createFirewallRule_xml();
+    	}
+    	elsif($args eq 'pfrule'){
+    		$$obj->set_createPortForwardingRule_xml();
+    	}else{
+    		$$obj->set_create_xml();
+    	}
+        
         $$obj->print_param();
         exit;
     }
     if(defined $$opts->{'showresponses'}){
-        $$obj->set_create_xml();
+        if($args eq 'fwrule'){
+    		$$obj->set_createFirewallRule_xml();
+    	}
+    	elsif($args eq 'pfrule'){
+    		$$obj->set_createPortForwardingRule_xml();
+    	}else{
+    		$$obj->set_create_xml();
+    	}
         $$obj->print_response();
         exit;
     }
@@ -175,7 +191,7 @@ sub create{
     my ($opts, $obj) = @_;
     
     check_site(\$opts, \$obj);
-    check_opts(\$opts, \$obj);
+    check_opts(\$opts, \$obj, undef);
     
     $obj->create();
 }
@@ -216,7 +232,7 @@ sub run{
         	
         	$obj = Firewall->new();
         	check_site(\$opts, \$obj);
-    		check_opts(\$opts, \$obj);
+    		check_opts(\$opts, \$obj, 'fwrule');
     		$obj->create_firewallrule($opts->{'proto'});
         }
         when (/\bpfrule\b/i){
@@ -224,7 +240,7 @@ sub run{
         	
         	$obj = Firewall->new();
         	check_site(\$opts, \$obj);
-    		check_opts(\$opts, \$obj);
+    		check_opts(\$opts, \$obj, 'pfrule');
     		$obj->create_portforwardingrule();
         }
    }
