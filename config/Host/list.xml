@@ -1,0 +1,224 @@
+<root>
+    <top>/listhostsresponse/host</top>
+    <command>listHosts</command>
+    <defaultresponses>id,name,ipaddress,cpuallocated,cpuused,memorytotal,memoryused,hypervisor,state</defaultresponses>
+    <description>Lists hosts.</description>
+    <isAsync>false</isAsync>
+    <params>
+    	<param>
+    		<name>clusterid</name>
+	        <description>lists hosts existing in particular cluster</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>details</name>
+	        <description>comma separated list of host details requested, value can be a list of [ min, all, capacity, events, stats]</description>
+	        <required>false</required>
+	        <type>list</type>
+    	</param>
+    	<param>
+    		<name>id</name>
+	        <description>the id of the host</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>keyword</name>
+	        <description>List by keyword</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>name</name>
+	        <description>the name of the host</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>page</name>
+        	<required>false</required>
+        	<description></description>
+    	</param>
+    	<param>
+    		<name>pagesize</name>
+        	<required>false</required>
+    	</param>
+    	<param>
+    		<name>podid</name>
+	        <description>the Pod ID for the host</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>resourcestate</name>
+	        <description>list hosts by resource state. Resource state represents current state determined by admin of host, valule can be one of [Enabled, Disabled, Unmanaged, PrepareForMaintenance, ErrorInMaintenance, Maintenance, Error]</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>state</name>
+	        <description>the state of the host</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>type</name>
+	        <description>the host type</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>virtualmachineid</name>
+	        <description>lists hosts in the same cluster as this VM and flag hosts with enough CPU/RAm to host this VM</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>zoneid</name>
+	        <description>the Zone ID for the host</description>
+	        <required>false</required>
+    	</param>
+    </params>
+    <responses>
+    	<response>
+    		<name>id</name>
+        	<description>the ID of the host</description>
+    	</response>
+    	<response>
+    		<name>averageload</name>
+        	<description>the cpu average load on the host</description>
+    	</response>
+    	<response>
+    		<name>capabilities</name>
+        	<description>capabilities of the host</description>
+    	</response>
+    	<response>
+    		<name>clusterid</name>
+        	<description>the cluster ID of the host</description>
+    	</response>
+    	<response>
+    		<name>clustername</name>
+        	<description>the cluster name of the host</description>
+    	</response>
+    	<response>
+    		<name>clustertype</name>
+        	<description>the cluster type of the cluster that host belongs to</description>
+    	</response>
+    	<response>
+    		<name>cpuallocated</name>
+        	<description>the amount of the host&apos;s CPU currently allocated</description>
+    	</response>
+    	<response>
+    		<name>cpunumber</name>
+        	<description>the CPU number of the host</description>
+    	</response>
+    	<response>
+    		<name>cpuspeed</name>
+        	<description>the CPU speed of the host</description>
+    	</response>
+    	<response>
+    		<name>cpuused</name>
+        	<description>the amount of the host&apos;s CPU currently used</description>
+    	</response>
+    	<response>
+    		<name>cpuwithoverprovisioning</name>
+        	<description>the amount of the host&apos;s CPU after applying the cpu.overprovisioning.factor </description>
+    	</response>
+    	<response>
+    		<name>created</name>
+        	<description>the date and time the host was created</description>
+    	</response>
+    	<response>
+    		<name>disconnected</name>
+        	<description>true if the host is disconnected. False otherwise.</description>
+    	</response>
+    	<response>
+    		<name>disksizeallocated</name>
+        	<description>the host&apos;s currently allocated disk size</description>
+    	</response>
+    	<response>
+    		<name>disksizetotal</name>
+        	<description>the total disk size of the host</description>
+    	</response>
+    	<response>
+    		<name>events</name>
+        	<description>events available for the host</description>
+    	</response>
+    	<response>
+    		<name>hasenoughcapacity</name>
+        	<description>true if this host has enough CPU and RAM capacity to migrate a VM to it, false otherwise</description>
+    	</response>
+    	<response>
+    		<name>hosttags</name>
+        	<description>comma-separated list of tags for the host</description>
+    	</response>
+    	<response>
+    		<name>hypervisor</name>
+        	<description>the host hypervisor</description>
+    	</response>
+    	<response>
+    		<name>hypervisorversion</name>
+        	<description>the hypervisor version</description>
+    	</response>
+    	<response>
+    		<name>ipaddress</name>
+        	<description>the IP address of the host</description>
+    	</response>
+    	<response>
+    		<name>islocalstorageactive</name>
+        	<description>true if local storage is active, false otherwise</description>
+    	</response>
+    	<response>
+    		<name>lastpinged</name>
+        	<description>the date and time the host was last pinged</description>
+    	</response>
+    	<response>
+    		<name>managementserverid</name>
+        	<description>the management server ID of the host</description>
+    	</response>
+    	<response>
+    		<name>memoryallocated</name>
+        	<description>the amount of the host&apos;s memory currently allocated</description>
+    	</response>
+    	<response>
+    		<name>memorytotal</name>
+        	<description>the memory total of the host</description>
+    	</response>
+    	<response>
+    		<name>memoryused</name>
+        	<description>the amount of the host&apos;s memory currently used</description>
+    	</response>
+    	<response>
+    		<name>name</name>
+        	<description>the name of the host</description>
+    	</response>
+    	<response>
+    		<name>networkkbsread</name>
+        	<description>the incoming network traffic on the host</description>
+    	</response>
+    	<response>
+    		<name>networkkbswrite</name>
+        	<description>the outgoing network traffic on the host</description>
+    	</response>
+    	<response>
+    		<name>oscategoryid</name>
+        	<description>the OS category ID of the host</description>
+    	</response>
+    	<response>
+    		<name>oscategoryname</name>
+        	<description>the OS category name of the host</description>
+    	</response>
+    	<response>
+    		<name>podid</name>
+        	<description>the Pod ID of the host</description>
+    	</response>
+    	<response>
+    		<name>podname</name>
+        	<description>the Pod name of the host</description>
+    	</response>
+    	<response>
+    		<name>removed</name>
+        	<description>the date and time the host was removed</description>
+    	</response>
+    	<response>
+    		<name>resourcestate</name>
+        	<description>the resource state of the host</description>
+    	</response>
+    	<response>
+    		<name>state</name>
+        	<description>the state of the host</description>
+    	</response>
+    </responses>
+</root>
