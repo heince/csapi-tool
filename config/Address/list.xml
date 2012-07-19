@@ -1,0 +1,210 @@
+<root>
+    <top>/listpublicipaddressesresponse/publicipaddress</top>
+    <command>listPublicIpAddresses</command>
+    <defaultresponses>id,ipaddress,account,domain,state</defaultresponses>
+    <description>Lists all public ip addresses</description>
+    <isAsync>false</isAsync>
+    <params>
+    	<param>
+    		<name>account</name>
+	        <description>List resources by account. Must be used with the domainId parameter.</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>allocatedonly</name>
+	        <description>limits search results to allocated public IP addresses</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>associatednetworkid</name>
+	        <description>lists all public IP addresses associated to the network specified</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>domainid</name>
+	        <description>list only resources belonging to the domain specified</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>forloadbalancing</name>
+	        <description>list only ips used for load balancing</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>forvirtualnetwork</name>
+	        <description>the virtual network for the IP address</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>id</name>
+	        <description>lists ip address by id</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>ipaddress</name>
+	        <description>lists the specified IP address</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>isrecursive</name>
+	        <description>defaults to false, but if true, lists all resources from the parent specified by the domainId till leaves.</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>issourcenat</name>
+	        <description>list only source nat ip addresses</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>isstaticnat</name>
+	        <description>list only static nat ip addresses</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>keyword</name>
+	        <description>List by keyword</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>listall</name>
+	        <description>If set to false, list only resources belonging to the command&apos;s caller; if set to true - list resources that the caller is authorized to see. Default value is false</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>page</name>
+        	<required>false</required>
+        	<description></description>
+    	</param>
+    	<param>
+    		<name>pagesize</name>
+        	<required>false</required>
+        	<description></description>
+    	</param>
+    	<param>
+    		<name>physicalnetworkid</name>
+	        <description>lists all public IP addresses by physical network id</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>projectid</name>
+	        <description>list firewall rules by project</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>vlanid</name>
+	        <description>lists all public IP addresses by VLAN ID</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>zoneid</name>
+	        <description>lists all public IP addresses by Zone ID</description>
+	        <required>false</required>
+    	</param>
+    </params>
+    <responses>
+    	<response>
+    		<name>id</name>
+        	<description>public IP address id</description>
+    	</response>
+    	<response>
+    		<name>account</name>
+        	<description>the account the public IP address is associated with</description>
+    	</response>
+    	<response>
+    		<name>allocated</name>
+        	<description>date the public IP address was acquired</description>
+    	</response>
+    	<response>
+    		<name>associatednetworkid</name>
+        	<description>the ID of the Network associated with the IP address</description>
+    	</response>
+    	<response>
+    		<name>domain</name>
+        	<description>the domain the public IP address is associated with</description>
+    	</response>
+    	<response>
+    		<name>domainid</name>
+        	<description>the domain ID the public IP address is associated with</description>
+    	</response>
+    	<response>
+    		<name>forvirtualnetwork</name>
+        	<description>the virtual network for the IP address</description>
+    	</response>
+    	<response>
+    		<name>ipaddress</name>
+        	<description>public IP address</description>
+    	</response>
+    	<response>
+    		<name>issourcenat</name>
+        	<description>true if the IP address is a source nat address, false otherwise</description>
+    	</response>
+    	<response>
+    		<name>isstaticnat</name>
+        	<description>true if this ip is for static nat, false otherwise</description>
+    	</response>
+    	<response>
+    		<name>issystem</name>
+        	<description>true if this ip is system ip (was allocated as a part of deployVm or createLbRule)</description>
+    	</response>
+    	<response>
+	    	<name>networkid</name>
+	        <description>the ID of the Network where ip belongs to</description>
+    	</response>
+    	<response>
+    		<name>physicalnetworkid</name>
+        	<description>the physical network this belongs to</description>
+    	</response>
+    	<response>
+    		<name>project</name>
+        	<description>the project name of the address</description>
+    	</response>
+    	<response>
+    		<name>projectid</name>
+        	<description>the project id of the ipaddress</description>
+    	</response>
+    	<response>
+    		<name>purpose</name>
+        	<description>purpose of the IP address. In Acton this value is not null for Ips with isSystem=true, and can have either StaticNat or LB value</description>
+    	</response>
+    	<response>
+    		<name>state</name>
+        	<description>State of the ip address. Can be: Allocatin, Allocated and Releasing</description>
+    	</response>
+    	<response>
+    		<name>virtualmachinedisplayname</name>
+        	<description>virtual machine display name the ip address is assigned to (not null only for static nat Ip)</description>
+    	</response>
+    	<response>
+    		<name>virtualmachineid</name>
+        	<description>virtual machine id the ip address is assigned to (not null only for static nat Ip)</description>
+    	</response>
+    	<response>
+    		<name>virtualmachinename</name>
+        	<description>virutal machine name the ip address is assigned to (not null only for static nat Ip)</description>
+    	</response>
+    	<response>
+    		<name>vlanid</name>
+        	<description>the ID of the VLAN associated with the IP address</description>
+    	</response>
+    	<response>
+    		<name>vlanname</name>
+        	<description>the VLAN associated with the IP address</description>
+    	</response>
+    	<response>
+    		<name>zoneid</name>
+        	<description>the ID of the zone the public IP address belongs to</description>
+    	</response>
+    	<response>
+    		<name>zonename</name>
+        	<description>the name of the zone the public IP address belongs to</description>
+    	</response>
+    	<response>
+    		<name>jobid</name>
+        	<description>the ID of the latest async job acting on this object</description>
+    	</response>
+    	<response>
+    		<name>jobstatus</name>
+        	<description>the current status of the latest async job acting on this object</description>
+    	</response>
+    </responses>
+</root>
