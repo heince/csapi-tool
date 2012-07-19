@@ -22,7 +22,9 @@ console             run interactively
 cmd-list            list available commands
 list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|
                                         template|user|job|zone|network|domain|project|
-                                        projectIvt|projectAcc|router|fwrule|pfrule)
+                                        projectIvt|projectAcc|router|fwrule|pfrule|publicip|
+                                        host)
+migrate             migrate [--cmd-opt] (vm)
 deploy              deploy  [--cmd-opt] (vm)
 destroy             destroy [--cmd-opt] (vm|router)
 stop                stop    [--cmd-opt] (vm|router)
@@ -87,6 +89,7 @@ sub command_map {
     disable    => 'Csapi::Command::Disable',
     enable     => 'Csapi::Command::Enable',
     add         => 'Csapi::Command::Add',
+    migrate     => 'Csapi::Command::Migrate',
 }
 
 sub command_alias {
