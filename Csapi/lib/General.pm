@@ -159,8 +159,20 @@ sub pack_response{
 	my $field = $response;	
 	
 	given($attr){
-		when (/memory/){
+		when (/\bmemory\b/){
 			$field .= " MB";
+		}
+		when (/\b(memorytotal)\b/){
+			if($field){
+				$field = ($field/1024/1024/1024);
+				$field = sprintf("%.2f",$field) . " GB";
+			}
+		}
+		when (/\b(memoryused)\b/){
+			if($field){
+				$field = ($field/1024/1024);
+				$field = sprintf("%.2f",$field) . " GB";
+			}
 		}
 		when (/\bsize\b/){
 			if($field){
