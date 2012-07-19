@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 my $supported_args = qq \vm|account|site|diskoffering|svcoffering|template|user|job|zone|network|domain\ .
-                     qq \|project|projectIvt|projectAcc|router|fwrule|pfrule\;
+                     qq \|project|projectIvt|projectAcc|router|fwrule|pfrule|publicip|host\;
 
 #return usage output
 sub usage_text{
@@ -313,6 +313,26 @@ sub run{
                 $obj->uuid($opts->{'id'});
             }
             $obj->list_PortForwardingRules();
+        }
+        when (/\bpublicip\b/i){
+        	use Address;
+        	
+        	$obj = Address->new();
+        	check_opts(\$opts, \$obj, undef);
+        	if(defined $opts->{'id'}){
+                $obj->uuid($opts->{'id'});
+            }
+            $obj->list_publicip();	
+        }
+        when (/\bhost\b/i){
+        	use Host;
+        	
+        	$obj = Host->new();
+        	check_opts(\$opts, \$obj, undef);
+        	if(defined $opts->{'id'}){
+                $obj->uuid($opts->{'id'});
+            }
+            $obj->list_hosts();	
         }
     }
 
