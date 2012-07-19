@@ -43,6 +43,12 @@ sub set_destroy_xml{
     $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/VM/destroy.xml"));
 }
 
+sub set_migrate_xml{
+    my $self = shift;
+    
+    $self->xmltmp(XML::LibXML->load_xml(location => "$ENV{'CSAPI_ROOT'}/config/VM/migrate.xml"));
+}
+
 sub get_displayname{
     my $self = shift;
     
@@ -212,6 +218,32 @@ sub reboot_vm{
         say "\nrebooting " . $self->uuid . " a.k.a @$displayname";
         
         $self->command($self->command . "&id=" . $self->uuid) unless $self->param =~ /\bid=\b/;
+    }
+    
+    #print the output
+    $self->get_output();
+}
+
+#do vm migration
+sub migrate{
+	my $self = shift;
+	
+	my ($hostid, $storageid) = @_;
+	
+	#set xmltmp
+    $self->set_migrate_xml();
+    
+    #set initial command and xmlresult attr
+    $self->set_command();
+    
+    $self->command($self->command . "&virtualmachineid=" . $self->uuid);
+    
+    if($hostid){
+    	$self->command($self->command . "&hostid=" . $hostid);
+    }
+    
+    if($storageid){
+    	$self->command($self->command . "&storageid=" . $storageid);
     }
     
     #print the output

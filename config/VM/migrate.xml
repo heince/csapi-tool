@@ -1,0 +1,30 @@
+<root>
+	<top>/migratevirtualmachineresponse</top>
+    <command>migrateVirtualMachine</command>
+    <description>Attempts Migration of a VM to a different host or Root volume of the vm to a different storage pool</description>
+    <isAsync>true</isAsync>
+    <defaultresponses>jobid</defaultresponses>
+    <params>
+    	<param>
+    		<name>virtualmachineid</name>
+	        <description>the ID of the virtual machine</description>
+	        <required>true</required>
+    	</param>
+    	<param>
+    		<name>hostid</name>
+	        <description>Destination Host ID to migrate VM to. Required for live migrating a VM from host to host</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>storageid</name>
+	        <description>Destination storage pool ID to migrate VM volumes to. Required for migrating the root disk volume</description>
+	        <required>false</required>
+    	</param>
+    </params>
+     <responses>
+        <response>
+            <name>jobid</name>
+            <description>shows the current pending asynchronous job ID.</description>
+        </response>
+    </responses>
+ </root>
