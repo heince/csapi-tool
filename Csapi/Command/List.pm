@@ -98,12 +98,14 @@ sub check_opts{
         $$obj->param("listall=true");
     }
     if(defined $$opts->{'showparams'}){
-        if($args eq 'projectIvt'){
+    	if($args){
+    		if($args eq 'projectIvt'){
             $$obj->set_listProjectInvitations_xml;
-        }
-        elsif($args eq 'projectAcc'){
-            $$obj->set_listProjectAccounts_xml;
-        }
+	        }
+	        elsif($args eq 'projectAcc'){
+	            $$obj->set_listProjectAccounts_xml;
+	        }
+    	}   
         else{
             $$obj->set_list_xml();
         }
@@ -111,12 +113,14 @@ sub check_opts{
         exit;
     }
     if(defined $$opts->{'showresponses'}){
-        if($args eq 'projectIvt'){
+        if($args){
+    		if($args eq 'projectIvt'){
             $$obj->set_listProjectInvitations_xml;
-        }
-        elsif($args eq 'projectAcc'){
-            $$obj->set_listProjectAccounts_xml;
-        }
+	        }
+	        elsif($args eq 'projectAcc'){
+	            $$obj->set_listProjectAccounts_xml;
+	        }
+    	}   
         else{
             $$obj->set_list_xml();
         }
