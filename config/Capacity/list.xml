@@ -1,0 +1,99 @@
+<root>
+    <top>/listcapacityresponse/capacity</top>
+    <command>listCapacity</command>
+    <defaultresponses>zoneid,zonename,type,capacitytotal,capacityused</defaultresponses>
+    <description>Lists all the system wide capacities.</description>
+    <isAsync>false</isAsync>
+    <params>
+    	<param>
+    		<name>clusterid</name>
+	        <description>lists capacity by the Cluster ID</description>
+	        <required>false</required>
+	        <sinceVersion>3.0.0</sinceVersion>
+    	</param>
+    	<param>
+    		<name>fetchlatest</name>
+	        <description>recalculate capacities and fetch the latest</description>
+	        <required>false</required>
+	        <sinceVersion>3.0.0</sinceVersion>
+    	</param>
+    	<param>
+    		<name>keyword</name>
+	        <description>List by keyword</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>page</name>
+        	<required>false</required>
+        	<description></description>
+    	</param>
+    	<param>
+    		<name>pagesize</name>
+        	<required>false</required>
+        	<description></description>
+    	</param>
+    	<param>
+    		<name>podid</name>
+	        <description>lists capacity by the Pod ID</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>sortby</name>
+	        <description>Sort the results. Available values: Usage</description>
+	        <required>false</required>
+	        <sinceVersion>3.0.0</sinceVersion>
+    	</param>
+    	<param>
+    		<name>type</name>
+	        <description>lists capacity by type* CAPACITY_TYPE_MEMORY = 0* CAPACITY_TYPE_CPU = 1* CAPACITY_TYPE_STORAGE = 2* CAPACITY_TYPE_STORAGE_ALLOCATED = 3* CAPACITY_TYPE_VIRTUAL_NETWORK_PUBLIC_IP = 4* CAPACITY_TYPE_PRIVATE_IP = 5* CAPACITY_TYPE_SECONDARY_STORAGE = 6* CAPACITY_TYPE_VLAN = 7* CAPACITY_TYPE_DIRECT_ATTACHED_PUBLIC_IP = 8* CAPACITY_TYPE_LOCAL_STORAGE = 9.</description>
+	        <required>false</required>
+    	</param>
+    	<param>
+    		<name>zoneid</name>
+	        <description>lists capacity by the Zone ID</description>
+	        <required>false</required>
+    	</param>
+    </params>
+    <responses>
+    	<response>
+    		<name>capacitytotal</name>
+        	<description>the total capacity available</description>
+    	</response>
+    	<response>
+    		<name>capacityused</name>
+        	<description>the capacity currently in use</description>
+    	</response>
+    	<response>
+    		<name>clusterid</name>
+        	<description>the Cluster ID</description>
+    	</response>
+    	<response>
+    		<name>clustername</name>
+        	<description>the Cluster name</description>
+    	</response>
+    	<response>
+    		<name>percentused</name>
+        	<description>the percentage of capacity currently in use</description>
+    	</response>
+    	<response>
+    		<name>podid</name>
+        	<description>the Pod ID</description>
+    	</response>
+    	<response>
+    		<name>podname</name>
+        	<description>the Pod name</description>
+    	</response>
+    	<response>
+    		<name>type</name>
+        	<description>the capacity type</description>
+    	</response>
+    	<response>
+    		<name>zoneid</name>
+        	<description>the Zone ID</description>
+    	</response>
+    	<response>
+    		<name>zonename</name>
+        	<description>the Zone name</description>
+    	</response>
+    </responses>
+</root>

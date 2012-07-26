@@ -23,7 +23,7 @@ cmd-list            list available commands
 list                list    [--cmd-opt] (vm|account|site|diskoffering|svcoffering|
                                         template|user|job|zone|network|domain|project|
                                         projectIvt|projectAcc|router|fwrule|pfrule|publicip|
-                                        host)
+                                        host|capacity)
 migrate             migrate [--cmd-opt] (vm)
 deploy              deploy  [--cmd-opt] (vm)
 destroy             destroy [--cmd-opt] (vm|router)

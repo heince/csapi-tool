@@ -8,7 +8,7 @@ use Field;
 
 extends 'Field';
 
-has [qw/xmlconfig xmltmp xmlresult stime etime cmd_line ia/] => (is => "rw");
+has [qw/xmlconfig xmltmp xmlresult stime etime cmd_line ia capacity_type/] => (is => "rw");
 has [qw/default_site param response noheader json uuid geturl/] => (is => "rw");
 has [qw /stime_min_value/] => (is => "rw", isa => "Int", default => 10);  # in minutes
 has [qw /etime_min_value/] => (is => "rw", isa => "Int", default => 60);  # in minutes
@@ -216,6 +216,64 @@ sub pack_response{
 		when (/\bcmd\b/){
 			my @cmd = split '\.' => $field;
 			$field = $cmd[4];
+		}
+		when (/\b(capacitytotal|capacityused)\b/){
+			if($field){
+				when ($self->capacity_type eq 'Memory'){
+					$field = ($field/1024/1024/1024);
+					$field = sprintf("%.2f",$field) . " GB";	
+				}
+				when ($self->capacity_type eq 'CPU'){
+					$field = ($field/1000);
+					$field = sprintf("%.2f",$field) . " GHz";	
+				}
+				when ($self->capacity_type =~ /storage/i){
+					$field = ($field/1024/1024/1024);
+					$field = sprintf("%.2f",$field) . " GB";	
+				}
+			}
+		}
+		when (($self->command =~ /listCapacity/) and (/\btype\b/)){
+			when ($field eq '0'){
+				$field = "Memory";
+				$self->capacity_type('Memory');
+			}
+			when ($field eq '1'){
+				$field = "CPU";
+				$self->capacity_type('CPU');
+			}
+			when ($field eq '2'){
+				$field = "Storage";
+				$self->capacity_type('Storage');
+			}
+			when ($field eq '3'){
+				$field = "Alloc Storage";
+				$self->capacity_type('Alloc_Storage');
+			}
+			when ($field eq '4'){
+				$field = "Virtual Public IP";
+				$self->capacity_type('V_Public_IP');
+			}
+			when ($field eq '5'){
+				$field = "Private IP";
+				$self->capacity_type('Private_IP');
+			}
+			when ($field eq '6'){
+				$field = "Secondary Storage";
+				$self->capacity_type('Secondary_Storage');
+			}
+			when ($field eq '7'){
+				$field = "VLAN";
+				$self->capacity_type('VLAN');
+			}
+			when ($field eq '8'){
+				$field = "Direct Public IP";
+				$self->capacity_type('D_Public_IP');
+			}
+			when ($field eq '9'){
+				$field = "Local Storage";
+				$self->capacity_type('Local_Storage');
+			}
 		}
 	}	
 	#say "field:" . $field;

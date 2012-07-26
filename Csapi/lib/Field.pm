@@ -12,22 +12,22 @@ has [qw /haenabled cpuspeed nic-type hosttags issystem memory tags bootable form
 
 has [qw /cpunumber vmrunning vmstopped isdefault startport/] => ( is => 'rw', isa => 'Int', default => 11 );
 
-has [qw /ipavailable hypervisor memory state user-state defaultuse disksize crossZones isfeatured type usage
+has [qw /ipavailable hypervisor memory state user-state defaultuse disksize crossZones isfeatured  usage
      rawusage usagetype acltype publicport purpose memoryused/] => ( is => 'rw', isa => 'Int', default => 12 );
 
 has [qw /vmavailable volumelimit volumetotal user-domain limitcpuuse networkrate storagetype templatetag privateport
-     ostypename jobstatus networktype issourcenat isstaticnat averageload memorytotal
+     ostypename jobstatus networktype issourcenat isstaticnat averageload memorytotal percentused
      /] => ( is => 'rw', isa => 'Int', default => 13 );
 
 has [qw /templatelimit templatetotal user-account systemvmtype iscustomized templatetype capabilities cpuallocated
-     broadcasturi disconnected/] => ( is => 'rw', isa => 'Int', default => 14 );
+     broadcasturi disconnected capacityused/] => ( is => 'rw', isa => 'Int', default => 14 );
 
 has [qw /account domain group isoname password nic-ip nic-isdefault securitygroup-domain jobprocstatus jobresultcode jobresulttype
      securitygroup-name networkdomain receivedbytes sentbytes snapshottotal username isextractable domainname path parentdomainname
-     scriptsversion publicendport disksizetotal events/] => ( is => 'rw', isa => 'Int', default => 15 );
+     scriptsversion publicendport disksizetotal events capacitytotal/] => ( is => 'rw', isa => 'Int', default => 15 );
 
 has [qw /rootdevicetype securitygroup-account accounttype user-firstname user-lastname redundantstate
-     firstname lastname privateendport/] => ( is => 'rw', isa => 'Int', default => 16 );
+     firstname lastname privateendport podname/] => ( is => 'rw', isa => 'Int', default => 16 );
 
 has [qw /ipaddress netmask gateway networkkbsread passwordenabled nic-traffictype volumeavailable allocationstate dhcpprovider
      passwordenabled dns1 dns2 internaldns1 internaldns2 restartrequired specifyipranges subdomainaccess traffictype
@@ -35,7 +35,7 @@ has [qw /ipaddress netmask gateway networkkbsread passwordenabled nic-traffictyp
      memoryallocated/] => ( is => 'rw', isa => 'Int', default => 17 );
 
 has [qw /networkkbswrite nic-broadcasturi nic-isolationuri nic-macaddress nic-netmask guestmacaddress
-     securitygroup-jobstatus user-accounttype/] => ( is => 'rw', isa => 'Int', default => 18 );
+     securitygroup-jobstatus user-accounttype type/] => ( is => 'rw', isa => 'Int', default => 18 );
 
 has [qw /forvirtualnetwork iscleanuprequired snapshotavailable snapshotlimit templateavailable jobinstancetype
      isredundantrouter disksizeallocated hasenoughcapacity hypervisorversion/] => ( is => 'rw', isa => 'Int', default => 19 );
